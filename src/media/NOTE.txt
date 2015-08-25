@@ -1,0 +1,13 @@
+There were some font files in here, namely:
+  Rubik.otf
+  Rubik.ttf
+  RubikExtended.otf
+  RubikExtended.ttf
+  
+I couldn't be completely sure about the licensing of these fonts, so I removed them.
+They have been replaced with the 'rubik' fonts from the Google font project:
+https://github.com/google/fonts/tree/master/ofl
+
+There is a good chance that these are the exact same font files.
+
+- Michael Casebolt (mikebolt@gmail.com)
