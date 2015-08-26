@@ -55,14 +55,6 @@ var sources = [
 
 var projectName = 'ThreeTwist';
 
-/* gulp.task returns the orchestrator, so here's a wrapper that returns the
-   task name so that we can define the tasks once and get an ordered task list
-   out of the deal that can be used to create the default task. */
-var makeTask = function(taskName, task) {
-  gulp.task(taskName, task);
-  return taskName;
-};
-
 var tasks = {
   'minify': function() {
     return gulp.src(sources)
