@@ -1,6 +1,7 @@
 ThreeTwist is a JavaScript library for simulating, visualizing, and interacting with 3D twisty puzzles.
 
-ThreeTwist is a continuation of the Cuber project created by Mark Lundin for Google's Chrome Cube Lab.
+ThreeTwist is a continuation of the Cuber project created for Google's Chrome Cube Lab. If you're
+interested in the history of the Cuber project, check out [this link](http://stewd.io/w/rubikscube).
 
 The ThreeTwist project has the following goals:
 
