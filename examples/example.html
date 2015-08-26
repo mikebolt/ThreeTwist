@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" lang="en"/>
+    <title>ThreeTwist example</title>
+    <link rel="stylesheet" href="../build/styles/cube.css"/>
+    <script src="../build/ThreeTwist.js"></script>
+  </head>
+  <body>
+    <script>
+      var cube = new ThreeTwist.Cube();
+      var cubeContainer = document.createElement('div');
+      cubeContainer.appendChild(cube.domElement);
+      var body = document.getElementsByTagName('body')[0];
+      body.appendChild(cubeContainer);
+      // TODO: get the cube to resize based on the screen size.
+    </script>
+  </body>
+</html>
