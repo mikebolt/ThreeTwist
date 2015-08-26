@@ -20,6 +20,7 @@ var sources = [
   // Dependencies
   './src/scripts/vendor/threejs/build/three.js', // Use the whole thing for now
   './src/scripts/vendor/tween.min.js', // TODO: add the new version
+  './src/scripts/vendor/CSS3DRenderer.js',
   
   // Utils
   './src/scripts/utils/utils.js',
@@ -32,7 +33,6 @@ var sources = [
   './src/scripts/colors.js',
   './src/scripts/controls.js',
   './src/scripts/cubelets.js',
-  './src/scripts/cubes.js',
   './src/scripts/directions.js',
   './src/scripts/folds.js',
   './src/scripts/groups.js',
@@ -43,6 +43,7 @@ var sources = [
   './src/scripts/slices.js',
   './src/scripts/solvers.js',
   './src/scripts/twists.js',
+  './src/scripts/cubes.js', // cube.js needs to appear after groups.js
   
   // Extras
   // Just include everything for now
