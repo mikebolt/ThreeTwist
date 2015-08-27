@@ -1,11 +1,11 @@
 ThreeTwist.extend( Array.prototype, {
-    
-  
+
+
   distanceTo : function( target ){
 
     var i, sum = 0;
 
-    if( arguments.length > 0 ) 
+    if( arguments.length > 0 )
       target = Array.prototype.slice.call( arguments );
     if( this.length === target.length ){
 
@@ -16,11 +16,11 @@ ThreeTwist.extend( Array.prototype, {
     else return null;
   },
   first : function(){
-    
+
     return this[ 0 ];
   },
   last : function(){
-    
+
     return this[ this.length - 1 ];
   },
   maximum : function(){
@@ -28,7 +28,7 @@ ThreeTwist.extend( Array.prototype, {
     return Math.max.apply( null, this );
   },
   middle : function(){
-  
+
     return this[ Math.round(( this.length - 1 ) / 2 ) ];
   },
   minimum : function(){
@@ -47,15 +47,15 @@ ThreeTwist.extend( Array.prototype, {
   /*remove: function( from, to ){
 
     var rest = this.slice(( to || from ) + 1 || this.length )
-    
+
     this.length = from < 0 ? this.length + from : from
     return this.push.apply( this, rest )
   },*/
   shuffle : function(){
 
-    var 
+    var
     copy = this,
-    i = this.length, 
+    i = this.length,
     j,
     tempi,
     tempj;

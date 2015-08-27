@@ -37,7 +37,7 @@ function deviceMotion( cube, element ){
      return bounds;
 
   }
-  
+
 
 
   element.addEventListener( 'mousemove', function( event ){
@@ -95,9 +95,9 @@ function deviceMotion( cube, element ){
 
       cube.autoRotateObj3D.rotation.y += ( target.y - cube.autoRotateObj3D.rotation.y ) * api.decay;
       cube.autoRotateObj3D.rotation.x += ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
-      
+
     }
-    
+
 
     requestAnimationFrame( update );
 

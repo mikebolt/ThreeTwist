@@ -19,9 +19,9 @@ ThreeTwist.Interaction = (function(){
   return function( cube, camera, domElement, dragSpeed, multiDrag ){
 
 
-    
 
-    
+
+
     //  A utility class for calculating mouse intersection on a cubic surface
     var projector = new ThreeTwist.Projector( cube, domElement );
 
@@ -85,9 +85,9 @@ ThreeTwist.Interaction = (function(){
         plane3D = new THREE.Plane();
 
       return function( x, y ){
-        
+
         if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) return null;
-        
+
         return {
           cubelet: projector.getCubeletAtIntersection( intersection3D ),
           face:   plane3D.normal.x ===  1 ? "RIGHT" :
@@ -99,7 +99,7 @@ ThreeTwist.Interaction = (function(){
         }
 
 
-      }  
+      }
 
     }())
 
@@ -130,7 +130,7 @@ ThreeTwist.Interaction = (function(){
 
       vector.x = ( vector.x / max )|0;
       vector.y = vector.x === 1 ? 0 : ( vector.y / max )|0;
-      vector.z = vector.x === 1 || vector.y === 1 ? 0 : ( vector.z / max )|0; 
+      vector.z = vector.x === 1 || vector.y === 1 ? 0 : ( vector.z / max )|0;
 
       return vector;
     }
@@ -158,7 +158,7 @@ ThreeTwist.Interaction = (function(){
           if( !axisDefined && direction.length() > 5 /*|| ( api.multiDrag && direction.length() < api.multiDragSnapArea ) */ ){
 
 
-            //  If we've already been rotating a slice but we want to change direction, 
+            //  If we've already been rotating a slice but we want to change direction,
             //  for example if multiDrag is enabled, then we want to reset the original slice
 
             if( slice ) slice.rotation = 0;
@@ -172,7 +172,7 @@ ThreeTwist.Interaction = (function(){
           axis.crossVectors( plane.normal, direction );
 
 
-          //  Of course, it's never a perfect gesture, so we should figure 
+          //  Of course, it's never a perfect gesture, so we should figure
           //  out the intended direction by snapping to the nearest axis.
 
           snapVectorToBasis( axis );
@@ -187,7 +187,7 @@ ThreeTwist.Interaction = (function(){
           cross.crossVectors( slice.axis, plane.normal ).normalize();
 
 
-        } 
+        }
 
         if( axisDefined ){
 
@@ -201,7 +201,7 @@ ThreeTwist.Interaction = (function(){
 
         }
 
-        
+
         if( slice ) slice.rotation = angle;
 
 
@@ -255,10 +255,10 @@ ThreeTwist.Interaction = (function(){
             possibleSlices   = [ cube.slices[ cubelet.addressX + 1 ], cube.slices[ cubelet.addressY + 4 ], cube.slices[ cubelet.addressZ + 7 ]];
 
 
-            //  Add a listener for interaction in the entire document. 
+            //  Add a listener for interaction in the entire document.
             domElement.addEventListener( 'mousemove', onInteractUpdate );
             domElement.addEventListener( 'touchmove', onInteractUpdate );
-            
+
 
             //  Add a lister to detect the end of interaction, remember this could happen outside the domElement, but still within the document
             domElement.addEventListener( 'mouseup', onInteractEnd );
@@ -276,7 +276,7 @@ ThreeTwist.Interaction = (function(){
         }
 
       }
-      
+
 
     }
 
@@ -292,15 +292,15 @@ ThreeTwist.Interaction = (function(){
 
       // Prevent the default system dragging behaviour. ( Things like IOS move the viewport )
       if( api.enabled ){
-        
+
         event.preventDefault();
         event.stopImmediatePropagation();
       }
-      
+
 
     }
 
-    
+
     function onInteractEnd( event ){
 
 
@@ -309,7 +309,7 @@ ThreeTwist.Interaction = (function(){
 
 
       api.active = false;
-    
+
 
       //  When a user has finished interating, we need to finish off any rotation.
       //  We basically snap to the nearest face and issue a rotation command
@@ -333,25 +333,25 @@ ThreeTwist.Interaction = (function(){
         var targetAngle = Math.round( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
 
         var velocityOfInteraction =  direction.length() / ( ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
-        
+
         if( velocityOfInteraction > 0.3 ){
-          
+
           targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5
-          targetAngle += cross.dot( direction.normalize() ) > 0 ? Math.PI * 0.5: 0;  
+          targetAngle += cross.dot( direction.normalize() ) > 0 ? Math.PI * 0.5: 0;
 
         }
 
 
 
         //   If this is a partial rotation that results in the same configuration of cubelets
-        //  then it doesn't really count as a move, and we don't need to add it to the history    
+        //  then it doesn't really count as a move, and we don't need to add it to the history
 
         cube.twist( new ThreeTwist.Twist( command, targetAngle.radiansToDegrees() ));
 
 
         // Delete the reference to our slice
 
-        
+
       }
 
 
@@ -379,10 +379,10 @@ ThreeTwist.Interaction = (function(){
     domElement.addEventListener( 'touchstart', onInteractStart );
 
 
-    // CLICK DETECTION 
+    // CLICK DETECTION
 
     var detectInteraction = function ( x, y ){
-    
+
       var intersection = this.getIntersectionAt( x, y );
       if( intersection ){
         this.dispatchEvent( new CustomEvent("click", { detail: intersection  }));
@@ -405,7 +405,7 @@ ThreeTwist.Interaction = (function(){
 
       var bx = event.clientX,
         by = event.clientY;
-        
+
       if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
 
         detectInteraction( ax, ay );
@@ -413,8 +413,8 @@ ThreeTwist.Interaction = (function(){
     })
 
 
-    
-    
+
+
     domElement.addEventListener( 'touchstart', function( event ){
 
       // event.preventDefault();
@@ -427,11 +427,11 @@ ThreeTwist.Interaction = (function(){
 
     domElement.addEventListener( 'touchend', function( event ){
 
-      
+
 
       var bx = event.changedTouches[0].clientX,
         by = event.changedTouches[0].clientY;
-        
+
       if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
 
         if( detectInteraction( ax, ay )){
@@ -444,5 +444,5 @@ ThreeTwist.Interaction = (function(){
     return api;
 
   };
-  
+
 }());

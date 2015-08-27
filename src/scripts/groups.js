@@ -30,14 +30,14 @@ ThreeTwist.Group = function(){
 }
 
 
-ThreeTwist.extend( ThreeTwist.Group.prototype, THREE.EventDispatcher.prototype );  
+ThreeTwist.extend( ThreeTwist.Group.prototype, THREE.EventDispatcher.prototype );
 
 ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
 
   add: function(){
 
-    var 
+    var
     cubeletsToAdd = Array.prototype.slice.call( arguments ),
     that = this;
 
@@ -179,7 +179,7 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
         var color = cubelet[ face ].color.name;
         if( faceColors[ color ] === undefined ){
-          
+
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
@@ -188,7 +188,7 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       return numberOfColors === 1 ? true : false;
     }
     else {
-    
+
       console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' )
       return false
     }
@@ -240,7 +240,7 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ) })
     return this
-  },    
+  },
   showStickers: function(){
 
     this.cubelets.forEach( function( cubelet ){ cubelet.showStickers() })

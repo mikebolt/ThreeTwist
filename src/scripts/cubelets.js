@@ -20,7 +20,7 @@
                Down
                 3
 
-  
+
   The faces[] Array is mapped to names for convenience:
 
     this.faces[ 0 ] === this.front
@@ -29,11 +29,11 @@
     this.faces[ 3 ] === this.down
     this.faces[ 4 ] === this.left
     this.faces[ 5 ] === this.back
-  
-  
+
+
   Each Cubelet has an Index which is assigned during Cube creation
   and an Address which changes as the Cubelet changes location.
-  Additionally an AddressX, AddressY, and AddressZ are calculated 
+  Additionally an AddressX, AddressY, and AddressZ are calculated
   from the Address and represent the Cubelet's location relative
   to the Cube's core with integer values ranging from -1 to +1.
   For an overview of the Cubelet's data from the browser's console:
@@ -66,7 +66,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  only fair the Cubelet can address their parent Cube!
 
   this.cube = cube;
-  
+
 
   //  Our Cubelet's ID is its unique number on the Cube.
   //  Each Cube has Cubletes numbered 0 through 26.
@@ -88,9 +88,9 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  We're going to build Cubelets that are 140 pixels square.
   //  Yup. This size is hardwired in Cube.
   //  It is also hard-wired into the CSS, but we can't simply
-  //  grab the style.getBoundingClientRect() value because 
+  //  grab the style.getBoundingClientRect() value because
   //  that's a 2D measurement -- doesn't account for pos and rot.
-  
+
   this.size = cube.cubeletSize || 140;
 
 
@@ -102,11 +102,11 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   x = this.addressX * ( this.size + epsilon ),
   y = this.addressY * ( this.size + epsilon ),
   z = this.addressZ * ( this.size + epsilon );
-  
+
   this.position.set( x, y, z );
   this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
   this.updateMatrix();
-  
+
 
 
   // // Add the cublet to the cube object
@@ -119,7 +119,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   // domElement.classList.add( 'cubeletId-'+ this.id );
   // this.css3DObject = new THREE.CSS3DObject( domElement );
 
-  
+
   // this.css3DObject.name = 'css3DObject-' + this.id;
   // this.add( this.css3DObject );
 
@@ -149,7 +149,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
     var
     color  = colors[ i ] || ThreeTwist.COLORLESS;
-    
+
 
     //  Each face is an object and keeps track of its original ID number
     // (which is important because its address will change with each rotation)
@@ -158,7 +158,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     this.faces[ i ] = {};
     this.faces[ i ].id = i;
     this.faces[ i ].color = color;
-    
+
 
     //  We're going to keep track of what face was what at the moment of initialization,
     //  mostly for solving purposes.
@@ -194,7 +194,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //   var idElement = document.createElement( 'div' );
   //   idElement.classList.add( 'id' );
   //   faceElement.appendChild( idElement );
-    
+
   //   var underlineElement = document.createElement( 'span' );
   //   underlineElement.classList.add( 'underline' );
   //   underlineElement.innerText = this.id;
@@ -238,7 +238,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   //     var stickerElement = document.createElement( 'div' );
   //     stickerElement.classList.add( 'sticker' );
-  //     stickerElement.classList.add( color.name );    
+  //     stickerElement.classList.add( color.name );
   //     faceElement.appendChild( stickerElement );
 
 
@@ -279,7 +279,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     this.down   = this.faces[ 3 ]
     this.left   = this.faces[ 4 ]
     this.back   = this.faces[ 5 ]
-    this.colors = 
+    this.colors =
 
       ( this.faces[ 0 ].color ? this.faces[ 0 ].color.initial : '-' ) +
       ( this.faces[ 1 ].color ? this.faces[ 1 ].color.initial : '-' ) +
@@ -296,7 +296,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   // this.right.element.style.transform =   "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
   // this.down.element.style.transform =   "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
   // this.left.element.style.transform =   "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-  // this.back.element.style.transform =   "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";  
+  // this.back.element.style.transform =   "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
 
   // this.front.element.style.OTransform = this.front.element.style.MozTransform =   this.front.element.style.WebkitTransform   = this.front.element.style.transform;
   // this.up.element.style.OTransform   = this.up.element.style.MozTransform =     this.up.element.style.WebkitTransform     = this.up.element.style.transform;
@@ -309,13 +309,13 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  If this happens to be our logo-bearing Cubelet
   //  we had better attach the logo to it!
 
-  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center' 
+  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center'
 
 
 
-  //  We need to know if we're "engaged" on an axis 
+  //  We need to know if we're "engaged" on an axis
   //  which at first seems indentical to isTweening,
-  //  until you consider partial rotations. 
+  //  until you consider partial rotations.
 
   this.isTweening = true;
   this.isEngagedX = false;
@@ -335,8 +335,8 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   // this.hideWireframes();
 
 
-  //  During a rotation animation this Cubelet marks itself as 
-  //  this.isTweening = true. 
+  //  During a rotation animation this Cubelet marks itself as
+  //  this.isTweening = true.
   //  Very useful. Let's try it out.
 
   this.isTweening = false;
@@ -361,7 +361,7 @@ ThreeTwist.Cubelet.prototype = Object.create( THREE.Object3D.prototype );
 ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
 
-  //  Aside from initialization this function will be called 
+  //  Aside from initialization this function will be called
   //  by the Cube during remapping.
   //  The raw address is an integer from 0 through 26
   //  mapped to the Cube in the same fashion as this.id.
@@ -383,15 +383,15 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   hasColor: function( color ){
 
-    var i, face, faceColorRGB, 
+    var i, face, faceColorRGB,
       colorRGB = _.hexToRgb( color.hex );
-    
+
     for( i = 0; i < 6; i ++ ){
 
       faceColorRGB = _.hexToRgb( this.faces[ i ].color.hex );
 
       if( faceColorRGB.r === colorRGB.r && faceColorRGB.g === colorRGB.g && faceColorRGB.b === colorRGB.b ){
-        
+
         face = i;
         break
       }
@@ -418,11 +418,11 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   hasColors: function(){
 
-    var 
+    var
     cubelet = this,
     result  = true,
     colors  = Array.prototype.slice.call( arguments )
-    
+
     colors.forEach( function( color ){
 
       result = result && !!cubelet.hasColor( color )

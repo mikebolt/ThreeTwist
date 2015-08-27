@@ -10,13 +10,13 @@
 
   Solver.consider() will do some very basic checking and if all's well
   will pass the Cube instance to Solver.logic() which is the function that
-  you need to write yourself. 
+  you need to write yourself.
 
   Your logic() should return false is the cube is solved or if something's
   gone horribly wrong. This will set Cube.isSolving = false and stop the
-  solver from being called within the Cube's animation loop. 
+  solver from being called within the Cube's animation loop.
 
-  Your logic() should return true if an incremental improvement has been 
+  Your logic() should return true if an incremental improvement has been
   made and the logic() should be run again in the next loop; For example,
   run again after a twist queue completes.
 
@@ -91,7 +91,7 @@ ThreeTwist.Solver.prototype.consider = function( cube ){
 
 
 //  We should always hit at what the Solver wants to do next
-//  so we can hault auto-solving and give the user a chance to 
+//  so we can hault auto-solving and give the user a chance to
 //  figure out the next move for his/herself.
 
 ThreeTwist.Solver.prototype.hint = function( text ){

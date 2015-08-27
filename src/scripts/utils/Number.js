@@ -6,7 +6,7 @@ ThreeTwist.extend( Number.prototype, {
     return Math.abs( this );
   },
   add : function(){
-    
+
     var sum = this;
 
     Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -54,7 +54,7 @@ ThreeTwist.extend( Number.prototype, {
     return this * Math.PI / 180;
   },
   divide : function(){
-    
+
     var sum = this;
 
     Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -64,11 +64,11 @@ ThreeTwist.extend( Number.prototype, {
     return sum;
   },
   isBetween : function( a, b ){
-    
-    var 
+
+    var
     min = Math.min( a, b ),
     max = Math.max( a, b );
-    
+
     return ( min <= this && this <= max );
   },
   lerp : function( a, b ){
@@ -76,7 +76,7 @@ ThreeTwist.extend( Number.prototype, {
     return a + (b - a ) * this;
   },
   log : function( base ){
-    
+
     return Math.log( this ) / ( base === undefined ? 1 : Math.log( base ));
   },
   log10 : function(){
@@ -97,7 +97,7 @@ ThreeTwist.extend( Number.prototype, {
     return (( this % n ) + n ) % n;
   },
   multiply : function(){
-    
+
     var sum = this;
 
     Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -177,7 +177,7 @@ ThreeTwist.extend( Number.prototype, {
     return Math.sin( this )
   },
   subtract : function(){
-    
+
     var sum = this
 
     Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -205,7 +205,7 @@ ThreeTwist.extend( Number.prototype, {
   toSignedString : function(){
 
     var stringed = '' + this
-    
+
     if( this >= 0 ) stringed = '+' + stringed
     return stringed
   },

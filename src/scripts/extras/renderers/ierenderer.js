@@ -8,7 +8,7 @@
  * routine. Painter sort just doesn't cut the mustard.
  *
  * For those reasons, this renderer is not general purpose, it only works with Cuber. It makes a lot of assumptions about
- * the elements it's rendering. It could be possible to refactor this into a generalised CSS 3D renderer for IE, but not 
+ * the elements it's rendering. It could be possible to refactor this into a generalised CSS 3D renderer for IE, but not
  * without some significant work.
  *
  * NOTE: This isn't entirely bug free. There are some visible glitches when the depth sorting is incorrect.
@@ -99,28 +99,28 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
 
   var getObjectCSSTransform = function(){
-  
- 
+
+
      var position = new THREE.Vector3(),
        scale    = new THREE.Vector3(),
        euler    = new THREE.Euler(),
        quaternion = new THREE.Quaternion(),
        style;
-  
+
 
      euler._quaternion = quaternion;
      quaternion._euler = euler;
- 
+
      return function ( matrix ) {
 
       matrix.decompose( position, quaternion, scale );
- 
+
        return 'translate3d(-50%,-50%,0) translate3d(' + epsilon( position.x ) + 'px, ' + epsilon( position.y ) + 'px, ' + epsilon( position.z ) + 'px) '
            + 'rotateX(' + epsilon( euler.x ) + 'rad) rotateY(' + epsilon( euler.y ) + 'rad) rotateZ(' + epsilon( euler.z ) + 'rad) '
            + 'scale3d(' + epsilon( scale.x ) + ', ' + epsilon( scale.y ) + ', ' + epsilon( scale.z ) + ')';
- 
+
      };
- 
+
    }()
 
 
@@ -171,7 +171,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     element.style.MozTransform = style;
     element.style.oTransform = style;
     element.style.transform = style;
-    
+
     element.style.WebkitPerspective = fov + "px";
     element.style.MozPerspective = fov + "px";
     element.style.oPerspective = fov + "px";
@@ -184,7 +184,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     }
 
-    
+
 
   };
 
@@ -278,28 +278,28 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     return v;
 
   }
-  
+
   function sharedEdge( a, b ){
-    
+
     var sharedVertices = 0;
-    
-    var p = a.userData.points.length, 
+
+    var p = a.userData.points.length,
       q = b.userData.points.length;
-      
+
     while( p-- > 0 ){
       q = b.userData.points.length;
       while( q-- > 0 ){
-        
+
         if( epsilon( a.userData.points[p].distanceTo( b.userData.points[q] )) === 0 ){
           sharedVertices++;
         }
-      
+
       }
-      
+
     }
-    
+
     return sharedVertices > 1;
-    
+
   }
 
 
@@ -309,7 +309,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   }
 
-  var firstRender = true; 
+  var firstRender = true;
   var renderList = [];
 
   this.render = function ( scene, camera ) {
@@ -333,7 +333,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     cameraMatrix.copy( screenCenter );            // Offset to center screen
     cameraMatrix.multiply( camera.matrixWorldInverse )    // Get view
     cameraMatrix.multiply( fovOffset )            // Add FOV offset
-    
+
 
     cameraMatrix.elements[1] *= -1;
     cameraMatrix.elements[5] *= -1;
@@ -343,8 +343,8 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     renderList = [];
 
-    
-    
+
+
     cube.cubelets.forEach( function(cubelet){
 
       cubelet.faces.forEach( function(face){
@@ -374,7 +374,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
 
 
-    // Sort by furthest point 
+    // Sort by furthest point
     renderList.sort( function( a, b ){
 
       sorted = sortVerts( a, camera );
@@ -394,8 +394,8 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       return p1z - p2z;
 
     })
-  
-  
+
+
     var aaa = cube.standing.northWest.front;
     var bbb = cube.front.north.up;
 
@@ -407,18 +407,18 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
       var P = renderList[p];
 
-      P.userData.zIndex = ( P.userData.zIndex === null ) ? p : P.userData.zIndex; 
+      P.userData.zIndex = ( P.userData.zIndex === null ) ? p : P.userData.zIndex;
 
 
       for ( q = p; q < l; q ++ ) {
 
         var Q = renderList[q];
-        
-        Q.userData.zIndex = ( Q.userData.zIndex === null ) ? q : Q.userData.zIndex; 
+
+        Q.userData.zIndex = ( Q.userData.zIndex === null ) ? q : Q.userData.zIndex;
 
 
         if( Intersects( P, Q ) ) {
-          
+
           if( sameSide ( P, Q.userData.points )){
 
             tmp = P.userData.zIndex;
@@ -426,7 +426,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
             Q.userData.zIndex = Math.max( tmp, q );
 
           }
-          
+
           else if( sameSide ( Q, P.userData.points )){
 
             tmp = Q.userData.zIndex;
@@ -439,7 +439,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     }
 
 
-    
+
 
     var cam = new THREE.Vector3( 0, 0, -1 ),
       normal = new THREE.Vector3( 0, 0, -1 ),
@@ -456,8 +456,8 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0
       renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
 
-      if( renderList[i] instanceof THREE.CSS3DObject ) renderList[i].element.style.zIndex = renderList[i].userData.zIndex;  
-  
+      if( renderList[i] instanceof THREE.CSS3DObject ) renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+
 
     }
 

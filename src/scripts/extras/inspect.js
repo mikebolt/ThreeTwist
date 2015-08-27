@@ -2,7 +2,7 @@
 //  Bear in mind this is merely one way to think about the Cube
 //  and does require some redundancy in terms of Cubelet indexes.
 //  Here we'll default to 'compact' mode in order to give the
-//  full Cube overview in the least amount of space. 
+//  full Cube overview in the least amount of space.
 
 ThreeTwist.Cube.prototype.inspect = function( compact, side ){
 
@@ -19,17 +19,17 @@ ThreeTwist.Cube.prototype.inspect = function( compact, side ){
 //  Full inspection of the Cublet's faces
 //  using the convenience accessors from above.
 
-ThreeTwist.Cubelet.prototype.inspect = function( face ){      
+ThreeTwist.Cubelet.prototype.inspect = function( face ){
 
   if( face !== undefined ){
 
-    
+
     //  Just a particular face's color -- called by Slice's inspector.
-    
+
     return this[ face ].color || '!'
   }
   else {
-    
+
 
     //  Full on ASCII-art inspection mode -- with console colors!
 
@@ -38,13 +38,13 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
     id      = this.id,
     address = this.address,
     type    = this.type,
-    color   = this.cube.color,        
+    color   = this.cube.color,
     LEFT    = 0,
     CENTER  = 1,
     getColorName = function( face, justification, minimumLength ){
 
       var colorName = that[ face ].color.name.toUpperCase()
-      
+
       if( justification !== undefined && minimumLength !== undefined ){
 
         if( justification === CENTER ) colorName = colorName.justifyCenter( minimumLength )
@@ -69,7 +69,7 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
       '\n    Engaged Y  '+ this.isEngagedY +
       '\n    Engaged Z  '+ this.isEngagedZ +
       '\n    Tweening   '+ this.isTweening +'\n'+
-      
+
       '\n%c 0  Front      '+ getColorName( 'front', LEFT, 7 ) +'%c'+
       '\n%c 1  Up         '+ getColorName( 'up',    LEFT, 7 ) +'%c'+
       '\n%c 2  Right      '+ getColorName( 'right', LEFT, 7 ) +'%c'+
@@ -168,11 +168,11 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
       this.northWest[ side ].color.styleB, '',
       this.north[     side ].color.styleB, '',
       this.northEast[ side ].color.styleB, '',
-      
+
       this.west[      side ].color.styleB, '',
       this.origin[    side ].color.styleB, '',
       this.east[      side ].color.styleB, '',
-      
+
       this.southWest[ side ].color.styleB, '',
       this.south[     side ].color.styleB, '',
       this.southEast[ side ].color.styleB, ''

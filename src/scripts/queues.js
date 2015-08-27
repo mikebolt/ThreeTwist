@@ -4,7 +4,7 @@
   QUEUES
 
   Queues are glorified Arrays and rather useful for things like our
-  cube.twistQueue, cube.taskQueue, etc. 
+  cube.twistQueue, cube.taskQueue, etc.
 
   --
 
@@ -24,8 +24,8 @@
 ThreeTwist.Queue = function( validation ){
 
 
-  //  Do we want to run a validation routine on objects being stored in 
-  //  this ThreeTwist.Queue? If so you can send the function as an argument to the 
+  //  Do we want to run a validation routine on objects being stored in
+  //  this ThreeTwist.Queue? If so you can send the function as an argument to the
   //  constructor or create this property later on your own.
 
   if( validation !== undefined && validation instanceof Function ) this.validate = validation;
@@ -53,7 +53,7 @@ ThreeTwist.Queue.prototype.add = function(){
   if( this.validate !== undefined && this.validate instanceof Function ) elements = this.validate( elements );
 
   if( elements instanceof Array ){
-  
+
     elements.forEach( function( element ){
 
       this.future.push( element );
@@ -64,13 +64,13 @@ ThreeTwist.Queue.prototype.add = function(){
 
   return this.future;
 
-}; 
+};
 ThreeTwist.Queue.prototype.remove = function(){
 
   var  elements = Array.prototype.slice.call( arguments );
 
   if( elements instanceof Array ){
-  
+
     elements.forEach( function( element ){
 
       this.future = this.future.filter( function( futureElement ){
@@ -83,14 +83,14 @@ ThreeTwist.Queue.prototype.remove = function(){
 
   return this.future;
 
-}; 
+};
 
 ThreeTwist.Queue.prototype.purge = function(){
 
   var elements = Array.prototype.slice.call( arguments );
 
   if( elements instanceof Array ){
-  
+
     elements.forEach( function( element ){
 
       this.history = this.history.filter( function( historyElement ){
@@ -103,13 +103,13 @@ ThreeTwist.Queue.prototype.purge = function(){
 
   return this.history;
 
-}; 
+};
 
 ThreeTwist.Queue.prototype.empty = function( emptyHistory ){
 
   this.future = [];
   if( emptyHistory ) this.history = [];
-}; 
+};
 ThreeTwist.Queue.prototype.do = function(){
 
   if( this.future.length ){
@@ -123,16 +123,16 @@ ThreeTwist.Queue.prototype.do = function(){
     this.future  = this.history.slice();
     this.history = [];
   }
-}; 
+};
 ThreeTwist.Queue.prototype.undo = function(){
 
   if( this.history.length ){
-    
+
     var element = this.history.pop();
     this.future.unshift( element );
     return element;
   }
-}; 
+};
 ThreeTwist.Queue.prototype.redo = function(){
 
   return this.do();

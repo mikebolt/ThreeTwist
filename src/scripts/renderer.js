@@ -7,7 +7,7 @@
 
 //  THREE.JS HACK
 
-//  You can actually use a THREE.Object3D as a Scene like object 
+//  You can actually use a THREE.Object3D as a Scene like object
 //  and render it with the THREE.CSS3DRenderer. For projects with filesize restrictions,
 //  this is useful as it allows you to exclude the THREE.Scene and all it's dependancies entirely.
 //  The only caveat is that we need to temporarily define/re-define a dummy Scene object
@@ -19,7 +19,7 @@ THREE.Scene = SceneType || function(){};
 
 ThreeTwist.renderers = ThreeTwist.renderers || {};
 ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
-  
+
 
   // SCENE + RENDERER
 
@@ -51,7 +51,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
     cube.object3D.add( faceLabel );
 
   })
-  
+
   cube.right.label.rotation.y = Math.PI *  0.5;
   cube.left.label.rotation.y   = Math.PI * -0.5;
   cube.back.label.rotation.y   = Math.PI;
@@ -100,14 +100,14 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
   //  First we add some functionality to the ThreeTwist.Cubelet specific to css,
   //  things like setOpacity, and showStickers directly affects css styles.
 
-  ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.CSS3DCubelet.methods ); 
+  ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.CSS3DCubelet.methods );
 
 
   //   Then we use the CSS3DCubelet function to create all the dom elements.
 
   cubelets.forEach( ThreeTwist.renderers.CSS3DCubelet );
 
-  
+
 
 
   // RENDER LOOP
@@ -118,11 +118,11 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
       var parentWidth = cube.domElement.parentNode.clientWidth,
         parentHeight = cube.domElement.parentNode.clientHeight;
-      
+
       if( cube.domElement.parentNode &&
         ( cube.domElement.clientWidth  !== parentWidth ||
         cube.domElement.clientHeight !== parentHeight )){
-        
+
           cube.setSize( parentWidth, parentHeight );
 
       }
@@ -150,7 +150,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
 
 }
-  
+
 
 
 
@@ -165,7 +165,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
     domElement.classList.add( 'cubeletId-'+ cubelet.id );
     cubelet.css3DObject = new THREE.CSS3DObject( domElement );
 
-    
+
     cubelet.css3DObject.name = 'css3DObject-' + cubelet.id;
     cubelet.add( cubelet.css3DObject );
 
@@ -179,7 +179,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )",
       "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
-      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",  
+      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
 
     ]
 
@@ -229,7 +229,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       var idElement = document.createElement( 'div' );
       idElement.classList.add( 'id' );
       face.element.appendChild( idElement );
-      
+
       var underlineElement = document.createElement( 'span' );
       underlineElement.classList.add( 'underline' );
       underlineElement.innerText = cubelet.id;
@@ -277,7 +277,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
         var stickerElement = document.createElement( 'div' );
         stickerElement.classList.add( 'sticker' );
-        stickerElement.classList.add( face.color.name );    
+        stickerElement.classList.add( face.color.name );
         face.element.appendChild( stickerElement );
 
 
@@ -324,7 +324,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 }());
 
 
-//   The method object contains functionality specific to the CSS3D renderer that we add 
+//   The method object contains functionality specific to the CSS3D renderer that we add
 //  to the ThreeTwist.Cubelet prototype
 
 ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
@@ -334,9 +334,9 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
     item.style.display = 'block';
   }
 
-  function hideItem( item ){  
+  function hideItem( item ){
     item.style.display = 'none';
-  } 
+  }
 
 
   return {
@@ -345,7 +345,7 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
     getFaceElements: function ( selector ){
 
       var selectorString = selector || '';
-      return Array.prototype.slice.call( this.css3DObject.element.querySelectorAll( '.face' + selectorString ));    
+      return Array.prototype.slice.call( this.css3DObject.element.querySelectorAll( '.face' + selectorString ));
 
     },
 
@@ -476,7 +476,7 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
       if( opacityTarget === undefined ) opacityTarget = 1
       if( opacityTarget !== this.opacity ){
 
-        var 
+        var
         that = this,
         tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 )
 
@@ -484,7 +484,7 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         .to({
 
           opacity: opacityTarget
-        
+
         }, tweenDuration )
         .easing( TWEEN.Easing.Quadratic.InOut )
         .onUpdate( function(){
@@ -512,7 +512,7 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         sticker.style.opacity = valueStr.toString();
       });
     }
-    
+
   }
 
 }())

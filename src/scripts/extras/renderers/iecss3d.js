@@ -12,7 +12,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
   //  THREE.JS HACK
 
-  //  You can actually use a THREE.Object3D as a Scene like object 
+  //  You can actually use a THREE.Object3D as a Scene like object
   //  and render it with the THREE.CSS3DRenderer. For projects with filesize restrictions,
   //  this is useful as it allows you to exclude the THREE.Scene and all it's dependancies entirely.
   //  The only caveat is that we need to temporarily define/re-define a dummy Scene object
@@ -28,7 +28,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
     //  otherwise you get depth sorting issues.
 
     cube.hideInvisibleFaces = true;
-    
+
 
     // SCENE + RENDERER
 
@@ -64,7 +64,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
       cube.object3D.add( faceLabel );
 
     })
-    
+
     cube.right.label.rotation.y = Math.PI *  0.5;
     cube.left.label.rotation.y   = Math.PI * -0.5;
     cube.back.label.rotation.y   = Math.PI;
@@ -81,7 +81,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
     //  First we add some functionality to the ThreeTwist.Cubelet specific to css,
     //  things like setOpacity, and showStickers directly affects css styles.
 
-    ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.IeCSS3DCubelet.methods ); 
+    ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.IeCSS3DCubelet.methods );
 
 
 
@@ -99,11 +99,11 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
         var parentWidth = cube.domElement.parentNode.clientWidth,
           parentHeight = cube.domElement.parentNode.clientHeight;
-        
+
         if( cube.domElement.parentNode &&
           ( cube.domElement.clientWidth  !== parentWidth ||
           cube.domElement.clientHeight !== parentHeight )){
-          
+
             cube.setSize( parentWidth, parentHeight );
 
         }
@@ -154,7 +154,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
     cubelet.add( cubelet.css3DObject = new THREE.Object3D() );
 
-    
+
     //  CUBELET FACES
 
     //  We're about to loop through our 6 faces
@@ -182,7 +182,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       faceElement.classList.add( 'face' );
       faceElement.classList.add( axisMap[face.id] );
       faceElement.classList.add( 'face' + ThreeTwist.Direction.getNameById( face.id ).capitalize() );
-      
+
       // domElement.appendChild( this.faces[i].element );
       // this.css3DObject.element.appendChild( faceElement );
       // this.faces[i].element = faceElement;
@@ -201,7 +201,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       idElement.classList.add( 'id' );
       faceElement.appendChild( idElement );
 
-      
+
       var underlineElement = document.createElement( 'span' );
       underlineElement.classList.add( 'underline' );
       underlineElement.innerText = cubelet.id;
@@ -229,7 +229,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       else {
 
 
-        
+
         faceElement.classList.add( 'faceExtroverted' );
 
 
@@ -240,7 +240,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
         var stickerElement = document.createElement( 'div' );
         stickerElement.classList.add( 'sticker' );
-        stickerElement.classList.add( face.color.name );    
+        stickerElement.classList.add( face.color.name );
         faceElement.appendChild( stickerElement );
 
 
@@ -284,9 +284,9 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
 
 
-    //  We need to know if we're "engaged" on an axis 
+    //  We need to know if we're "engaged" on an axis
     //  which at first seems indentical to isTweening,
-    //  until you consider partial rotations. 
+    //  until you consider partial rotations.
 
     cubelet.isTweening = false;
     cubelet.isEngagedX = false;
@@ -307,7 +307,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
 
 
-    
+
 
   }
 
@@ -316,20 +316,20 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
 
 
-//   The method object contains functionality specific to the CSS3D renderer that we add 
+//   The method object contains functionality specific to the CSS3D renderer that we add
 //  to the ThreeTwist.Cubelet prototype
 
 ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
 
 
-  
+
   function showItem( item ){
     item.style.display = 'block';
   }
 
-  function hideItem( item ){  
+  function hideItem( item ){
     item.style.display = 'none';
-  } 
+  }
 
 
 
@@ -339,7 +339,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     getFaceElements: function ( selector ){
 
       var selectorString = selector || '';
-      return Array.prototype.slice.call( this.cube.domElement.querySelectorAll( '.cubeletId-'+ this.id + selectorString ));    
+      return Array.prototype.slice.call( this.cube.domElement.querySelectorAll( '.cubeletId-'+ this.id + selectorString ));
 
     },
 
@@ -469,7 +469,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
       if( opacityTarget === undefined ) opacityTarget = 1
       if( opacityTarget !== this.opacity ){
 
-        var 
+        var
         that = this,
         elements = this.getFaceElements();
         tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 )
@@ -478,7 +478,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         .to({
 
           opacity: opacityTarget
-        
+
         }, tweenDuration )
         .easing( TWEEN.Easing.Quadratic.InOut )
         .onUpdate( function(){
@@ -487,7 +487,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
           elements.forEach( function( element ){
             element.style.opacity =  that.opacity;
           })
-          
+
         })
         .onComplete( function(){
 
@@ -510,5 +510,5 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
       });
     }
   }
-  
+
 }()

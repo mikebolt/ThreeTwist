@@ -21,7 +21,7 @@
 
 
 ThreeTwist.Projector = (function(){
-  
+
 
 
   //  The Cube Projector is a specialised class that detects mouse interaction.
@@ -40,7 +40,7 @@ ThreeTwist.Projector = (function(){
       mouse   = new THREE.Vector3(),
       end   = new THREE.Vector3( 1, 1, 1 ),
       normal   = new THREE.Vector3(),
-      ray   = new THREE.Ray(), 
+      ray   = new THREE.Ray(),
       box   = new THREE.Box3(),
       sphere  = new THREE.Sphere(),
       projectionMatrixInverse = new THREE.Matrix4(),
@@ -56,7 +56,7 @@ ThreeTwist.Projector = (function(){
 
 
     //  Utility function that unprojects 2D normalised screen coordinate to 3D.
-    //  Taken from Three.js Projector class  
+    //  Taken from Three.js Projector class
 
     function unprojectVector( vector, camera ) {
 
@@ -69,7 +69,7 @@ ThreeTwist.Projector = (function(){
 
     // Returns the bounding area of the element
     function getBoundingClientRect( element ){
-      
+
       var bounds = element !== document ? element.getBoundingClientRect() : {
         left: 0,
         top: 0,
@@ -120,7 +120,7 @@ ThreeTwist.Projector = (function(){
 
 
       //  Apply the world inverse
-      inverseMatrix.getInverse( cube.matrixWorld );  
+      inverseMatrix.getInverse( cube.matrixWorld );
       ray.applyMatrix4( inverseMatrix );
 
 
@@ -176,16 +176,16 @@ ThreeTwist.Projector = (function(){
         setRay( camera, mouseX, mouseY );
 
 
-        //  Check ray casting against the bounding sphere first as it's easier to compute, 
+        //  Check ray casting against the bounding sphere first as it's easier to compute,
         //  if it passes, then check the Axis Aligned Bounding Box.
-        
+
         if( ray.isIntersectionSphere( sphere ) &&
           ray.intersectBox( box, intersection ) !== null ){
 
           if( optionalPlaneTarget ){
             getFaceNormalForIntersection( intersection, normal );
-            optionalPlaneTarget.setFromNormalAndCoplanarPoint( normal, intersection );    
-          }      
+            optionalPlaneTarget.setFromNormalAndCoplanarPoint( normal, intersection );
+          }
 
           return intersection;
 
@@ -206,10 +206,10 @@ ThreeTwist.Projector = (function(){
 
 
         return ray.intersectPlane( plane, optionalTarget );
-          
+
       },
 
-      // Given 
+      // Given
       getCubeletAtIntersection : (function(){
 
         var tmp = new THREE.Vector3();
@@ -221,7 +221,7 @@ ThreeTwist.Projector = (function(){
           tmp.copy( intersection ).add( box.max )
             .multiplyScalar( 3 / cube.size )
             .set( Math.min( tmp.x|0, 2 ), Math.min( 3 - tmp.y|0, 2 ), Math.min( 3 - tmp.z|0, 2 ));
-          
+
 
           //  Translate the 3D position to an array index
           return cube.cubelets[ tmp.z * 9 + tmp.y * 3 + tmp.x ];

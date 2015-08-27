@@ -104,7 +104,7 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     this.vector    = vector;  //  Absolute degree polarity;
     this.wise      = wise;    //  Absolute clock direction in English;
     this.isShuffle   = false;
-  
+
 
     //  Best to leave this as a function rather than a property.
     //  I mean... imagine call this constructor if it tried to call itself!
@@ -141,7 +141,7 @@ ThreeTwist.Twist.prototype.copy = function( twist ){
 
 ThreeTwist.Twist.validate = function(){
 
-  var 
+  var
   elements = Array.prototype.slice.call( arguments ),
   element, i, lookAhead,
   pattern, matches, match, m, head, foot;
@@ -156,7 +156,7 @@ ThreeTwist.Twist.validate = function(){
     if( element instanceof ThreeTwist.Twist ){
 
 
-      //  Example usage: 
+      //  Example usage:
       //  cube.twist( new ThreeTwist.Twist( 'U' ))
       //  cube.twist( new ThreeTwist.Twist( 'U', -17 ))
       //  AWESOME. Nothing to do here.
@@ -166,7 +166,7 @@ ThreeTwist.Twist.validate = function(){
       if( element.length === 1 ){
 
 
-        //  Example usage: 
+        //  Example usage:
         //  cube.twist( 'U' )
         //  cube.twist( 'U', 45 )
 
@@ -180,10 +180,10 @@ ThreeTwist.Twist.validate = function(){
       else if( element.length > 1 ){
 
 
-        //  Example usage: 
+        //  Example usage:
         //  cube.twist( 'UdrLf' )
         //  cube.twist( 'Udr10Lf-30b' )
-        
+
         pattern = /(-?\d+|[XLMRYUEDZFSB])/gi;
         matches = element.match( pattern );
         for( m = 0; m < matches.length; m ++ ){
@@ -207,7 +207,7 @@ ThreeTwist.Twist.validate = function(){
     else if( element instanceof ThreeTwist.Direction ){
 
 
-      //  Example usage: 
+      //  Example usage:
       //  cube.twist( ThreeTwist.Direction.FRONT )
 
       elements[ i ] = element.initial;
@@ -216,7 +216,7 @@ ThreeTwist.Twist.validate = function(){
     else if( element instanceof Array ){
 
 
-      //  Example usage: 
+      //  Example usage:
       //  cube.twist([ ? ])
 
       head = elements.slice( 0, i );

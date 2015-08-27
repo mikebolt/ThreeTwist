@@ -4,32 +4,32 @@
   DIRECTIONS
 
   We have six Directions which we map in a spiral around a cube: front, up,
-  right, down, left, and back. That's nice on its own but what's important 
+  right, down, left, and back. That's nice on its own but what's important
   is the relationships between faces. For example, What's to the left of the
-  Front face? Well that depends on what the Front face considers "up" to 
+  Front face? Well that depends on what the Front face considers "up" to
   be. The ThreeTwist.Controls class handles these relationships and calculates clock-
   wise and anticlockwise relationships.
 
 
-                   ------------- 
+                   -------------
                   |             |
                   |      0      |   opposite
                   |             |
                   |    getUp()  |
                   |             |
-     ------------- ------------- ------------- 
+     ------------- ------------- -------------
     |             |             |             |
     |      3      |             |      1      |
     |             |             |             |
     |  getLeft()  |    this     |  getRight() |
     |             |             |             |
-     ------------- ------------- ------------- 
+     ------------- ------------- -------------
                   |             |
                   |      2      |
                   |             |
                   |  getDown()  |
                   |             |
-                   ------------- 
+                   -------------
 
 
   The following equalities demonstrate how Directions operate:
@@ -181,7 +181,7 @@ ThreeTwist.Direction.getDirectionByNormal = function(){
 
 
 
-//  If we're looking at a particular face 
+//  If we're looking at a particular face
 //  and we designate an adjacet side as up
 //  then we can calculate what adjacent side would appear to be up
 //  if we rotated clockwise or anticlockwise.
@@ -208,7 +208,7 @@ ThreeTwist.Direction.prototype.getAnticlockwise = function( from, steps ){
 
 
 //  Similar to above,
-//  if we're looking at a particular face 
+//  if we're looking at a particular face
 //  and we designate an adjacet side as up
 //  we can state what sides appear to be to the up, right, down, and left
 //  of this face.
@@ -247,8 +247,8 @@ ThreeTwist.Direction.prototype.getOpposite = function(){
 
 
 
-//  Create facing directions as global constants this way we can access from 
-//  anywhere in any scope without big long variables names full of dots and 
+//  Create facing directions as global constants this way we can access from
+//  anywhere in any scope without big long variables names full of dots and
 //  stuff. Sure, ES5 doesn't really have constants but the all-caps alerts you
 //  to the fact that them thar variables ought not to be messed with.
 
@@ -261,7 +261,7 @@ ThreeTwist.Direction.LEFT  = new ThreeTwist.Direction( 4, 'left' , new THREE.Vec
 ThreeTwist.Direction.BACK  = new ThreeTwist.Direction( 5, 'back' , new THREE.Vector3(  0,  0, -1 ));
 
 
-//  Now that they all exist we can 
+//  Now that they all exist we can
 //  establish their relationships to one another.
 
 ThreeTwist.Direction.FRONT.setRelationships( ThreeTwist.Direction.UP,    ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.DOWN,  ThreeTwist.Direction.LEFT,  ThreeTwist.Direction.BACK  );

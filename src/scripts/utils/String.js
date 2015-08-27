@@ -94,7 +94,7 @@ ThreeTwist.extend( String.prototype, {
     return entities;
   },
   toCamelCase : function(){
-    
+
     var
     split  = this.split( /\W+|_+/ ),
     joined = split[ 0 ],
@@ -126,9 +126,9 @@ ThreeTwist.extend( String.prototype, {
     return this;
   },
   toUnderscoreCase : function(){
-    
+
     var underscored = this.replace( /[A-Z]+/g, function( $0 ){
-      
+
       return '_' + $0;
     });
 

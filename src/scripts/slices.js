@@ -8,22 +8,22 @@
   The position of these Cubelets can be mapped as follows:
 
 
-       ----------- ----------- ----------- 
+       ----------- ----------- -----------
       |           |           |           |
       | northWest |   north   | northEast |
       |     0     |     1     |     2     |
       |           |           |           |
-       ----------- ----------- ----------- 
+       ----------- ----------- -----------
       |           |           |           |
       |    west   |   origin  |    east   |
       |     3     |     4     |     5     |
       |           |           |           |
-       ----------- ----------- ----------- 
+       ----------- ----------- -----------
       |           |           |           |
       | southWest |   south   | southEast |
       |     6     |     7     |     8     |
       |           |           |           |
-       ----------- ----------- ----------- 
+       ----------- ----------- -----------
 
 
 
@@ -37,7 +37,7 @@
     5  === this.east
     6  === this.southWest
     7  === this.south
-    8  === this.southEast  
+    8  === this.southEast
 
 
 
@@ -62,11 +62,11 @@
 
 
 
-  A Slice may be inspected from the browser's JavaScript console with: 
+  A Slice may be inspected from the browser's JavaScript console with:
 
-    this.inspect() 
+    this.inspect()
 
-  This will reveal the Slice's Cubelets, their Indices, and colors. 
+  This will reveal the Slice's Cubelets, their Indices, and colors.
   A compact inspection mode is also available:
 
     this.inspect( true )
@@ -74,7 +74,7 @@
   This is most useful for Slices that are also Faces. For Slices that are
   not Faces, or for special cases, it may be useful to send a side
   argument which is usually by default the Slice's origin's only visible
-  side if it has one. 
+  side if it has one.
 
     this.inspect( false, 'up' )
     this.inspect( true, 'up' )
@@ -83,19 +83,19 @@
 
   CUBE FACES vs CUBE SLICES
 
-  All Cube faces are Slices, but not all Slices are Cube faces. 
-  For example, a Cube has 6 faces: front, up, right, down, left, back. 
-  But it also has slices that that cut through the center of the Cube 
-  itself: equator, middle, and standing. When a Slice maps itself it 
-  inspects the faces of the Cubelet in the origin position of the Slice -- 
-  the center piece -- which can either have a single visible face or no 
-  visible face. If it has a visible face then the Slice's face and the 
-  face's direction is in the direction of that Cubelet's visible face. 
+  All Cube faces are Slices, but not all Slices are Cube faces.
+  For example, a Cube has 6 faces: front, up, right, down, left, back.
+  But it also has slices that that cut through the center of the Cube
+  itself: equator, middle, and standing. When a Slice maps itself it
+  inspects the faces of the Cubelet in the origin position of the Slice --
+  the center piece -- which can either have a single visible face or no
+  visible face. If it has a visible face then the Slice's face and the
+  face's direction is in the direction of that Cubelet's visible face.
   This seems redundant from the Cube's perspective:
 
     cube.front.face === 'front'
 
-  However it becomes valuable from inside a Slice or Fold when a 
+  However it becomes valuable from inside a Slice or Fold when a
   relationship to the Cube's orientation is not immediately clear:
 
     if( this.face === 'front' )...
@@ -161,7 +161,7 @@ ThreeTwist.Slice = function( indices, cube ){
       // We can only remap the cube if it's in whole rotation,
       // therefore we should round to the nearest full rotation
 
-      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25 
+      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25
 
 
 
@@ -170,7 +170,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
       var cubletsCopy = cube.cubelets.slice();
-      
+
 
       //  Get The rotation as a matrix
       rotation.makeRotationAxis( this.axis, angle * -1 );
@@ -191,7 +191,7 @@ ThreeTwist.Slice = function( indices, cube ){
         //  Get it's position and save it for later ...
         point.set( cubelet.addressX, cubelet.addressY, cubelet.addressZ );
         origin.copy( point );
-        
+
 
         //  Then rotate it about our axis.
         point.multiply( absAxis )
@@ -207,7 +207,7 @@ ThreeTwist.Slice = function( indices, cube ){
         //  rotate, and perform a mask-like operation.
         point.add( origin.multiply( this.axis ));
         point.add( max );
-        
+
 
         //  The cublet array is in a funny order, so invert some of the axes of from our new position
         point.y = 2 - point.y;
@@ -240,16 +240,16 @@ ThreeTwist.Slice = function( indices, cube ){
       rotation.makeRotationAxis( this.axis, angle );
 
       // For each cubelet..
-      this.cubelets.forEach( function( cubelet ){ 
+      this.cubelets.forEach( function( cubelet ){
 
         faceArray = [];
 
         //  iterate over it's faces.
         cubelet.faces.forEach( function( face, index ){
-            
+
           //  Get it's normal vector
           point.copy( ThreeTwist.Direction.getDirectionByName( face.normal ).normal );
-          
+
           //  Rotate it
           point.applyMatrix4( rotation );
           // console.log( face.normal, ThreeTwist.Controls.getDirectionByNormal( point ).name );
@@ -324,11 +324,11 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
 
-    //  Now that we know what the origin Cubelet is 
+    //  Now that we know what the origin Cubelet is
     //  we can determine if this is merely a Slice
     //  or if it is also a Face.
     //  If a face we'll know what direction it faces
-    //  and what the color of the face *should* be. 
+    //  and what the color of the face *should* be.
 
     for( var i = 0; i < 6; i ++ ){
 
@@ -344,14 +344,14 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //   We also need to calculate what axis this slice rotates on.
     //  For example, the Right Slice (R) would rotate on the axis pointing to the right represented by the axis ( 1, 0, 0 )
     //  similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
-    
+
     if( this.axis === undefined || this.axis.lengthSq() === 0 ){
 
       var pointA = this.northEast.position.clone(),
         pointB = this.southWest.position.clone(),
         pointC = this.northWest.position.clone();
 
-      this.axis = new THREE.Vector3().crossVectors( 
+      this.axis = new THREE.Vector3().crossVectors(
 
         pointB.sub( pointA ),
         pointC.sub( pointA )
@@ -364,10 +364,10 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
 
-    
+
     //  Addressing orthagonal strips of Cubelets is more easily done by
     //  cube notation for the X and Y axes.
-  
+
     this.up = new ThreeTwist.Group(
 
       this.northWest, this.north, this.northEast
@@ -400,7 +400,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     )
 
 
-    //  If our Slice has only one center piece 
+    //  If our Slice has only one center piece
     // (ie. a Cubelet with only ONE single Sticker)
     //  then it is a Face -- a special kind of Slice.
 
@@ -409,7 +409,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
       this.center  = this.hasType( 'center' )//.cubelets[ 0 ]
       this.corners = new ThreeTwist.Group( this.hasType( 'corner' ))
-      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ))        
+      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ))
       this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ))
     }
 
@@ -423,11 +423,11 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
       this.centers = new ThreeTwist.Group( this.hasType( 'center' ))
     }
-    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ))      
+    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ))
 
 
     //  I'm still debating whether this should be Sticker-related
-    //  or if it's merely a fun grouping. 
+    //  or if it's merely a fun grouping.
     //  Writing the solver should clarify this further...
 
     this.ring = new ThreeTwist.Group(
@@ -482,7 +482,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
            this.cube.showIntroverts( this.axis, true );
            this.cube.showIntroverts( this.invertedAxis, true );
          }
-      } 
+      }
       else{
         if( this.neighbour ){
 
@@ -492,7 +492,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
          }else{
            this.cube.hideIntroverts( null, true );
          }
-      } 
+      }
     }
 
 
@@ -510,7 +510,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
     while( l-- ){
-      
+
       cubelet = this.getCubelet( l );
 
       cubelet.matrix.multiplyMatrices( this.matrix, cubelet.matrixSlice );
@@ -549,7 +549,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
     return false;
   },
-  
+
 
   //  cube.slices.front.isSolved( 'front' )
   //  cube.slices.front.up.isSolved( 'up' )
@@ -571,7 +571,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         color = cubelet[ face ].color.name;
 
         if( faceColors[ color ] === undefined ){
-          
+
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
@@ -582,7 +582,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
     }
     else {
-    
+
       console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
       return false;
     }
