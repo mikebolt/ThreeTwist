@@ -2,6 +2,7 @@ var gulp = require('gulp');
 
 // for multiple tasks
 var rename = require('gulp-rename');
+var gutil = require('gulp-util');
 
 // for the minify task
 var uglify = require('gulp-uglify');
@@ -9,7 +10,9 @@ var concat = require('gulp-concat');
 
 // for the jsdoc-generate task
 var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
-var gutil = require('gulp-util');
+
+// for the jslint task
+var jslint = require('gulp-jslint');
 
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
@@ -56,7 +59,13 @@ var sources = [
 
 var projectName = 'ThreeTwist';
 
+// It's important not to modify any of the original source files in any of these tasks.
 var tasks = {
+  'copy-stylesheets': function() {
+    return gulp.src('./src/styles/*.css')
+      .pipe(gulp.dest('./build/styles'));
+  },
+  
   'minify': function() {
     return gulp.src(sources)
       .pipe(concat(projectName + '.js'))
@@ -76,6 +85,28 @@ var tasks = {
         path.extname = '.md';
       }))
       .pipe(gulp.dest('./docs'));
+  },
+  
+  'jslint': function() {
+    return gulp.src(['./src/scripts/*.js',
+                     './src/scripts/util/*.js',
+                     './src/scripts/extras/**/*.js'])
+      .pipe(jslint({
+          // these directives can 
+          // be found in the official 
+          // JSLint documentation.
+          vars: true, // Someday I would like to set this to false.
+          nomen: true, // _ok_lol_
+          browser: true,
+          maxlen: 100, // I think this is a good line length limit.
+          'this': true, // We can handle the 'this' keyword.
+          predef: ['window', 'console', 'self', 'ThreeTwist'], // Set global declarations for jslint here.
+          errorsOnly: false
+      }))
+      .on('error', function (error) {
+          gutil.log(gutil.colors.red('JSLint is mad about something.'), String(error));
+          console.error(String(error));
+      });
   }
 };
 
