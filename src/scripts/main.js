@@ -86,43 +86,43 @@ var ThreeTwist = {};
 
 (function () {
 
-	function CustomEvent ( event, params ) {
-		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		var evt = document.createEvent( 'CustomEvent' );
-		evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-		return evt;
-	};
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+  };
 
-	CustomEvent.prototype = window.Event.prototype;
+  CustomEvent.prototype = window.Event.prototype;
 
-	window.CustomEvent = CustomEvent;
+  window.CustomEvent = CustomEvent;
 
-	if (!Function.prototype.bind) {
+  if (!Function.prototype.bind) {
 
-		Function.prototype.bind = function (oThis) {
-			if (typeof this !== "function") {
-				// closest thing possible to the ECMAScript 5
-				// internal IsCallable function
-				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-			}
+    Function.prototype.bind = function (oThis) {
+      if (typeof this !== "function") {
+        // closest thing possible to the ECMAScript 5
+        // internal IsCallable function
+        throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+      }
 
-			var aArgs = Array.prototype.slice.call(arguments, 1), 
-				fToBind = this, 
-				fNOP = function () {},
-				fBound = function () {
-					return fToBind.apply(this instanceof fNOP && oThis
-						? this
-						: oThis,
-						aArgs.concat(Array.prototype.slice.call(arguments)));
-				};
+      var aArgs = Array.prototype.slice.call(arguments, 1), 
+        fToBind = this, 
+        fNOP = function () {},
+        fBound = function () {
+          return fToBind.apply(this instanceof fNOP && oThis
+            ? this
+            : oThis,
+            aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
 
-			fNOP.prototype = this.prototype;
-			fBound.prototype = new fNOP();
+      fNOP.prototype = this.prototype;
+      fBound.prototype = new fNOP();
 
-			return fBound;
-		};
-	}
-	
+      return fBound;
+    };
+  }
+  
 })();
 
 
@@ -130,34 +130,34 @@ var ThreeTwist = {};
 // based on https://github.com/documentcloud/underscore/blob/bf657be243a075b5e72acc8a83e6f12a564d8f55/underscore.js#L767
 ThreeTwist.extend = function ( obj, source ) {
 
-	// ECMAScript5 compatibility based on: http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
-	if ( Object.keys ) {
+  // ECMAScript5 compatibility based on: http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
+  if ( Object.keys ) {
 
-		var keys = Object.keys( source );
+    var keys = Object.keys( source );
 
-		for (var i = 0, il = keys.length; i < il; i++) {
+    for (var i = 0, il = keys.length; i < il; i++) {
 
-			var prop = keys[i];
-			Object.defineProperty( obj, prop, Object.getOwnPropertyDescriptor( source, prop ) );
+      var prop = keys[i];
+      Object.defineProperty( obj, prop, Object.getOwnPropertyDescriptor( source, prop ) );
 
-		}
+    }
 
-	} else {
+  } else {
 
-		var safeHasOwnProperty = {}.hasOwnProperty;
+    var safeHasOwnProperty = {}.hasOwnProperty;
 
-		for ( var prop in source ) {
+    for ( var prop in source ) {
 
-			if ( safeHasOwnProperty.call( source, prop ) ) {
+      if ( safeHasOwnProperty.call( source, prop ) ) {
 
-				obj[prop] = source[prop];
+        obj[prop] = source[prop];
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
-	return obj;
+  return obj;
 
 };
