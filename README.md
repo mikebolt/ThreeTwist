@@ -13,3 +13,7 @@ The ThreeTwist project has the following goals:
 - Open, community-driven development process
 
 ThreeTwist is licensed under the MIT License included in the LICENSE.md file.
+
+##Wiki Links
+
+[Style Guide](https://github.com/mikebolt/ThreeTwist/wiki/Style-Guide)
