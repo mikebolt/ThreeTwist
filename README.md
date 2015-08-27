@@ -1,3 +1,5 @@
+#ThreeTwist
+
 ThreeTwist is a JavaScript library for simulating, visualizing, and interacting with 3D twisty puzzles.
 
 ThreeTwist is a continuation of the Cuber project created for Google's Chrome Cube Lab. If you're
