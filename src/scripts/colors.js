@@ -43,7 +43,7 @@ var W,
   R,
   G,
   Y,
-  COLOURLESS;
+  COLORLESS;
 
 W = ThreeTwist.WHITE = new ThreeTwist.Color(
 
@@ -93,7 +93,7 @@ Y = ThreeTwist.YELLOW = new ThreeTwist.Color(
   'font-weight: bold; color: #ED0',
   'background-color: #FE0; color: rgba( 0, 0, 0, 0.5 )'
 );
-ThreeTwist.COLORLESS = new ThreeTwist.Color(
+COLORLESS = ThreeTwist.COLORLESS = new ThreeTwist.Color(
 
   'NA',
   'X',
