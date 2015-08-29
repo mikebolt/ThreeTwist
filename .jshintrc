@@ -11,7 +11,7 @@
     "THREE",
     "TWEEN",
     "_",
-    "R", "O", "Y", "G", "B", "W", // Defined in colors.js
+    "R", "O", "Y", "G", "B", "W", "COLORLESS", // Defined in colors.js
     "console" // For logging. Maybe add a release build that removes logging?
   ],
   "latedef": "nofunc",
