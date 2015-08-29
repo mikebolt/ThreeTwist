@@ -504,7 +504,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     setStickersOpacity: function( value ){
 
       if( value === undefined ) value = 0.2;
-      valueStr = value.toString();
+      var valueStr = value.toString();
       this.getFaceElements( ' .sticker' ).forEach( function( sticker ){
         sticker.style.opacity = valueStr;
       });

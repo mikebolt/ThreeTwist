@@ -53,7 +53,7 @@ function deviceMotion( cube, element ){
 
   // The angles alpha, beta and gamma form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
 
-  setObjectQuaternion = function () {
+  var setObjectQuaternion = function () {
 
     var zee = new THREE.Vector3( 0, 0, 1 );
 
