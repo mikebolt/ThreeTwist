@@ -188,12 +188,20 @@ ThreeTwist.Direction.getDirectionByNormal = function(){
 
 ThreeTwist.Direction.prototype.getRotation = function( vector, from, steps ){
 
-  if( from === undefined ) from = this.neighbors[ 0 ];
-  if( from === this || from === this.opposite ) return null;
+  if( from === undefined ) {
+    from = this.neighbors[ 0 ];
+  }
+  
+  if( from === this || from === this.opposite ) {
+    return null;
+  }
+  
   steps = steps === undefined ? 1 : steps.modulo( 4 );
   for( var i = 0; i < 5; i ++ ){
 
-    if( this.neighbors[ i ] === from ) break;
+    if( this.neighbors[ i ] === from ) {
+      break;
+    }
   }
   return this.neighbors[ i.add( steps * vector ).modulo( 4 )];
 };

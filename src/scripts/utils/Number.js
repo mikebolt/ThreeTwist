@@ -108,7 +108,9 @@ ThreeTwist.extend( Number.prototype, {
   },
   normalize : function( a, b ){
 
-    if( a == b ) return 1.0;
+    if( a == b ) {
+      return 1.0;
+    }
     return ( this - a ) / ( b - a );
   },
   raiseTo : function( exponent ){
@@ -169,7 +171,9 @@ ThreeTwist.extend( Number.prototype, {
 
     var phase = this.normalize( a0, a1 );
 
-    if( b0 == b1 ) return b1;
+    if( b0 == b1 ) {
+      return b1;
+    }
     return b0 + phase * ( b1 - b0 );
   },
   sine : function(){
@@ -206,7 +210,9 @@ ThreeTwist.extend( Number.prototype, {
 
     var stringed = '' + this;
 
-    if( this >= 0 ) stringed = '+' + stringed;
+    if( this >= 0 ) {
+      stringed = '+' + stringed;
+    }
     return stringed;
   },
   toString : function(){

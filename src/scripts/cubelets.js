@@ -131,7 +131,9 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  Here's our overhead for that:
 
   var extrovertedFaces = 0;
-  if( colors === undefined ) colors = [ W, O,  ,  , G, ];
+  if( colors === undefined ) {
+    colors = [ W, O,  ,  , G, ];
+  }
   this.faces = [];
 
 
@@ -409,7 +411,9 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
       ][ face ];
     }
-    else return false;
+    else {
+      return false;
+    }
   },
 
 
@@ -451,7 +455,10 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     if( this.isTweening === false ){
 
       radius = radius || 0;
-      if( this.radius === undefined ) this.radius = 0;
+      if( this.radius === undefined ) {
+        this.radius = 0;
+      }
+      
       if( this.radius !== radius ){
 
 
@@ -489,7 +496,9 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
           this.radius = obj.radius;
 
-          if( onComplete instanceof Function ) onComplete();
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
 
         }.bind( this ))
         .start( this.cube.time );

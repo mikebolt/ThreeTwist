@@ -28,7 +28,9 @@ ThreeTwist.Queue = function( validation ){
   //  this ThreeTwist.Queue? If so you can send the function as an argument to the
   //  constructor or create this property later on your own.
 
-  if( validation !== undefined && validation instanceof Function ) this.validate = validation;
+  if( validation !== undefined && validation instanceof Function ) {
+    this.validate = validation;
+  }
 
 
   //  The rest is vanilla.
@@ -50,7 +52,9 @@ ThreeTwist.Queue.prototype.add = function(){
 
   var elements = Array.prototype.slice.call( arguments );
 
-  if( this.validate !== undefined && this.validate instanceof Function ) elements = this.validate( elements );
+  if( this.validate !== undefined && this.validate instanceof Function ) {
+    elements = this.validate( elements );
+  }
 
   if( elements instanceof Array ){
 
@@ -108,14 +112,18 @@ ThreeTwist.Queue.prototype.purge = function(){
 ThreeTwist.Queue.prototype.empty = function( emptyHistory ){
 
   this.future = [];
-  if( emptyHistory ) this.history = [];
+  if( emptyHistory ) {
+    this.history = [];
+  }
 };
 ThreeTwist.Queue.prototype.do = function(){
 
   if( this.future.length ){
 
     var element = this.future.shift();
-    if( this.useHistory ) this.history.push( element );
+    if( this.useHistory ) {
+      this.history.push( element );
+    }
     return element;
   }
   else if( this.isLooping ){

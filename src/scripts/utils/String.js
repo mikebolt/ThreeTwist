@@ -13,8 +13,12 @@ ThreeTwist.extend( String.prototype, {
 
     for( i = 0; i < this.length; i ++ ){
 
-      if( this.charAt( i ) === this.charAt( i ).toUpperCase()) s += this.charAt( i ).toLowerCase();
-      else s += this.charAt( i ).toUpperCase();
+      if( this.charAt( i ) === this.charAt( i ).toUpperCase()) {
+        s += this.charAt( i ).toLowerCase();
+      }
+      else {
+        s += this.charAt( i ).toUpperCase();
+      }
     }
     return s;
   },
@@ -31,7 +35,9 @@ ThreeTwist.extend( String.prototype, {
 
     if( padLeftLength > 0 ){
 
-      while( padLeftLength -- ) centered = ' ' + centered;
+      while( padLeftLength -- ) {
+        centered = ' ' + centered;
+      }
     }
     else if( padLeftLength < 0 ){
 
@@ -39,7 +45,9 @@ ThreeTwist.extend( String.prototype, {
     }
     if( padRightLength > 0 ){
 
-      while( padRightLength -- ) centered += ' ';
+      while( padRightLength -- ) {
+        centered += ' ';
+      }
     }
     else if( padRightLength < 0 ){
 
@@ -51,14 +59,18 @@ ThreeTwist.extend( String.prototype, {
 
     var justified = this;
 
-    while( justified.length < n ) justified = justified + ' ';
+    while( justified.length < n ) {
+      justified = justified + ' ';
+    }
     return justified;
   },
   justifyRight: function( n ){
 
     var justified = this;
 
-    while( justified.length < n ) justified = ' ' + justified;
+    while( justified.length < n ) {
+      justified = ' ' + justified;
+    }
     return justified;
   },
   multiply : function( n ){
@@ -100,8 +112,9 @@ ThreeTwist.extend( String.prototype, {
     joined = split[ 0 ],
     i;
 
-    for( i = 1; i < split.length; i ++ )
+    for( i = 1; i < split.length; i ++ ) {
       joined += split[ i ].capitalize();
+    }
 
     return joined;
   },
@@ -132,7 +145,9 @@ ThreeTwist.extend( String.prototype, {
       return '_' + $0;
     });
 
-    if( underscored.charAt( 0 ) === '_' ) underscored = underscored.substr( 1 );
+    if( underscored.charAt( 0 ) === '_' ) {
+      underscored = underscored.substr( 1 );
+    }
     return underscored.toLowerCase();
   },
   toUnicode : function(){

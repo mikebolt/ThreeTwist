@@ -43,15 +43,23 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     cubeletsToAdd.forEach( function( cubelet ){
 
-      if( cubelet instanceof ThreeTwist.Group ) cubelet = cubelet.cubelets;
-      if( cubelet instanceof Array ) that.add.apply( that, cubelet );
-      else that.cubelets.push( cubelet );
+      if( cubelet instanceof ThreeTwist.Group ) {
+        cubelet = cubelet.cubelets;
+      }
+      if( cubelet instanceof Array ) {
+        that.add.apply( that, cubelet );
+      }
+      else {
+        that.cubelets.push( cubelet );
+      }
     });
     return this;
   },
   remove: function( cubeletToRemove ){
 
-    if( cubeletToRemove instanceof ThreeTwist.Group ) cubeletToRemove = cubeletToRemove.cubelets;
+    if( cubeletToRemove instanceof ThreeTwist.Group ) {
+      cubeletToRemove = cubeletToRemove.cubelets;
+    }
     if( cubeletToRemove instanceof Array ){
 
       var that = this;
@@ -64,8 +72,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     var i = this.cubelets.length;
     while( i-- > 0 ){
 
-      if( this.cubelets[ i ] === cubeletToRemove )
+      if( this.cubelets[ i ] === cubeletToRemove ) {
         this.cubelets.splice( i, 1 );
+      }
     }
     return this;
   },
@@ -122,7 +131,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet[ property ] === value ) results.add( cubelet );
+      if( cubelet[ property ] === value ) {
+        results.add( cubelet );
+      }
     });
 
     return results;
@@ -146,7 +157,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet.hasColor( color )) results.add( cubelet );
+      if( cubelet.hasColor( color )) {
+        results.add( cubelet );
+      }
     });
     return results;
   },
@@ -158,7 +171,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet.hasColors.apply( cubelet, colors )) results.add( cubelet );
+      if( cubelet.hasColors.apply( cubelet, colors )) {
+        results.add( cubelet );
+      }
     });
     return results;
   },
@@ -174,7 +189,10 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       var faceColors = {},
         numberOfColors = 0;
 
-      if( face instanceof ThreeTwist.Direction ) face = face.name;
+      if( face instanceof ThreeTwist.Direction ) {
+        face = face.name;
+      }
+      
       this.cubelets.forEach( function( cubelet ){
 
         var color = cubelet[ face ].color.name;
@@ -183,7 +201,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
-        else faceColors[ color ] ++;
+        else {
+          faceColors[ color ] ++;
+        }
       });
       return numberOfColors === 1 ? true : false;
     }

@@ -24,7 +24,9 @@
 
 ThreeTwist.Twist = function( command, degrees ){
 
-  if( command ) this.set( command, degrees );
+  if( command ) {
+    this.set( command, degrees );
+  }
 
 };
 
@@ -115,7 +117,9 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
       return new ThreeTwist.Twist( command.invert(), degrees );
     };
   }
-  else return false;
+  else {
+    return false;
+  }
 };
 
 
@@ -149,8 +153,12 @@ ThreeTwist.Twist.validate = function(){
   for( i = 0; i < elements.length; i ++ ){
 
     element = elements[ i ];
-    if( i + 1 < elements.length ) lookAhead = elements[ i + 1 ];
-    else lookAhead = undefined;
+    if( i + 1 < elements.length ) {
+      lookAhead = elements[ i + 1 ];
+    }
+    else {
+      lookAhead = undefined;
+    }
 
 
     if( element instanceof ThreeTwist.Twist ){
@@ -174,7 +182,9 @@ ThreeTwist.Twist.validate = function(){
 
            elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
         }
-        else elements[ i ] = new ThreeTwist.Twist( element );
+        else {
+          elements[ i ] = new ThreeTwist.Twist( element );
+        }
 
       }
       else if( element.length > 1 ){
@@ -189,7 +199,9 @@ ThreeTwist.Twist.validate = function(){
         for( m = 0; m < matches.length; m ++ ){
 
           match = matches[ m ];
-          if( _.isNumeric( match )) matches[ m ] = +match;
+          if( _.isNumeric( match )) {
+            matches[ m ] = +match;
+          }
           else {
 
             head    = matches.slice( 0, m );

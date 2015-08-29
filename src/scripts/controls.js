@@ -59,7 +59,9 @@ ThreeTwist.Controls = (function(){
 
       return function updateClosure () {
 
-        if( api.enabled === false || state === STATE.NONE ) return;
+        if( api.enabled === false || state === STATE.NONE ) {
+          return;
+        }
 
 
          //  define an axis to rotate on, this is basically at a tangent to the direction
@@ -89,7 +91,9 @@ ThreeTwist.Controls = (function(){
 
 
         //  Reset our internal state
-        if( state === STATE.ROTATE ) state = STATE.NONE;
+        if( state === STATE.ROTATE ) {
+          state = STATE.NONE;
+        }
 
 
         //  If the rotation is below a certain threshold specified as a factor of the damping effect,
@@ -114,7 +118,9 @@ ThreeTwist.Controls = (function(){
     function mousedown( event ) {
 
 
-      if ( !api.enabled || event.which !== 1 ) return;
+      if ( !api.enabled || event.which !== 1 ) {
+        return;
+      }
 
 
       if( projector.getIntersection( camera, event.pageX, event.pageY ) === null ){

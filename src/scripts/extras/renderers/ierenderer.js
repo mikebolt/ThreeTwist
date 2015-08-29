@@ -225,7 +225,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       while( i-- > 0 ){
 
         delta.subVectors( points[i], origin );//.normalize();
-        if(  epsilon( normal.dot( delta )) < 0 ) return false;
+        if(  epsilon( normal.dot( delta )) < 0 ) {
+          return false;
+        }
 
       }
 
@@ -323,7 +325,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     scene.updateMatrixWorld();
 
-    if ( camera.parent === undefined ) camera.updateMatrixWorld();
+    if ( camera.parent === undefined ) {
+      camera.updateMatrixWorld();
+    }
 
     camera.matrixWorldInverse.getInverse( camera.matrixWorld );
 
@@ -456,7 +460,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0;
       renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
 
-      if( renderList[i] instanceof THREE.CSS3DObject ) renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+      if( renderList[i] instanceof THREE.CSS3DObject ) {
+        renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+      }
 
 
     }

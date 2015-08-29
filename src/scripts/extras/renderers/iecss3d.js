@@ -129,7 +129,9 @@ ThreeTwist.renderers.IeCSS3D = (function(){
   };
 
   // We'll need to set the scene object back to it's original type
-  if( SceneType ) THREE.Scene = SceneType;
+  if( SceneType ) {
+    THREE.Scene = SceneType;
+  }
 
 }());
 
@@ -216,7 +218,9 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       if( face.isIntrovert ){
 
         faceElement.classList.add( 'faceIntroverted' );
-        if( cubelet.cube.hideInvisibleFaces ) faceElement.style.display = 'none';
+        if( cubelet.cube.hideInvisibleFaces ) {
+          faceElement.style.display = 'none';
+        }
 
       }
 
@@ -380,7 +384,9 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         }
 
         this.getFaceElements( '.faceIntroverted' + only ).forEach( showItem );
-        if( !soft ) this.showingIntroverts = true;
+        if( !soft ) {
+          this.showingIntroverts = true;
+        }
 
       };
     }(),
@@ -401,7 +407,9 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         }
 
         this.getFaceElements( '.faceIntroverted' + only ).forEach( hideItem );
-        if( !soft ) this.showingIntroverts = false;
+        if( !soft ) {
+          this.showingIntroverts = false;
+        }
 
       };
     }(),
@@ -465,8 +473,12 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     },
     setOpacity: function( opacityTarget, onComplete ){
 
-      if( this.opacityTween ) this.opacityTween.stop();
-      if( opacityTarget === undefined ) opacityTarget = 1;
+      if( this.opacityTween ) {
+        this.opacityTween.stop();
+      }
+      if( opacityTarget === undefined ) {
+        opacityTarget = 1;
+      }
       if( opacityTarget !== this.opacity ){
 
         var
@@ -491,7 +503,9 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         })
         .onComplete( function(){
 
-          if( onComplete instanceof Function ) onComplete();
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
         })
         .start();
 
@@ -503,7 +517,9 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     },
     setStickersOpacity: function( value ){
 
-      if( value === undefined ) value = 0.2;
+      if( value === undefined ) {
+        value = 0.2;
+      }
       var valueStr = value.toString();
       this.getFaceElements( ' .sticker' ).forEach( function( sticker ){
         sticker.style.opacity = valueStr;

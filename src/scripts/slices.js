@@ -537,15 +537,34 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
   getLocation: function( cubelet ){
 
-    if( cubelet === this.origin    ) return 'origin';
-    if( cubelet === this.north     ) return 'north';
-    if( cubelet === this.northEast ) return 'northEast';
-    if( cubelet === this.east      ) return 'east';
-    if( cubelet === this.southEast ) return 'southEast';
-    if( cubelet === this.south     ) return 'south';
-    if( cubelet === this.southWest ) return 'southWest';
-    if( cubelet === this.west      ) return 'west';
-    if( cubelet === this.northWest ) return 'northWest';
+    // TODO: this could be written as a map lookup
+    if( cubelet === this.origin    ) {
+      return 'origin';
+    }
+    if( cubelet === this.north     ) {
+      return 'north';
+    }
+    if( cubelet === this.northEast ) {
+      return 'northEast';
+    }
+    if( cubelet === this.east      ) {
+      return 'east';
+    }
+    if( cubelet === this.southEast ) {
+      return 'southEast';
+    }
+    if( cubelet === this.south     ) {
+      return 'south';
+    }
+    if( cubelet === this.southWest ) {
+      return 'southWest';
+    }
+    if( cubelet === this.west      ) {
+      return 'west';
+    }
+    if( cubelet === this.northWest ) {
+      return 'northWest';
+    }
 
     return false;
   },
@@ -563,7 +582,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         l = this.indices.length,
         numberOfColors = 0;
 
-      if( face instanceof ThreeTwist.Direction ) face = face.name;
+      if( face instanceof ThreeTwist.Direction ) {
+        face = face.name;
+      }
 
       while( l-- > 0 ){
 
@@ -575,7 +596,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
-        else faceColors[ color ] ++;
+        else {
+          faceColors[ color ] ++;
+        }
       }
 
       return numberOfColors === 1 ? true : false;

@@ -168,7 +168,9 @@ ThreeTwist.Projector = (function(){
 
         //  If we haven't detected any mouse movement, then we've not made interacted!
 
-        if( mouseX === null || mouseY === null ) return null;
+        if( mouseX === null || mouseY === null ) {
+          return null;
+        }
 
 
         //  Shoot the camera ray into 3D
@@ -198,7 +200,9 @@ ThreeTwist.Projector = (function(){
       getIntersectionOnPlane: function( camera, mouseX, mouseY, plane, optionalTarget ){
 
         //  If we haven't detected any mouse movement, then we've not interacted!
-        if( mouseX === null || mouseY === null ) return null;
+        if( mouseX === null || mouseY === null ) {
+          return null;
+        }
 
 
         //  Shoot the camera ray into 3D

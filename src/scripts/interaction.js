@@ -86,7 +86,9 @@ ThreeTwist.Interaction = (function(){
 
       return function( x, y ){
 
-        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) return null;
+        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) {
+          return null;
+        }
 
         return {
           cubelet: projector.getCubeletAtIntersection( intersection3D ),
@@ -161,7 +163,9 @@ ThreeTwist.Interaction = (function(){
             //  If we've already been rotating a slice but we want to change direction,
             //  for example if multiDrag is enabled, then we want to reset the original slice
 
-            if( slice ) slice.rotation = 0;
+            if( slice ) {
+              slice.rotation = 0;
+            }
 
 
           axisDefined = true;
@@ -202,7 +206,9 @@ ThreeTwist.Interaction = (function(){
         }
 
 
-        if( slice ) slice.rotation = angle;
+        if( slice ) {
+          slice.rotation = angle;
+        }
 
 
       }
@@ -233,7 +239,9 @@ ThreeTwist.Interaction = (function(){
 
 
           //  If a interaction happens within the cube we should prevent the event bubbling.
-          if( event.touches !== null ) event.preventDefault();
+          if( event.touches !== null ) {
+            event.preventDefault();
+          }
           // event.stopImmediatePropagation();
 
 
@@ -317,7 +325,9 @@ ThreeTwist.Interaction = (function(){
       if( api.enabled && ( x !== mouseY || y !== mouseY ) && axisDefined ){
 
 
-        if( event.touches !== null ) event.preventDefault();
+        if( event.touches !== null ) {
+          event.preventDefault();
+        }
         // event.stopImmediatePropagation();
 
 

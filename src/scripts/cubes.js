@@ -269,11 +269,21 @@ ThreeTwist.Cube = function( parameters ){
   this.crosses = new ThreeTwist.Group();
   this.cubelets.forEach( function( cubelet, index ){
 
-    if( cubelet.type === 'core'   ) this.core.add( cubelet );
-    if( cubelet.type === 'center' ) this.centers.add( cubelet );
-    if( cubelet.type === 'edge'   ) this.edges.add( cubelet );
-    if( cubelet.type === 'corner' ) this.corners.add( cubelet );
-    if( cubelet.type === 'center' || cubelet.type === 'edge' ) this.crosses.add( cubelet );
+    if( cubelet.type === 'core'   ) {
+      this.core.add( cubelet );
+    }
+    if( cubelet.type === 'center' ) {
+      this.centers.add( cubelet );
+    }
+    if( cubelet.type === 'edge'   ) {
+      this.edges.add( cubelet );
+    }
+    if( cubelet.type === 'corner' ) {
+      this.corners.add( cubelet );
+    }
+    if( cubelet.type === 'center' || cubelet.type === 'edge') {
+      this.crosses.add( cubelet );
+    }
 
   }.bind( this ));
 
@@ -460,7 +470,9 @@ ThreeTwist.Cube = function( parameters ){
   this.autoRotateObj3D.add( this.object3D );
 
 
-  if( this.hideInvisibleFaces ) this.hideIntroverts( null, true );
+  if( this.hideInvisibleFaces ) {
+    this.hideIntroverts( null, true );
+  }
 
 
   //  The Interaction class provides all the nifty mouse picking stuff.
@@ -533,7 +545,9 @@ ThreeTwist.Cube = function( parameters ){
       this.keyboardControlsEnabled ){
 
         var key = String.fromCharCode( event.which );
-        if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) this.twist( key );
+        if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) {
+          this.twist( key );
+        }
 
     }
   }.bind( this ));
@@ -664,7 +678,9 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   twist: function( command ){
 
-    if( this.undoing ) this.twistQueue.empty();
+    if( this.undoing ) {
+      this.twistQueue.empty();
+    }
     this.historyQueue.empty();
     this.undoing = false;
     this.twistQueue.add( command );
@@ -912,7 +928,9 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
               else if( this.taskQueue.isReady === true ){
 
                 var task = this.taskQueue.do();
-                if( task instanceof Function ) task();
+                if( task instanceof Function ) {
+                  task();
+                }
               }
             }
 
@@ -925,15 +943,19 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
               var twist = queue.do();
 
               if( twist.command.toLowerCase() !== 'x' &&
-                twist.command.toLowerCase() !== 'y' &&
-                twist.command.toLowerCase() !== 'z' &&
-                twist.degrees !== 0  ) this.moveCounter += this.undoing ? -1 : 1;
+                  twist.command.toLowerCase() !== 'y' &&
+                  twist.command.toLowerCase() !== 'z' &&
+                  twist.degrees !== 0  ) {
+                this.moveCounter += this.undoing ? -1 : 1;
+              }
 
 
               //  If the twist we're about to execute does not actually
               //  change any slices, ie, we're rotating back to 0,
               //  then we don't need to remember it.
-              if( twist.degrees === 0 || twist.isShuffle ) queue.purge( twist );
+              if( twist.degrees === 0 || twist.isShuffle ) {
+                queue.purge( twist );
+              }
 
 
               this.immediateTwist( twist );
