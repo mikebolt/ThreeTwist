@@ -14,17 +14,23 @@ var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
 // for the jslint task
 var jslint = require('gulp-jslint');
 
+// for the jshint task
+var jshint = require('gulp-jshint');
+
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
 
+/* This is a list of dependencies to be included in the concatenated files,
+   in order, before the project sources. */
+var dependencies = [
+  './src/scripts/vendor/threejs/build/three.js', // Use the whole thing for now
+  './src/scripts/vendor/tween.min.js', // TODO: add the new version
+  './src/scripts/vendor/CSS3DRenderer.js'
+];
+   
 /* This is a list of all the required source files, 
    in the order that they should appear in the concatenated files. */
 var sources = [
-  // Dependencies
-  './src/scripts/vendor/threejs/build/three.js', // Use the whole thing for now
-  './src/scripts/vendor/tween.min.js', // TODO: add the new version
-  './src/scripts/vendor/CSS3DRenderer.js',
-  
   // Utils
   './src/scripts/utils/utils.js',
   './src/scripts/main.js',
@@ -57,6 +63,8 @@ var sources = [
   './src/scripts/extras/inspect.js'
 ];
 
+var allSources = [dependencies, sources];
+
 var projectName = 'ThreeTwist';
 
 // It's important not to modify any of the original source files in any of these tasks.
@@ -67,7 +75,7 @@ var tasks = {
   },
   
   'minify': function() {
-    return gulp.src(sources)
+    return gulp.src(allSources)
       .pipe(concat(projectName + '.js'))
       .pipe(gulp.dest('./build'))
       .pipe(rename(projectName + '.min.js'))
@@ -88,13 +96,8 @@ var tasks = {
   },
   
   'jslint': function() {
-    return gulp.src(['./src/scripts/*.js',
-                     './src/scripts/util/*.js',
-                     './src/scripts/extras/**/*.js'])
+    return gulp.src(sources)
       .pipe(jslint({
-          // these directives can 
-          // be found in the official 
-          // JSLint documentation.
           vars: true, // Someday I would like to set this to false.
           nomen: true, // _ok_lol_
           browser: true,
@@ -107,6 +110,13 @@ var tasks = {
           gutil.log(gutil.colors.red('JSLint is mad about something.'), String(error));
           console.error(String(error));
       });
+  },
+  
+  'jshint': function() {
+    return gulp.src(sources)
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'))
+      .pipe(jshint.reporter('fail'));
   }
 };
 
