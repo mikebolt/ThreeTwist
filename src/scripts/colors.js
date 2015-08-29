@@ -32,7 +32,7 @@ ThreeTwist.Color = function( name, initial, hex, styleF, styleB ){
   this.hex     = hex;
   this.styleF  = styleF;
   this.styleB  = styleB;
-}
+};
 
 
 //  Global constants to describe sticker colors.
@@ -100,4 +100,4 @@ ThreeTwist.COLORLESS = new ThreeTwist.Color(
   '#DDD',
   'color: #EEE',
   'color: #DDD'
-)
+);

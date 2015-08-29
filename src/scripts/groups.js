@@ -27,7 +27,7 @@ ThreeTwist.Group = function(){
   this.cubelets = [];
 
   this.add( Array.prototype.slice.call( arguments ));
-}
+};
 
 
 ThreeTwist.extend( ThreeTwist.Group.prototype, THREE.EventDispatcher.prototype );
@@ -61,7 +61,7 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       });
     }
 
-    var i = this.cubelets.length
+    var i = this.cubelets.length;
     while( i-- > 0 ){
 
       if( this.cubelets[ i ] === cubeletToRemove )
@@ -184,13 +184,13 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
           numberOfColors ++;
         }
         else faceColors[ color ] ++;
-      })
+      });
       return numberOfColors === 1 ? true : false;
     }
     else {
 
-      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' )
-      return false
+      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
+      return false;
     }
   },
 
@@ -203,83 +203,83 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
   show: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.show() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.show(); });
+    return this;
   },
   hide: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hide() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hide(); });
+    return this;
   },
   showPlastics: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics(); });
+    return this;
   },
   hidePlastics: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics(); });
+    return this;
   },
   showExtroverts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts(); });
+    return this;
   },
   hideExtroverts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts(); });
+    return this;
   },
   showIntroverts: function( only, soft ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ); });
+    return this;
   },
   hideIntroverts: function( only, soft ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ); });
+    return this;
   },
   showStickers: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers(); });
+    return this;
   },
   hideStickers: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers(); });
+    return this;
   },
   showWireframes: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes(); });
+    return this;
   },
   hideWireframes: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes(); });
+    return this;
   },
   showIds: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showIds() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIds(); });
+    return this;
   },
   hideIds: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds(); });
+    return this;
   },
   showTexts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts(); });
+    return this;
   },
   hideTexts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts(); });
+    return this;
   },
 
 
@@ -287,30 +287,30 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
   getOpacity: function(){
 
-    var avg = 0
+    var avg = 0;
 
-    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity() })
-    return avg / this.cubelets.length
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity(); });
+    return avg / this.cubelets.length;
   },
   setOpacity: function( opacity, onComplete ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ); });
+    return this;
   },
   getRadius: function(){
 
-    var avg = 0
+    var avg = 0;
 
-    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius() })
-    return avg / this.cubelets.length
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius(); });
+    return avg / this.cubelets.length;
   },
   setRadius: function( radius, onComplete ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ); });
+    return this;
   }
 
 
 
 
-})
+});

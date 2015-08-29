@@ -38,7 +38,7 @@ ThreeTwist.Queue = function( validation ){
   this.future  = [];
   this.isReady = true;
   this.isLooping = false;
-}
+};
 
 
 

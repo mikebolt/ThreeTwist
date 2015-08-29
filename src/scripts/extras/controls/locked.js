@@ -1,7 +1,7 @@
 ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
-  cube.domElement.ondragstart = function(){ return false };
+  cube.domElement.ondragstart = function(){ return false; };
 
 
   var api = {
@@ -65,7 +65,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
           // Get a time stamp
-          time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() )
+          time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
 
 
           start.set( x, y, 0 );
@@ -143,7 +143,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
       // Get the velocity of the gesture.
-      velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time )
+      velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
 
 
       // If the gesture is faster than a predefined speed, then we assume this
@@ -168,7 +168,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // angle = Math.min( Math.PI * 0.5, Math.max( Math.PI * -0.5, angle ));
 
       // Now that we have defined a twist, add it to the stack
-      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ))
+      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
 
     }else{
 
@@ -200,7 +200,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       if( command === 'y' && x - ( screen.width * pixelRatio * 0.5 ) < 0 ) command = command.toUpperCase();
 
-      cube.twist( command )
+      cube.twist( command );
     }
 
     group = null;
@@ -282,8 +282,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       return face;
 
-    }
-  }()
+    };
+  }();
 
 
 
@@ -318,7 +318,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // Get an absolute directon, we use this to find signed rotation
       absDirection.copy( direction );
       absDirection.normalize();
-      absDirection.x = Math.round( absDirection.x )
+      absDirection.x = Math.round( absDirection.x );
       absDirection.y = Math.round( absDirection.y ) * ( 1.0 - Math.abs( absDirection.x ) );
       absDirection.x = Math.abs( absDirection.x );
       absDirection.y = Math.abs( absDirection.y );
@@ -332,7 +332,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       // Snap to the nearest basis
 
-      axis.x = Math.round( axis.x )
+      axis.x = Math.round( axis.x );
       axis.y = Math.round( axis.y ) * ( 1.0 - Math.abs( axis.x ) );
       axis.negate();
 
@@ -384,8 +384,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
 
-  }
+  };
 
   return api;
 
-}
+};

@@ -14,7 +14,7 @@ ThreeTwist.Cube.prototype.inspect = function( compact, side ){
   this.down.inspect(  compact, side );
   this.left.inspect(  compact, side );
   this.back.inspect(  compact, side );
-}
+};
 
 //  Full inspection of the Cublet's faces
 //  using the convenience accessors from above.
@@ -26,7 +26,7 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
 
     //  Just a particular face's color -- called by Slice's inspector.
 
-    return this[ face ].color || '!'
+    return this[ face ].color || '!';
   }
   else {
 
@@ -43,18 +43,18 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
     CENTER  = 1,
     getColorName = function( face, justification, minimumLength ){
 
-      var colorName = that[ face ].color.name.toUpperCase()
+      var colorName = that[ face ].color.name.toUpperCase();
 
       if( justification !== undefined && minimumLength !== undefined ){
 
-        if( justification === CENTER ) colorName = colorName.justifyCenter( minimumLength )
-        else if( justification === LEFT ) colorName = colorName.justifyLeft( minimumLength )
+        if( justification === CENTER ) colorName = colorName.justifyCenter( minimumLength );
+        else if( justification === LEFT ) colorName = colorName.justifyLeft( minimumLength );
       }
-      return colorName
-    }
+      return colorName;
+    };
 
-    if( id < 10 ) id = '0' + id
-    if( address < 10 ) address = '0' + address
+    if( id < 10 ) id = '0' + id;
+    if( address < 10 ) address = '0' + address;
     console.log(
 
       '\n    ID         '+ id +
@@ -117,9 +117,9 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
       this.down.color.styleF,  '',
       this.down.color.styleF,  '',
       this.down.color.styleF,  ''
-    )
+    );
   }
-}
+};
 
 ThreeTwist.Group.prototype.inspect = function( face ){
 
@@ -128,7 +128,7 @@ ThreeTwist.Group.prototype.inspect = function( face ){
     cubelet.inspect( face );
   });
   return this;
-}
+};
 
 ThreeTwist.Slice.prototype.inspect = function( compact, side ){
 
@@ -277,4 +277,4 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         this.southEast[ side ].color.styleB, ''
     );
   }
-}
+};

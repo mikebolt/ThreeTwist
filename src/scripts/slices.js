@@ -127,7 +127,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
   this.getCubelet = function( index ){
     return cube.cubelets[ indices[ index ]];
-  }
+  };
 
 
   // var displayInternalFaces = function( value ){
@@ -161,7 +161,7 @@ ThreeTwist.Slice = function( indices, cube ){
       // We can only remap the cube if it's in whole rotation,
       // therefore we should round to the nearest full rotation
 
-      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25
+      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25;
 
 
 
@@ -226,7 +226,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
       //  Good to let each Cubelet know where it exists
       for( i = 0; i < cube.cubelets.length; i ++ ){
-        cube.cubelets[ i ].setAddress( i )
+        cube.cubelets[ i ].setAddress( i );
       }
 
 
@@ -256,7 +256,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
           // and find the index of the new direction and add it to the new array
           faceArray[ ThreeTwist.Direction.getDirectionByNormal( point ).id ] = face;
-          face.normal = ThreeTwist.Direction.getDirectionByNormal( point ).name
+          face.normal = ThreeTwist.Direction.getDirectionByNormal( point ).name;
 
         });
 
@@ -270,7 +270,7 @@ ThreeTwist.Slice = function( indices, cube ){
         cubelet.back   = cubelet.faces[ 5 ];
 
 
-      })
+      });
 
     };
 
@@ -281,7 +281,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
 
-}
+};
 
 
 //  We want Slice to learn from ThreeTwist.Group
@@ -291,15 +291,15 @@ ThreeTwist.Slice.prototype = Object.create( ThreeTwist.Group.prototype );
 ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
-  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]]},
-  get north(){   return this.cube.cubelets[ this.indices[ 1 ]]},
-  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]]},
-  get east(){    return this.cube.cubelets[ this.indices[ 5 ]]},
-  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]]},
-  get south(){  return this.cube.cubelets[ this.indices[ 7 ]]},
-  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]]},
-  get west(){    return this.cube.cubelets[ this.indices[ 3 ]]},
-  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]]},
+  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]];},
+  get north(){   return this.cube.cubelets[ this.indices[ 1 ]];},
+  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]];},
+  get east(){    return this.cube.cubelets[ this.indices[ 5 ]];},
+  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]];},
+  get south(){  return this.cube.cubelets[ this.indices[ 7 ]];},
+  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
+  get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
+  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
 
 
   get cubelets(){
@@ -308,7 +308,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       l = this.indices.length;
 
     while( l-- > 0 ){
-      array.push( this.getCubelet( l ))
+      array.push( this.getCubelet( l ));
     }
 
     return array;
@@ -335,8 +335,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       if( this.origin.faces[ i ].color && this.origin.faces[ i ].color !== ThreeTwist.COLORLESS ){
 
         this.color = this.origin.faces[ i ].color;
-        this.face = ThreeTwist.Direction.getNameById( i )
-        break
+        this.face = ThreeTwist.Direction.getNameById( i );
+        break;
       }
     }
 
@@ -371,46 +371,46 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     this.up = new ThreeTwist.Group(
 
       this.northWest, this.north, this.northEast
-    )
+    );
     this.equator = new ThreeTwist.Group(
 
       this.west, this.origin, this.east
-    )
+    );
     this.down = new ThreeTwist.Group(
 
       this.southWest, this.south, this.southEast
-    )
+    );
     this.left = new ThreeTwist.Group(
 
       this.northWest,
       this.west,
       this.southWest
-    )
+    );
     this.middle = new ThreeTwist.Group(
 
       this.north,
       this.origin,
       this.south
-    )
+    );
     this.right = new ThreeTwist.Group(
 
       this.northEast,
       this.east,
       this.southEast
-    )
+    );
 
 
     //  If our Slice has only one center piece
     // (ie. a Cubelet with only ONE single Sticker)
     //  then it is a Face -- a special kind of Slice.
 
-    var hasCenter = this.hasType( 'center' )
+    var hasCenter = this.hasType( 'center' );
     if( hasCenter && hasCenter.cubelets.length === 1 ){
 
-      this.center  = this.hasType( 'center' )//.cubelets[ 0 ]
-      this.corners = new ThreeTwist.Group( this.hasType( 'corner' ))
-      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ))
-      this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ))
+      this.center  = this.hasType( 'center' );//.cubelets[ 0 ]
+      this.corners = new ThreeTwist.Group( this.hasType( 'corner' ));
+      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ));
+      this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ));
     }
 
 
@@ -421,9 +421,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
     else {
 
-      this.centers = new ThreeTwist.Group( this.hasType( 'center' ))
+      this.centers = new ThreeTwist.Group( this.hasType( 'center' ));
     }
-    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ))
+    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ));
 
 
     //  I'm still debating whether this should be Sticker-related
@@ -435,7 +435,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.northWest, this.north, this.northEast,
       this.west, this.east,
       this.southWest, this.south, this.southEast
-    )
+    );
 
 
     //  And finally for the hell of it let's try diagonals via
@@ -446,13 +446,13 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.northWest,
       this.origin,
       this.southEast
-    )
+    );
     this.sinister = new ThreeTwist.Group(//  From top-right to bottom-left.
 
       this.northEast,
       this.origin,
       this.southWest
-    )
+    );
 
     return this;
 
@@ -591,4 +591,4 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
 
-})
+});

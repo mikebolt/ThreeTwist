@@ -78,7 +78,7 @@ ThreeTwist.Fold = function( left, right ){
     right.south[        right.face ].text,
     right.southEast[   right.face ].text
   ];
-}
+};
 
 
 

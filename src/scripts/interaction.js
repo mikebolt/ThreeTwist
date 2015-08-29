@@ -71,7 +71,7 @@ ThreeTwist.Interaction = (function(){
       //  This sets the default drag speed.
       dragSpeed : dragSpeed || 1.3
 
-    }
+    };
 
     // Apply event skills to the api
     THREE.EventDispatcher.prototype.apply( api );
@@ -96,12 +96,12 @@ ThreeTwist.Interaction = (function(){
               plane3D.normal.y === -1 ? "DOWN"  :
               plane3D.normal.z ===  1 ? "FRONT" :
               "BACK"
-        }
+        };
 
 
-      }
+      };
 
-    }())
+    }());
 
 
     var projectVector = function(){
@@ -116,9 +116,9 @@ ThreeTwist.Interaction = (function(){
 
         return vector.applyProjection( viewProjectionMatrix );
 
-      }
+      };
 
-    }
+    };
 
     //  This function provides a way to 'snap' a vector to it's closest axis.
     //  This is used to find a probable axis of rotation when a user performs a drag
@@ -140,7 +140,7 @@ ThreeTwist.Interaction = (function(){
 
 
       var x = current.x,
-        y = current.y
+        y = current.y;
 
 
       if( api.enabled && api.active && x !== undefined && y != undefined && ( mouseX !== x || mouseY !== y )) {
@@ -207,7 +207,7 @@ ThreeTwist.Interaction = (function(){
 
       }
 
-    }
+    };
 
 
     function onInteractStart( event ){
@@ -216,8 +216,8 @@ ThreeTwist.Interaction = (function(){
       if( api.enabled && event.button !== 2 ){
 
 
-        mouseX = ( event.touches && event.touches[0] || event ).clientX
-        mouseY = ( event.touches && event.touches[0] || event ).clientY
+        mouseX = ( event.touches && event.touches[0] || event ).clientX;
+        mouseY = ( event.touches && event.touches[0] || event ).clientY;
         // console.log( mouseX, mouseY );
 
         //  Here we find out if the mouse is hovering over the cube,
@@ -233,14 +233,14 @@ ThreeTwist.Interaction = (function(){
 
 
           //  If a interaction happens within the cube we should prevent the event bubbling.
-          if( event.touches !== null ) event.preventDefault()
+          if( event.touches !== null ) event.preventDefault();
           // event.stopImmediatePropagation();
 
 
           if( cube.isTweening() === 0 ){
 
 
-            time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() )
+            time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
 
 
             api.active = true;
@@ -336,7 +336,7 @@ ThreeTwist.Interaction = (function(){
 
         if( velocityOfInteraction > 0.3 ){
 
-          targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5
+          targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
           targetAngle += cross.dot( direction.normalize() ) > 0 ? Math.PI * 0.5: 0;
 
         }
@@ -389,7 +389,7 @@ ThreeTwist.Interaction = (function(){
         return true;
       }
       return false;
-    }.bind( api )
+    }.bind( api );
 
 
     var ax, ay;
@@ -410,7 +410,7 @@ ThreeTwist.Interaction = (function(){
 
         detectInteraction( ax, ay );
       }
-    })
+    });
 
 
 
@@ -438,7 +438,7 @@ ThreeTwist.Interaction = (function(){
           event.preventDefault();
         }
       }
-    })
+    });
 
 
     return api;

@@ -24,9 +24,9 @@
 
 ThreeTwist.Twist = function( command, degrees ){
 
-  if( command ) this.set( command, degrees )
+  if( command ) this.set( command, degrees );
 
-}
+};
 
 
 ThreeTwist.Twist.prototype.set = function( command, degrees ){
@@ -116,14 +116,14 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     };
   }
   else return false;
-}
+};
 
 
 ThreeTwist.Twist.prototype.equals = function( twist ){
 
   return ( this.command === twist.command && this.degrees === twist.degrees );
 
-}
+};
 
 ThreeTwist.Twist.prototype.copy = function( twist ){
 
@@ -136,7 +136,7 @@ ThreeTwist.Twist.prototype.copy = function( twist ){
 
   return this;
 
-}
+};
 
 
 ThreeTwist.Twist.validate = function(){
@@ -201,7 +201,7 @@ ThreeTwist.Twist.validate = function(){
         head = elements.slice( 0, i );
         foot = elements.slice( i + 1 );
         elements = head.concat( matches, foot );
-        i --//  Send it through the loop again to avoid duplicating logic.
+        i --;//  Send it through the loop again to avoid duplicating logic.
       }
     }
     else if( element instanceof ThreeTwist.Direction ){
@@ -211,7 +211,7 @@ ThreeTwist.Twist.validate = function(){
       //  cube.twist( ThreeTwist.Direction.FRONT )
 
       elements[ i ] = element.initial;
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
     }
     else if( element instanceof Array ){
 
@@ -222,7 +222,7 @@ ThreeTwist.Twist.validate = function(){
       head = elements.slice( 0, i );
       foot = elements.slice( i + 1 );
       elements = head.concat( element, foot );
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
     }
     else {
 
@@ -231,7 +231,7 @@ ThreeTwist.Twist.validate = function(){
       //  (Could be a Number that we're discarding on purpose.)
 
       elements.splice( i, 1 );
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
     }
   }
   return elements;
