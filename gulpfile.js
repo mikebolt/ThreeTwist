@@ -95,23 +95,6 @@ var tasks = {
       .pipe(gulp.dest('./docs'));
   },
   
-  'jslint': function() {
-    return gulp.src(sources)
-      .pipe(jslint({
-          vars: true, // Someday I would like to set this to false.
-          nomen: true, // _ok_lol_
-          browser: true,
-          maxlen: 100, // I think this is a good line length limit.
-          'this': true, // We can handle the 'this' keyword.
-          predef: ['window', 'console', 'self', 'ThreeTwist'], // Set global declarations for jslint here.
-          errorsOnly: false
-      }))
-      .on('error', function (error) {
-          gutil.log(gutil.colors.red('JSLint is mad about something.'), String(error));
-          console.error(String(error));
-      });
-  },
-  
   'jshint': function() {
     return gulp.src(sources)
       .pipe(jshint())
