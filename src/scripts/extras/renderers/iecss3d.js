@@ -147,7 +147,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     'axisX',
     'axisY',
     'axisX',
-    'axisZ',
+    'axisZ'
   ];
 
 

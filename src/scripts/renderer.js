@@ -181,7 +181,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )",
       "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
-      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
+      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )"
 
     ];
 
@@ -191,7 +191,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       'axisX',
       'axisY',
       'axisX',
-      'axisZ',
+      'axisZ'
     ];
 
 

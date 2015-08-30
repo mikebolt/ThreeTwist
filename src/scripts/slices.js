@@ -609,7 +609,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
       return false;
     }
-  },
+  }
 
 
 

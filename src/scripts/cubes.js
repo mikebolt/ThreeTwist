@@ -215,18 +215,20 @@ ThreeTwist.Cube = function( parameters ){
   this.cubelets = [];
   ([
 
+    // TODO: This should be done programmatically.
+  
     //  Front slice
 
-    [ W, O,  ,  , G,   ],    [ W, O,  ,  ,  ,   ],    [ W, O, B,  ,  ,   ],//   0,  1,  2
-    [ W,  ,  ,  , G,   ],    [ W,  ,  ,  ,  ,   ],    [ W,  , B,  ,  ,   ],//   3,  4,  5
-    [ W,  ,  , R, G,   ],    [ W,  ,  , R,  ,   ],    [ W,  , B, R,  ,   ],//   6,  7,  8
+    [ W, O,  ,  , G    ],    [ W, O             ],    [ W, O, B          ],//   0,  1,  2
+    [ W,  ,  ,  , G    ],    [ W                ],    [ W,  , B          ],//   3,  4,  5
+    [ W,  ,  , R, G    ],    [ W,  ,  , R       ],    [ W,  , B, R       ],//   6,  7,  8
 
 
     //  Standing slice
 
-    [  , O,  ,  , G,   ],    [  , O,  ,  ,  ,   ],    [  , O, B,  ,  ,   ],//   9, 10, 11
-    [  ,  ,  ,  , G,   ],    [  ,  ,  ,  ,  ,   ],    [  ,  , B,  ,  ,   ],//  12, XX, 14
-    [  ,  ,  , R, G,   ],    [  ,  ,  , R,  ,   ],    [  ,  , B, R,  ,   ],//  15, 16, 17
+    [  , O,  ,  , G    ],    [  , O             ],    [  , O, B          ],//   9, 10, 11
+    [  ,  ,  ,  , G    ],    [                  ],    [  ,  , B          ],//  12, XX, 14
+    [  ,  ,  , R, G    ],    [  ,  ,  , R       ],    [  ,  , B, R       ],//  15, 16, 17
 
 
     //  Back slice
