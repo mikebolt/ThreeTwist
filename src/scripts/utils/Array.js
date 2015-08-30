@@ -14,7 +14,9 @@ ThreeTwist.extend( Array.prototype, {
       }
       return Math.pow( sum, 0.5 );
     }
-    else return null;
+    else {
+      return null;
+    }
   },
   first : function(){
 
@@ -61,7 +63,10 @@ ThreeTwist.extend( Array.prototype, {
     tempi,
     tempj;
 
-    if( i == 0 ) return false;
+    if( i == 0 ) {
+      return false;
+    }
+    
     while( -- i ){
 
       j = Math.floor( Math.random() * ( i + 1 ));
