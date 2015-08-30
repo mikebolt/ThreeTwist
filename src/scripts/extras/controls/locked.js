@@ -65,7 +65,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
           // Get a time stamp
-          time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
+          time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
 
 
           start.set( x, y, 0 );
@@ -190,8 +190,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       y *= pixelRatio;
 
       var face = getFace( [cube.front, cube.right, cube.up ],
-          x - ( screen.width * pixelRatio * 0.5 ),
-          y - ( screen.height * pixelRatio * 0.5 ));
+          x - screen.width * pixelRatio * 0.5,
+          y - screen.height * pixelRatio * 0.5 );
 
       // console.log( x - ( screen.width * pixelRatio * 0.5 ),
       //     y - ( screen.width * pixelRatio * 0.5 ) );
@@ -212,7 +212,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         command = 'x';
       }
 
-      if( command === 'y' && x - ( screen.width * pixelRatio * 0.5 ) < 0 ) {
+      if( command === 'y' && x - screen.width * pixelRatio * 0.5 < 0 ) {
         command = command.toUpperCase();
       }
 
@@ -358,8 +358,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
         var face = getFace( [cube.front, cube.right ],
-            current.x - ( screen.width * pixelRatio * 0.5 ),
-            current.y - ( screen.width * pixelRatio * 0.5 ) );
+            current.x - screen.width * pixelRatio * 0.5,
+            current.y - screen.width * pixelRatio * 0.5 );
         axis.copy( face.axis );
 
         inverse.getInverse( cube.matrixWorld );
@@ -396,8 +396,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     if( axisDefined ){
 
-      angle = -( absDirection.dot( direction ) / cube.size ) ;
-      if( group === cube.slicesDictionary[ 'z' ]  ) {
+      angle = -absDirection.dot( direction ) / cube.size ;
+      if( group === cube.slicesDictionary[ 'z' ] ) {
         angle *= -1;
       }
       angle *= sign;

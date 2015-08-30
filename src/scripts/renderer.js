@@ -172,7 +172,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
     cubelet.add( cubelet.css3DObject );
 
 
-    var faceSpacing = ( cubelet.size / 2 );
+    var faceSpacing = cubelet.size / 2;
 
     var transformMap = [
 

@@ -125,7 +125,7 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
 ThreeTwist.Twist.prototype.equals = function( twist ){
 
-  return ( this.command === twist.command && this.degrees === twist.degrees );
+  return this.command === twist.command && this.degrees === twist.degrees;
 
 };
 

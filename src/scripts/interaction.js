@@ -248,7 +248,7 @@ ThreeTwist.Interaction = (function(){
           if( cube.isTweening() === 0 ){
 
 
-            time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
+            time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
 
 
             api.active = true;
@@ -416,7 +416,7 @@ ThreeTwist.Interaction = (function(){
       var bx = event.clientX,
         by = event.clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
 
         detectInteraction( ax, ay );
       }
@@ -442,7 +442,7 @@ ThreeTwist.Interaction = (function(){
       var bx = event.changedTouches[0].clientX,
         by = event.changedTouches[0].clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
 
         if( detectInteraction( ax, ay )){
           event.preventDefault();

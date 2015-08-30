@@ -307,7 +307,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   function IntersectsProp( P, Q, prop ){
 
-    return ( Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop] );
+    return Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop];
 
   }
 
