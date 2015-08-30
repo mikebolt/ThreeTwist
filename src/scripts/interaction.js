@@ -145,7 +145,7 @@ ThreeTwist.Interaction = (function(){
         y = current.y;
 
 
-      if( api.enabled && api.active && x !== undefined && y != undefined && ( mouseX !== x || mouseY !== y )) {
+      if( api.enabled && api.active && x !== undefined && y !== undefined && ( mouseX !== x || mouseY !== y )) {
 
 
         //  As we already know what plane, or face, the interaction began on,

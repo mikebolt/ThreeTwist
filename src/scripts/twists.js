@@ -69,7 +69,7 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     //  Remember, it's ok to have degrees === undefined
     //  which will peg to the nearest degrees % 90 === 0.
 
-    if( degrees != undefined && degrees < 0 ){
+    if( degrees !== undefined && degrees < 0 ){
 
       command = command.invert();
       degrees = degrees.absolute();

@@ -108,7 +108,7 @@ ThreeTwist.extend( Number.prototype, {
   },
   normalize : function( a, b ){
 
-    if( a == b ) {
+    if( a === b ) {
       return 1.0;
     }
     return ( this - a ) / ( b - a );
@@ -171,7 +171,7 @@ ThreeTwist.extend( Number.prototype, {
 
     var phase = this.normalize( a0, a1 );
 
-    if( b0 == b1 ) {
+    if( b0 === b1 ) {
       return b1;
     }
     return b0 + phase * ( b1 - b0 );

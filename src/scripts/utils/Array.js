@@ -63,7 +63,7 @@ ThreeTwist.extend( Array.prototype, {
     tempi,
     tempj;
 
-    if( i == 0 ) {
+    if( i === 0 ) {
       return false;
     }
     
