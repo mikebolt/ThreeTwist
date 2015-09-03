@@ -17,6 +17,9 @@ var jslint = require('gulp-jslint');
 // for the jshint task
 var jshint = require('gulp-jshint');
 
+// for the source-metrics task
+var sloc = require('gulp-sloc');
+
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
 
@@ -117,6 +120,11 @@ var tasks = {
       .pipe(jshint())
       .pipe(jshint.reporter('jshint-stylish'))
       .pipe(jshint.reporter('fail'));
+  },
+  
+  'source-metrics': function() {
+    return gulp.src(sources)
+      .pipe(sloc());
   }
 };
 
