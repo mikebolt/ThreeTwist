@@ -78,7 +78,7 @@ ThreeTwist.Queue.prototype.remove = function(){
     elements.forEach( function( element ){
 
       this.future = this.future.filter( function( futureElement ){
-        return futureElement != element;
+        return futureElement !== element;
       });
 
     }.bind( this ));
@@ -98,7 +98,7 @@ ThreeTwist.Queue.prototype.purge = function(){
     elements.forEach( function( element ){
 
       this.history = this.history.filter( function( historyElement ){
-        return historyElement != element;
+        return historyElement !== element;
       });
 
     }.bind( this ));

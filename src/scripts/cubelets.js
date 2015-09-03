@@ -132,7 +132,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   var extrovertedFaces = 0;
   if( colors === undefined ) {
-    colors = [ W, O,  ,  , G, ];
+    colors = [ W, O,  ,  , G ];
   }
   this.faces = [];
 

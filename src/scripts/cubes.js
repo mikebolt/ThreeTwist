@@ -213,20 +213,22 @@ ThreeTwist.Cube = function( parameters ){
   //  so that's going to be 27 Cubelets in total to create a Cube.
 
   this.cubelets = [];
-  ([
-
+  
+  [
+    // TODO: This should be done programmatically.
+  
     //  Front slice
 
-    [ W, O,  ,  , G,   ],    [ W, O,  ,  ,  ,   ],    [ W, O, B,  ,  ,   ],//   0,  1,  2
-    [ W,  ,  ,  , G,   ],    [ W,  ,  ,  ,  ,   ],    [ W,  , B,  ,  ,   ],//   3,  4,  5
-    [ W,  ,  , R, G,   ],    [ W,  ,  , R,  ,   ],    [ W,  , B, R,  ,   ],//   6,  7,  8
+    [ W, O,  ,  , G    ],    [ W, O             ],    [ W, O, B          ],//   0,  1,  2
+    [ W,  ,  ,  , G    ],    [ W                ],    [ W,  , B          ],//   3,  4,  5
+    [ W,  ,  , R, G    ],    [ W,  ,  , R       ],    [ W,  , B, R       ],//   6,  7,  8
 
 
     //  Standing slice
 
-    [  , O,  ,  , G,   ],    [  , O,  ,  ,  ,   ],    [  , O, B,  ,  ,   ],//   9, 10, 11
-    [  ,  ,  ,  , G,   ],    [  ,  ,  ,  ,  ,   ],    [  ,  , B,  ,  ,   ],//  12, XX, 14
-    [  ,  ,  , R, G,   ],    [  ,  ,  , R,  ,   ],    [  ,  , B, R,  ,   ],//  15, 16, 17
+    [  , O,  ,  , G    ],    [  , O             ],    [  , O, B          ],//   9, 10, 11
+    [  ,  ,  ,  , G    ],    [                  ],    [  ,  , B          ],//  12, XX, 14
+    [  ,  ,  , R, G    ],    [  ,  ,  , R       ],    [  ,  , B, R       ],//  15, 16, 17
 
 
     //  Back slice
@@ -235,7 +237,7 @@ ThreeTwist.Cube = function( parameters ){
     [  ,  ,  ,  , G, Y ],    [  ,  ,  ,  ,  , Y ],    [  ,  , B,  ,  , Y ],//  21, 22, 23
     [  ,  ,  , R, G, Y ],    [  ,  ,  , R,  , Y ],    [  ,  , B, R,  , Y ] //  24, 25, 26
 
-  ]).forEach( function( cubeletColorMap, cubeletId ){
+  ].forEach( function( cubeletColorMap, cubeletId ){
 
     this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
 
@@ -638,15 +640,13 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   isSolved: function(){
 
-    return (
-
+    return 
       this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
       this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
       this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
       this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
       this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
-      this.back.isSolved(  ThreeTwist.Direction.BACK  )
-    );
+      this.back.isSolved(  ThreeTwist.Direction.BACK  );
 
   },
 

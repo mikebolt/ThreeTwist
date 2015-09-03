@@ -69,7 +69,7 @@ ThreeTwist.extend( Number.prototype, {
     min = Math.min( a, b ),
     max = Math.max( a, b );
 
-    return ( min <= this && this <= max );
+    return min <= this && this <= max;
   },
   lerp : function( a, b ){
 
@@ -94,7 +94,7 @@ ThreeTwist.extend( Number.prototype, {
   },
   modulo : function( n ){
 
-    return (( this % n ) + n ) % n;
+    return ( this % n + n ) % n;
   },
   multiply : function(){
 
@@ -108,7 +108,7 @@ ThreeTwist.extend( Number.prototype, {
   },
   normalize : function( a, b ){
 
-    if( a == b ) {
+    if( a === b ) {
       return 1.0;
     }
     return ( this - a ) / ( b - a );
@@ -171,7 +171,7 @@ ThreeTwist.extend( Number.prototype, {
 
     var phase = this.normalize( a0, a1 );
 
-    if( b0 == b1 ) {
+    if( b0 === b1 ) {
       return b1;
     }
     return b0 + phase * ( b1 - b0 );

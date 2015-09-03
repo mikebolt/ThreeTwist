@@ -147,7 +147,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     'axisX',
     'axisY',
     'axisX',
-    'axisZ',
+    'axisZ'
   ];
 
 
@@ -274,7 +274,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     // Our faces all point in different directions so we'll need to rotate them individually
 
 
-    var faceSpacing = ( cubelet.size / 2 );
+    var faceSpacing = cubelet.size / 2;
 
     cubelet.front.object3D.position.z = faceSpacing;
 
