@@ -131,13 +131,13 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       // We have a group, but we need an associated command expressed as a single character.
 
-      if     ( group === cube.slicesDictionary['x'] ) {
+      if     ( group === cube.slicesDictionary.x ) {
         command = 'x';
       }
-      else if( group === cube.slicesDictionary['y'] ) {
+      else if( group === cube.slicesDictionary.y ) {
         command = 'y';
       }
-      else if( group === cube.slicesDictionary['z'] ) {
+      else if( group === cube.slicesDictionary.z ) {
         command = 'z';
       }
 
@@ -378,13 +378,13 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // but with a different axis of rotation.
 
       if     ( Math.abs( Math.round( axis.x )) === 1 ) {
-        group = cube.slicesDictionary[ 'z' ];
+        group = cube.slicesDictionary.z;
       }
       else if( Math.abs( Math.round( axis.y )) === 1 ) {
-        group = cube.slicesDictionary[ 'y' ];
+        group = cube.slicesDictionary.y;
       }
       else if( Math.abs( Math.round( axis.z )) === 1 ) {
-        group = cube.slicesDictionary[ 'x' ];
+        group = cube.slicesDictionary.x;
       }
 
 
@@ -397,7 +397,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     if( axisDefined ){
 
       angle = -( absDirection.dot( direction ) / cube.size ) ;
-      if( group === cube.slicesDictionary[ 'z' ]  ) {
+      if( group === cube.slicesDictionary.z ) {
         angle *= -1;
       }
       angle *= sign;
