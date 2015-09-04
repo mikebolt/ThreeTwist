@@ -1,0 +1,155 @@
+### Usages of string 'cubelets' in file './src/scripts/extras/controls/locked.js':
+      // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
+
+### Usages of string 'cubelets' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'cubelets' in file './src/scripts/extras/inspect.js':
+  this.cubelets.forEach( function( cubelet ){
+
+### Usages of string 'cubelets' in file './src/scripts/extras/renderers/iecss3d.js':
+  return function( cubelets, cube ){
+    cubelets.forEach( ThreeTwist.renderers.IeCSS3DCubelet );
+
+### Usages of string 'cubelets' in file './src/scripts/extras/renderers/ierenderer.js':
+    cube.cubelets.forEach( function(cubelet){
+
+### Usages of string 'cubelets' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/String.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'cubelets' in file './src/scripts/colors.js':
+
+### Usages of string 'cubelets' in file './src/scripts/controls.js':
+
+### Usages of string 'cubelets' in file './src/scripts/cubelets.js':
+
+### Usages of string 'cubelets' in file './src/scripts/cubes.js':
+  this.cubelets = [];
+    this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
+  //  A Rubik's Cube is composed of 27 cubelets arranged 3 x 3 x 3.
+  //  We need a map that relates these 27 locations to the 27 cubelets
+  this.cubelets.forEach( function( cubelet, index ){
+  //  Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
+  this.cubelets.forEach( function( cubelet, i ){
+  this.renderer = renderFactory( this.cubelets, this );
+
+### Usages of string 'cubelets' in file './src/scripts/directions.js':
+
+### Usages of string 'cubelets' in file './src/scripts/extras/controls/locked.js':
+      // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
+
+### Usages of string 'cubelets' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'cubelets' in file './src/scripts/extras/inspect.js':
+  this.cubelets.forEach( function( cubelet ){
+
+### Usages of string 'cubelets' in file './src/scripts/extras/renderers/iecss3d.js':
+  return function( cubelets, cube ){
+    cubelets.forEach( ThreeTwist.renderers.IeCSS3DCubelet );
+
+### Usages of string 'cubelets' in file './src/scripts/extras/renderers/ierenderer.js':
+    cube.cubelets.forEach( function(cubelet){
+
+### Usages of string 'cubelets' in file './src/scripts/folds.js':
+
+### Usages of string 'cubelets' in file './src/scripts/groups.js':
+  this.cubelets = [];
+    cubeletsToAdd = Array.prototype.slice.call( arguments ),
+    cubeletsToAdd.forEach( function( cubelet ){
+        cubelet = cubelet.cubelets;
+        that.cubelets.push( cubelet );
+      cubeletToRemove = cubeletToRemove.cubelets;
+    var i = this.cubelets.length;
+      if( this.cubelets[ i ] === cubeletToRemove ) {
+        this.cubelets.splice( i, 1 );
+    this.cubelets.forEach( function( cubelet ){
+    this.cubelets.forEach( function( cubelet ){
+    this.cubelets.forEach( function( cubelet ){
+    this.cubelets.forEach( function( cubelet ){
+      this.cubelets.forEach( function( cubelet ){
+    this.cubelets.forEach( function( cubelet ){ cubelet.show(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hide(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIds(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts(); });
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity(); });
+    return avg / this.cubelets.length;
+    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ); });
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius(); });
+    return avg / this.cubelets.length;
+    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ); });
+
+### Usages of string 'cubelets' in file './src/scripts/interaction.js':
+        //   If this is a partial rotation that results in the same configuration of cubelets
+
+### Usages of string 'cubelets' in file './src/scripts/main.js':
+
+### Usages of string 'cubelets' in file './src/scripts/projector.js':
+          //  Translate the world coordinates to a 3D index of the intersected cubelets location.
+          return cube.cubelets[ tmp.z * 9 + tmp.y * 3 + tmp.x ];
+
+### Usages of string 'cubelets' in file './src/scripts/queues.js':
+
+### Usages of string 'cubelets' in file './src/scripts/renderer.js':
+ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
+  cubelets.forEach( ThreeTwist.renderers.CSS3DCubelet );
+
+### Usages of string 'cubelets' in file './src/scripts/slices.js':
+  The cubelets[] Array is mapped to names for convenience:
+    return cube.cubelets[ indices[ index ]];
+  //   cubelets
+  //  Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
+  //  This method does just that. Given a subset of cubelets, an axis to rotate on and
+  //  an angle, it will shift the location of all cubelets that need changing.
+      var cubletsCopy = cube.cubelets.slice();
+        cubelet = cube.cubelets[ indices[ i ]];
+        cube.cubelets[cubelet.address] = cubletsCopy[address];
+      for( i = 0; i < cube.cubelets.length; i ++ ){
+        cube.cubelets[ i ].setAddress( i );
+      //   Remapping the location of the cubelets is all well and good,
+      //  but we also need to reorientate each cubelets face so cubelet.front
+      this.cubelets.forEach( function( cubelet ){
+  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]];},
+  get north(){   return this.cube.cubelets[ this.indices[ 1 ]];},
+  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]];},
+  get east(){    return this.cube.cubelets[ this.indices[ 5 ]];},
+  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]];},
+  get south(){  return this.cube.cubelets[ this.indices[ 7 ]];},
+  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
+  get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
+  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
+  get cubelets(){
+  map: function( indices, cubelets ){
+    // this.cubelets = cubelets;
+    if( hasCenter && hasCenter.cubelets.length === 1 ){
+      this.center  = this.hasType( 'center' );//.cubelets[ 0 ]
+  //  Using the rotation we can physically rotate all our cubelets.
+    //  Iterate over the cubelets and update their relative matrices
+
+### Usages of string 'cubelets' in file './src/scripts/solvers.js':
+
+### Usages of string 'cubelets' in file './src/scripts/twists.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/String.js':
+
+### Usages of string 'cubelets' in file './src/scripts/utils/utils.js':
+

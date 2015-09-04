@@ -1,0 +1,112 @@
+### Usages of string '_' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string '_' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string '_' in file './src/scripts/extras/inspect.js':
+
+### Usages of string '_' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string '_' in file './src/scripts/extras/renderers/ierenderer.js':
+  var _width, _height;
+  var _widthHalf, _heightHalf;
+    _width = width;
+    _height = height;
+    _widthHalf = _width / 2;
+    _heightHalf = _height / 2;
+     euler._quaternion = quaternion;
+     quaternion._euler = euler;
+    fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+    screenCenter.makeTranslation( _widthHalf, -_heightHalf, 0 );
+
+### Usages of string '_' in file './src/scripts/utils/Array.js':
+    depth = _.cascade( depth, 0 );
+
+### Usages of string '_' in file './src/scripts/utils/Number.js':
+
+### Usages of string '_' in file './src/scripts/utils/String.js':
+    n = _.cascade( n, 2 );
+    split  = this.split( /\W+|_+/ ),
+      return '_' + $0;
+    if( underscored.charAt( 0 ) === '_' ) {
+
+### Usages of string '_' in file './src/scripts/utils/utils.js':
+var _ = {
+
+### Usages of string '_' in file './src/scripts/colors.js':
+
+### Usages of string '_' in file './src/scripts/controls.js':
+
+### Usages of string '_' in file './src/scripts/cubelets.js':
+      colorRGB = _.hexToRgb( color.hex );
+      faceColorRGB = _.hexToRgb( this.faces[ i ].color.hex );
+
+### Usages of string '_' in file './src/scripts/cubes.js':
+  this.shuffleMethod = this.PRESERVE_LOGO;
+  FIELD_OF_VIEW = 35,
+  ASPECT_RATIO  = WIDTH / HEIGHT,
+  this.camera = new THREE.PerspectiveCamera( FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR );
+    else if( _.isNumeric( fold ) && fold >= 0 && fold <= 2 ){
+    else if( _.isNumeric( fold ) && fold >= 0 && fold <= 2 ){
+  PRESERVE_LOGO: 'RrLlUuDdSsBb',             //  Preserve the logo position and rotation.
+  ALL_SLICES:    'RrMmLlUuEeDdFfSsBb',       //  Allow all slices to rotate.
+
+### Usages of string '_' in file './src/scripts/directions.js':
+
+### Usages of string '_' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string '_' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string '_' in file './src/scripts/extras/inspect.js':
+
+### Usages of string '_' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string '_' in file './src/scripts/extras/renderers/ierenderer.js':
+  var _width, _height;
+  var _widthHalf, _heightHalf;
+    _width = width;
+    _height = height;
+    _widthHalf = _width / 2;
+    _heightHalf = _height / 2;
+     euler._quaternion = quaternion;
+     quaternion._euler = euler;
+    fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+    screenCenter.makeTranslation( _widthHalf, -_heightHalf, 0 );
+
+### Usages of string '_' in file './src/scripts/folds.js':
+
+### Usages of string '_' in file './src/scripts/groups.js':
+
+### Usages of string '_' in file './src/scripts/interaction.js':
+
+### Usages of string '_' in file './src/scripts/main.js':
+@author Mark Lundin - http://mark-lundin.com / @mark_lundin
+http://en.wikipedia.org/wiki/Rubik's_Cube#Move_notation
+http://en.wikibooks.org/wiki/Template:Rubik's_cube_notation
+
+### Usages of string '_' in file './src/scripts/projector.js':
+
+### Usages of string '_' in file './src/scripts/queues.js':
+
+### Usages of string '_' in file './src/scripts/renderer.js':
+
+### Usages of string '_' in file './src/scripts/slices.js':
+
+### Usages of string '_' in file './src/scripts/solvers.js':
+
+### Usages of string '_' in file './src/scripts/twists.js':
+          if( _.isNumeric( match )) {
+
+### Usages of string '_' in file './src/scripts/utils/Array.js':
+    depth = _.cascade( depth, 0 );
+
+### Usages of string '_' in file './src/scripts/utils/Number.js':
+
+### Usages of string '_' in file './src/scripts/utils/String.js':
+    n = _.cascade( n, 2 );
+    split  = this.split( /\W+|_+/ ),
+      return '_' + $0;
+    if( underscored.charAt( 0 ) === '_' ) {
+
+### Usages of string '_' in file './src/scripts/utils/utils.js':
+var _ = {
+

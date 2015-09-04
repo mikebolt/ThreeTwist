@@ -1,0 +1,45 @@
+  line 1  col 5  '_' is defined but never used. - definitely used
+  line 47  col 9  'd' is defined but never used. - bad grep
+  line 27   col 7   'mouseEnd' is defined but never used. - only used in controls.js
+  line 41   col 9   'aspect' is defined but never used. - defined twice, never used, but might be useful?
+  line 164  col 23  'event' is defined but never used. - looks like its used but will have to look closer
+  line 212  col 24  'event' is defined but never used.
+  line 28   col 22   'points' is defined but never used. - probably from interaction.js
+  line 39   col 7    'basis' is defined but never used. - unused in interaction.js, should remove
+  line 109  col 9    'projectVector' is defined but never used. - defined in interaction.js and ierenderer.js. Never used, but might be useful?
+  line 41   col 18  'axis' is defined but never used. - defined in locked.js, iecss3d.js, controls.js, interaction.js, slices.js. Not sure.
+  line 42   col 39  'i' is defined but never used.
+  line 517  col 35  'value' is defined but never used.
+  line 126  col 7   'self' is defined but never used.
+  line 248  col 48  'index' is defined but never used.
+  line 319  col 27  'cubelets' is defined but never used.
+  line 319  col 18  'indices' is defined but never used.
+  line 45  col 26  'cube' is defined but never used.
+  line 261  col 7   'i' is defined but never used.
+  line 272  col 45  'index' is defined but never used.
+  line 236  col 12  'snapVectorToBasis' is defined but never used.
+  line 54   col 20  'axis' is defined but never used.
+  line 55   col 41  'i' is defined but never used.
+  line 514  col 35  'value' is defined but never used.
+  line 61   col 7   'matrix' is defined but never used.
+  line 130  col 7   'renderCount' is defined but never used.
+  line 132  col 7   'projectVector' is defined but never used.
+  line 148  col 7   'camOririgin' is defined but never used.
+  line 241  col 12  'isEqual' is defined but never used.
+  line 284  col 12  'sharedEdge' is defined but never used.
+  line 108  col 8   'style' is defined but never used.
+  line 153  col 41  'camera' is defined but never used.
+  line 196  col 28  'camera' is defined but never used.
+  line 403  col 9   'aaa' is defined but never used. - should remove
+  line 404  col 9   'bbb' is defined but never used. - should remove
+  line 1   col 10  'deviceMotion' is defined but never used.
+  line 7   col 5   'deviceOrientation' is defined but never used.
+  line 8   col 5   'screenOrientation' is defined but never used.
+  line 9   col 5   'compassHeading' is defined but never used.
+  line 9   col 21  'fixedAlpha' is defined but never used.
+  line 10  col 5   'alpha' is defined but never used.
+  line 10  col 12  'beta' is defined but never used.
+  line 10  col 18  'gamma' is defined but never used.
+  line 56  col 7   'setObjectQuaternion' is defined but never used.
+  line 83  col 7   'quat' is defined but never used.
+  line 41  col 5  'color' is defined but never used.

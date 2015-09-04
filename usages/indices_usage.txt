@@ -1,0 +1,87 @@
+### Usages of string 'indices' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/String.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'indices' in file './src/scripts/colors.js':
+
+### Usages of string 'indices' in file './src/scripts/controls.js':
+
+### Usages of string 'indices' in file './src/scripts/cubelets.js':
+
+### Usages of string 'indices' in file './src/scripts/cubes.js':
+    var l = slice.indices.length,
+      l = slice.indices.length;
+
+### Usages of string 'indices' in file './src/scripts/directions.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'indices' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'indices' in file './src/scripts/folds.js':
+
+### Usages of string 'indices' in file './src/scripts/groups.js':
+
+### Usages of string 'indices' in file './src/scripts/interaction.js':
+
+### Usages of string 'indices' in file './src/scripts/main.js':
+
+### Usages of string 'indices' in file './src/scripts/projector.js':
+
+### Usages of string 'indices' in file './src/scripts/queues.js':
+
+### Usages of string 'indices' in file './src/scripts/renderer.js':
+
+### Usages of string 'indices' in file './src/scripts/slices.js':
+ThreeTwist.Slice = function( indices, cube ){
+  this.indices = indices;
+    return cube.cubelets[ indices[ index ]];
+      var i = indices.length,
+        cubelet = cube.cubelets[ indices[ i ]];
+  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]];},
+  get north(){   return this.cube.cubelets[ this.indices[ 1 ]];},
+  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]];},
+  get east(){    return this.cube.cubelets[ this.indices[ 5 ]];},
+  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]];},
+  get south(){  return this.cube.cubelets[ this.indices[ 7 ]];},
+  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
+  get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
+  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
+      l = this.indices.length;
+  map: function( indices, cubelets ){
+    // this.indices  = indices;
+    var l = this.indices.length,
+        l = this.indices.length,
+
+### Usages of string 'indices' in file './src/scripts/solvers.js':
+
+### Usages of string 'indices' in file './src/scripts/twists.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/String.js':
+
+### Usages of string 'indices' in file './src/scripts/utils/utils.js':
+

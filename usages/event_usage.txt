@@ -1,0 +1,157 @@
+### Usages of string 'event' in file './src/scripts/extras/controls/locked.js':
+  function onInteractStart( event ){
+    if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
+  function onInteractMove( event ){
+      event.preventDefault();
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+  function onInteractEnd( event ){
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+
+### Usages of string 'event' in file './src/scripts/extras/deviceMotion.js':
+  element.addEventListener( 'mousemove', function( event ){
+      x = event.pageX / bounds.width  * 2.0 - 1.0;
+      y = event.pageY / bounds.height * 2.0 - 1.0;
+
+### Usages of string 'event' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'event' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'event' in file './src/scripts/extras/renderers/ierenderer.js':
+  this.addEventListener( 'removed', function ( event ) {
+        this.children[ i ].dispatchEvent( event );
+
+### Usages of string 'event' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'event' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'event' in file './src/scripts/utils/String.js':
+
+### Usages of string 'event' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'event' in file './src/scripts/colors.js':
+
+### Usages of string 'event' in file './src/scripts/controls.js':
+     *  Define listeners for user initiated events
+    function mousedown( event ) {
+      if ( !api.enabled || event.which !== 1 ) {
+      if( projector.getIntersection( camera, event.pageX, event.pageY ) === null ){
+        getMouseProjectionOnBall( event.pageX, event.pageY, mouse );
+    function mousemove( event ) {
+        event.preventDefault();
+        getMouseProjectionOnBall( event.pageX, event.pageY, mouse );
+    function mouseup( event ) {
+    function touchstart( event ) {
+      if ( api.enabled && projector.getIntersection( camera, event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) === null ){
+        getMouseProjectionOnBall( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY, mouse );
+    function touchmove( event ) {
+        // event.preventDefault();
+        getMouseProjectionOnBall( event.changedTouches[ 0 ].pageX, event.changedTouches[ 0 ].pageY, mouse );
+    function touchend( event ) {
+
+### Usages of string 'event' in file './src/scripts/cubelets.js':
+
+### Usages of string 'event' in file './src/scripts/cubes.js':
+  //   We also probably want a handle on any update events that occur, for example, when a slice is rotated
+  //  We'll set up a few event below to listen for specific commands,
+  document.addEventListener( 'keypress', function( event ){
+    if( event.target.tagName.toLowerCase() !== 'input' &&
+      event.target.tagName.toLowerCase() !== 'textarea' &&
+        var key = String.fromCharCode( event.which );
+
+### Usages of string 'event' in file './src/scripts/directions.js':
+
+### Usages of string 'event' in file './src/scripts/extras/controls/locked.js':
+  function onInteractStart( event ){
+    if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
+  function onInteractMove( event ){
+      event.preventDefault();
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+  function onInteractEnd( event ){
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+
+### Usages of string 'event' in file './src/scripts/extras/deviceMotion.js':
+  element.addEventListener( 'mousemove', function( event ){
+      x = event.pageX / bounds.width  * 2.0 - 1.0;
+      y = event.pageY / bounds.height * 2.0 - 1.0;
+
+### Usages of string 'event' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'event' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'event' in file './src/scripts/extras/renderers/ierenderer.js':
+  this.addEventListener( 'removed', function ( event ) {
+        this.children[ i ].dispatchEvent( event );
+
+### Usages of string 'event' in file './src/scripts/folds.js':
+
+### Usages of string 'event' in file './src/scripts/groups.js':
+
+### Usages of string 'event' in file './src/scripts/interaction.js':
+    // Apply event skills to the api
+    function onInteractStart( event ){
+      if( api.enabled && event.button !== 2 ){
+        mouseX = ( event.touches && event.touches[0] || event ).clientX;
+        mouseY = ( event.touches && event.touches[0] || event ).clientY;
+          //  If a interaction happens within the cube we should prevent the event bubbling.
+          if( event.touches !== null ) {
+            event.preventDefault();
+          // event.stopImmediatePropagation();
+    function onInteractUpdate( event ){
+        current.x = ( event.touches && event.touches[0] || event ).clientX,
+        current.y = ( event.touches && event.touches[0] || event ).clientY;
+      // Prevent the default system dragging behaviour. ( Things like IOS move the viewport )
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    function onInteractEnd( event ){
+      var x = ( event.touches && event.touches[0] || event ).clientX,
+        y = ( event.touches && event.touches[0] || event ).clientY;
+        if( event.touches !== null ) {
+          event.preventDefault();
+        // event.stopImmediatePropagation();
+    domElement.addEventListener( 'mousedown', function( event ){
+      ax = event.clientX;
+      ay = event.clientY;
+    domElement.addEventListener( 'mouseup', function( event ){
+      var bx = event.clientX,
+        by = event.clientY;
+    domElement.addEventListener( 'touchstart', function( event ){
+      // event.preventDefault();
+      ax = event.touches[0].clientX,
+      ay = event.touches[0].clientY;
+    domElement.addEventListener( 'touchend', function( event ){
+      var bx = event.changedTouches[0].clientX,
+        by = event.changedTouches[0].clientY;
+          event.preventDefault();
+
+### Usages of string 'event' in file './src/scripts/main.js':
+  function CustomEvent ( event, params ) {
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+
+### Usages of string 'event' in file './src/scripts/projector.js':
+
+### Usages of string 'event' in file './src/scripts/queues.js':
+
+### Usages of string 'event' in file './src/scripts/renderer.js':
+
+### Usages of string 'event' in file './src/scripts/slices.js':
+
+### Usages of string 'event' in file './src/scripts/solvers.js':
+
+### Usages of string 'event' in file './src/scripts/twists.js':
+
+### Usages of string 'event' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'event' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'event' in file './src/scripts/utils/String.js':
+
+### Usages of string 'event' in file './src/scripts/utils/utils.js':
+

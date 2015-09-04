@@ -1,0 +1,69 @@
+### Usages of string 'basis' in file './src/scripts/extras/controls/locked.js':
+      // Snap to the nearest basis
+
+### Usages of string 'basis' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/String.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'basis' in file './src/scripts/colors.js':
+
+### Usages of string 'basis' in file './src/scripts/controls.js':
+
+### Usages of string 'basis' in file './src/scripts/cubelets.js':
+
+### Usages of string 'basis' in file './src/scripts/cubes.js':
+
+### Usages of string 'basis' in file './src/scripts/directions.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/controls/locked.js':
+      // Snap to the nearest basis
+
+### Usages of string 'basis' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'basis' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'basis' in file './src/scripts/folds.js':
+
+### Usages of string 'basis' in file './src/scripts/groups.js':
+
+### Usages of string 'basis' in file './src/scripts/interaction.js':
+      basis = new THREE.Vector3(),
+
+### Usages of string 'basis' in file './src/scripts/main.js':
+
+### Usages of string 'basis' in file './src/scripts/projector.js':
+
+### Usages of string 'basis' in file './src/scripts/queues.js':
+
+### Usages of string 'basis' in file './src/scripts/renderer.js':
+
+### Usages of string 'basis' in file './src/scripts/slices.js':
+
+### Usages of string 'basis' in file './src/scripts/solvers.js':
+
+### Usages of string 'basis' in file './src/scripts/twists.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/String.js':
+
+### Usages of string 'basis' in file './src/scripts/utils/utils.js':
+

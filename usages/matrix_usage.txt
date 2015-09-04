@@ -1,0 +1,144 @@
+### Usages of string 'matrix' in file './src/scripts/extras/controls/locked.js':
+      inverse.getInverse( cube.matrixWorld );
+      matrixInverse = new THREE.Matrix4(),
+      matrixInverse.getInverse( cube.matrixWorld );
+        inverse.getInverse( cube.matrixWorld );
+
+### Usages of string 'matrix' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'matrix' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'matrix' in file './src/scripts/extras/renderers/iecss3d.js':
+          inv.getInverse( this.matrix );
+          inv.getInverse( this.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/extras/renderers/ierenderer.js':
+ * and apply the model view matrix to each dom elements individually. Not only this, but it needs a manual depth sorting
+  var matrix = new THREE.Matrix4();
+     return function ( matrix ) {
+      matrix.decompose( position, quaternion, scale );
+  var matrixWorld = new THREE.Matrix4();
+      viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+    matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
+    matrixWorld.elements[4] *= -1;
+    matrixWorld.elements[5] *= -1;
+    matrixWorld.elements[6] *= -1;
+    matrixWorld.elements[7] *= -1;
+    style =  getObjectCSSTransform( matrixWorld  );
+    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+      normal.set( 0, 0, 1 ).transformDirection( a.matrixWorld );
+      origin.set( 0, 0, 0 ).applyMatrix4( a.matrixWorld );
+    camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+    cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
+      objWorldPosition.set( renderList[i].matrixWorld.elements[12], renderList[i].matrixWorld.elements[13], renderList[i].matrixWorld.elements[14] );
+      facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0;
+
+### Usages of string 'matrix' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/String.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'matrix' in file './src/scripts/colors.js':
+
+### Usages of string 'matrix' in file './src/scripts/controls.js':
+        modelViewInverse.getInverse( object.matrixWorld );
+        modelViewInverse.multiply( camera.matrixWorld );
+
+### Usages of string 'matrix' in file './src/scripts/cubelets.js':
+  this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
+          this.matrixSlice.copy( this.matrix );
+          this.matrixSlice.copy( this.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/cubes.js':
+  this.matrix   = this.object3D.matrix;
+  this.matrixWorld= this.object3D.matrixWorld;
+        cubelet.matrixSlice.copy( cubelet.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/directions.js':
+
+### Usages of string 'matrix' in file './src/scripts/extras/controls/locked.js':
+      inverse.getInverse( cube.matrixWorld );
+      matrixInverse = new THREE.Matrix4(),
+      matrixInverse.getInverse( cube.matrixWorld );
+        inverse.getInverse( cube.matrixWorld );
+
+### Usages of string 'matrix' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'matrix' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'matrix' in file './src/scripts/extras/renderers/iecss3d.js':
+          inv.getInverse( this.matrix );
+          inv.getInverse( this.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/extras/renderers/ierenderer.js':
+ * and apply the model view matrix to each dom elements individually. Not only this, but it needs a manual depth sorting
+  var matrix = new THREE.Matrix4();
+     return function ( matrix ) {
+      matrix.decompose( position, quaternion, scale );
+  var matrixWorld = new THREE.Matrix4();
+      viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+    matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
+    matrixWorld.elements[4] *= -1;
+    matrixWorld.elements[5] *= -1;
+    matrixWorld.elements[6] *= -1;
+    matrixWorld.elements[7] *= -1;
+    style =  getObjectCSSTransform( matrixWorld  );
+    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+      normal.set( 0, 0, 1 ).transformDirection( a.matrixWorld );
+      origin.set( 0, 0, 0 ).applyMatrix4( a.matrixWorld );
+    camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+    cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
+      objWorldPosition.set( renderList[i].matrixWorld.elements[12], renderList[i].matrixWorld.elements[13], renderList[i].matrixWorld.elements[14] );
+      facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0;
+
+### Usages of string 'matrix' in file './src/scripts/folds.js':
+
+### Usages of string 'matrix' in file './src/scripts/groups.js':
+
+### Usages of string 'matrix' in file './src/scripts/interaction.js':
+        camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+        viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+
+### Usages of string 'matrix' in file './src/scripts/main.js':
+
+### Usages of string 'matrix' in file './src/scripts/projector.js':
+      viewProjectionMatrix.multiplyMatrices( camera.matrixWorld, projectionMatrixInverse );
+      inverseMatrix.getInverse( cube.matrixWorld );
+
+### Usages of string 'matrix' in file './src/scripts/queues.js':
+
+### Usages of string 'matrix' in file './src/scripts/renderer.js':
+          inv.getInverse( this.matrix );
+          inv.getInverse( this.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/slices.js':
+  this.matrix = new THREE.Matrix4();
+      //  Get The rotation as a matrix
+    //  Define a delta rotation matrix from the axis and angle
+    this.matrix.makeRotationAxis( this.axis, radians );
+      cubelet.matrix.multiplyMatrices( this.matrix, cubelet.matrixSlice );
+      cubelet.position.setFromMatrixPosition( cubelet.matrix );
+      cubelet.scale.setFromMatrixScale( cubelet.matrix );
+      m1.extractRotation( cubelet.matrix );
+
+### Usages of string 'matrix' in file './src/scripts/solvers.js':
+
+### Usages of string 'matrix' in file './src/scripts/twists.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/String.js':
+
+### Usages of string 'matrix' in file './src/scripts/utils/utils.js':
+

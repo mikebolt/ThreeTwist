@@ -1,0 +1,103 @@
+### Usages of string 'value' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'value' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'value' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'value' in file './src/scripts/extras/renderers/iecss3d.js':
+    getStickersOpacity: function( value ){
+    setStickersOpacity: function( value ){
+      if( value === undefined ) {
+        value = 0.2;
+      var valueStr = value.toString();
+        sticker.style.opacity = valueStr;
+
+### Usages of string 'value' in file './src/scripts/extras/renderers/ierenderer.js':
+  var epsilon = function ( value ) {
+    return Math.abs( value ) < 0.0001 ? 0 : value;
+
+### Usages of string 'value' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'value' in file './src/scripts/utils/Number.js':
+    return [ this.valueOf() ];
+    return this.valueOf();
+
+### Usages of string 'value' in file './src/scripts/utils/String.js':
+
+### Usages of string 'value' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'value' in file './src/scripts/colors.js':
+
+### Usages of string 'value' in file './src/scripts/controls.js':
+
+### Usages of string 'value' in file './src/scripts/cubelets.js':
+  to the Cube's core with integer values ranging from -1 to +1.
+  //  grab the style.getBoundingClientRect() value because
+  //  Undefined values are allowed (and anticipated).
+
+### Usages of string 'value' in file './src/scripts/cubes.js':
+  a non-false value as an argument:
+  //  Size matters? Cubelets will attempt to read these values.
+  //  by adding the following values to the Three object on each frame.
+
+### Usages of string 'value' in file './src/scripts/directions.js':
+
+### Usages of string 'value' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'value' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'value' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'value' in file './src/scripts/extras/renderers/iecss3d.js':
+    getStickersOpacity: function( value ){
+    setStickersOpacity: function( value ){
+      if( value === undefined ) {
+        value = 0.2;
+      var valueStr = value.toString();
+        sticker.style.opacity = valueStr;
+
+### Usages of string 'value' in file './src/scripts/extras/renderers/ierenderer.js':
+  var epsilon = function ( value ) {
+    return Math.abs( value ) < 0.0001 ? 0 : value;
+
+### Usages of string 'value' in file './src/scripts/folds.js':
+
+### Usages of string 'value' in file './src/scripts/groups.js':
+  hasProperty: function( property, value ){
+      if( cubelet[ property ] === value ) {
+
+### Usages of string 'value' in file './src/scripts/interaction.js':
+
+### Usages of string 'value' in file './src/scripts/main.js':
+
+### Usages of string 'value' in file './src/scripts/projector.js':
+      // set two vectors with opposing z values
+
+### Usages of string 'value' in file './src/scripts/queues.js':
+
+### Usages of string 'value' in file './src/scripts/renderer.js':
+    getStickersOpacity: function( value ){
+    setStickersOpacity: function( value ){
+      if( value === undefined ) {
+        value = 0.2;
+      var valueStr = value;
+        sticker.style.opacity = valueStr.toString();
+
+### Usages of string 'value' in file './src/scripts/slices.js':
+  // var displayInternalFaces = function( value ){
+
+### Usages of string 'value' in file './src/scripts/solvers.js':
+
+### Usages of string 'value' in file './src/scripts/twists.js':
+    //  and take the absolute value of the degrees.
+
+### Usages of string 'value' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'value' in file './src/scripts/utils/Number.js':
+    return [ this.valueOf() ];
+    return this.valueOf();
+
+### Usages of string 'value' in file './src/scripts/utils/String.js':
+
+### Usages of string 'value' in file './src/scripts/utils/utils.js':
+

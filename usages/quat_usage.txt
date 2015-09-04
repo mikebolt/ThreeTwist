@@ -1,0 +1,101 @@
+### Usages of string 'quat' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/deviceMotion.js':
+    return function ( quaternion, alpha, beta, gamma, orient ) {
+      quaternion.setFromEuler( euler );                               // orient the device
+      quaternion.multiply( q1 );                                      // camera looks out the back of the device, not the top
+      quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );    // adjust for screen orientation
+      quaternion.inverse();
+  var quat = new THREE.Quaternion();
+
+### Usages of string 'quat' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/renderers/ierenderer.js':
+       quaternion = new THREE.Quaternion(),
+     euler._quaternion = quaternion;
+     quaternion._euler = euler;
+      matrix.decompose( position, quaternion, scale );
+
+### Usages of string 'quat' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/String.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'quat' in file './src/scripts/colors.js':
+
+### Usages of string 'quat' in file './src/scripts/controls.js':
+
+### Usages of string 'quat' in file './src/scripts/cubelets.js':
+
+### Usages of string 'quat' in file './src/scripts/cubes.js':
+    this.equator
+  this.quaternion = this.object3D.quaternion;
+  this.equator = new ThreeTwist.Slice(
+  this.equator.name = 'equator';
+  this.down.neighbour = this.equator;
+  this.up.neighbour = this.equator;
+  this.slices = [ this.left, this.middle, this.right, this.down, this.equator, this.up, this.back, this.standing, this.front ];
+    'e': this.equator,
+
+### Usages of string 'quat' in file './src/scripts/directions.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/deviceMotion.js':
+    return function ( quaternion, alpha, beta, gamma, orient ) {
+      quaternion.setFromEuler( euler );                               // orient the device
+      quaternion.multiply( q1 );                                      // camera looks out the back of the device, not the top
+      quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );    // adjust for screen orientation
+      quaternion.inverse();
+  var quat = new THREE.Quaternion();
+
+### Usages of string 'quat' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'quat' in file './src/scripts/extras/renderers/ierenderer.js':
+       quaternion = new THREE.Quaternion(),
+     euler._quaternion = quaternion;
+     quaternion._euler = euler;
+      matrix.decompose( position, quaternion, scale );
+
+### Usages of string 'quat' in file './src/scripts/folds.js':
+
+### Usages of string 'quat' in file './src/scripts/groups.js':
+
+### Usages of string 'quat' in file './src/scripts/interaction.js':
+
+### Usages of string 'quat' in file './src/scripts/main.js':
+E   Equator (rotate according to Up Face's orientation)
+
+### Usages of string 'quat' in file './src/scripts/projector.js':
+
+### Usages of string 'quat' in file './src/scripts/queues.js':
+
+### Usages of string 'quat' in file './src/scripts/renderer.js':
+
+### Usages of string 'quat' in file './src/scripts/slices.js':
+    this.equator
+  itself: equator, middle, and standing. When a Slice maps itself it
+    //  similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
+    this.equator = new ThreeTwist.Group(
+      cubelet.quaternion.setFromRotationMatrix( m1 );
+
+### Usages of string 'quat' in file './src/scripts/solvers.js':
+
+### Usages of string 'quat' in file './src/scripts/twists.js':
+    E: 'Equator slice',
+
+### Usages of string 'quat' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/String.js':
+
+### Usages of string 'quat' in file './src/scripts/utils/utils.js':
+

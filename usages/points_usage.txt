@@ -1,0 +1,97 @@
+### Usages of string 'points' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'points' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'points' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'points' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'points' in file './src/scripts/extras/renderers/ierenderer.js':
+    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points.sort( painterSort );
+    return obj.userData.points;
+    return function ( a, points ){
+        delta.subVectors( points[i], origin );//.normalize();
+    var p = a.userData.points.length,
+      q = b.userData.points.length;
+      q = b.userData.points.length;
+        if( epsilon( a.userData.points[p].distanceTo( b.userData.points[q] )) === 0 ){
+            face.object3D.userData.points = [
+          if( sameSide ( P, Q.userData.points )){
+          else if( sameSide ( Q, P.userData.points )){
+
+### Usages of string 'points' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'points' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'points' in file './src/scripts/utils/String.js':
+
+### Usages of string 'points' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'points' in file './src/scripts/colors.js':
+
+### Usages of string 'points' in file './src/scripts/controls.js':
+
+### Usages of string 'points' in file './src/scripts/cubelets.js':
+
+### Usages of string 'points' in file './src/scripts/cubes.js':
+
+### Usages of string 'points' in file './src/scripts/directions.js':
+
+### Usages of string 'points' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'points' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'points' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'points' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'points' in file './src/scripts/extras/renderers/ierenderer.js':
+    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points.sort( painterSort );
+    return obj.userData.points;
+    return function ( a, points ){
+        delta.subVectors( points[i], origin );//.normalize();
+    var p = a.userData.points.length,
+      q = b.userData.points.length;
+      q = b.userData.points.length;
+        if( epsilon( a.userData.points[p].distanceTo( b.userData.points[q] )) === 0 ){
+            face.object3D.userData.points = [
+          if( sameSide ( P, Q.userData.points )){
+          else if( sameSide ( Q, P.userData.points )){
+
+### Usages of string 'points' in file './src/scripts/folds.js':
+
+### Usages of string 'points' in file './src/scripts/groups.js':
+
+### Usages of string 'points' in file './src/scripts/interaction.js':
+    var intersected, points = [],
+
+### Usages of string 'points' in file './src/scripts/main.js':
+
+### Usages of string 'points' in file './src/scripts/projector.js':
+
+### Usages of string 'points' in file './src/scripts/queues.js':
+
+### Usages of string 'points' in file './src/scripts/renderer.js':
+
+### Usages of string 'points' in file './src/scripts/slices.js':
+
+### Usages of string 'points' in file './src/scripts/solvers.js':
+
+### Usages of string 'points' in file './src/scripts/twists.js':
+
+### Usages of string 'points' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'points' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'points' in file './src/scripts/utils/String.js':
+
+### Usages of string 'points' in file './src/scripts/utils/utils.js':
+

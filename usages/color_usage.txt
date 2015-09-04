@@ -1,0 +1,331 @@
+### Usages of string 'color' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'color' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'color' in file './src/scripts/extras/inspect.js':
+    //  Just a particular face's color -- called by Slice's inspector.
+    return this[ face ].color || '!';
+    //  Full on ASCII-art inspection mode -- with console colors!
+    color   = this.cube.color,
+      var colorName = that[ face ].color.name.toUpperCase();
+          colorName = colorName.justifyCenter( minimumLength );
+          colorName = colorName.justifyLeft( minimumLength );
+      return colorName;
+      this.front.color.styleB, '',
+      this.up.color.styleB,    '',
+      this.right.color.styleB, '',
+      this.down.color.styleB,  '',
+      this.left.color.styleB,  '',
+      this.back.color.styleB,  '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.front.color.styleF, '',
+      this.right.color.styleF, '',
+      this.front.color.styleF, '',
+      this.front.color.styleF, '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  ''
+    return cubelet[ side ].color.name.toUpperCase().justifyCenter( 9 );
+      this.northWest[ side ].color.styleB, '',
+      this.north[     side ].color.styleB, '',
+      this.northEast[ side ].color.styleB, '',
+      this.west[      side ].color.styleB, '',
+      this.origin[    side ].color.styleB, '',
+      this.east[      side ].color.styleB, '',
+      this.southWest[ side ].color.styleB, '',
+      this.south[     side ].color.styleB, '',
+      this.southEast[ side ].color.styleB, ''
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, ''
+
+### Usages of string 'color' in file './src/scripts/extras/renderers/iecss3d.js':
+      //  its current color, and so on.
+      //  If this face has no color sticker then it must be interior to the Cube.
+      //  But if this face does have a color then we need to
+      //  create a sticker with that color
+        //  You know, the color part that makes the Cube
+        stickerElement.classList.add( face.color.name );
+
+### Usages of string 'color' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'color' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'color' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'color' in file './src/scripts/utils/String.js':
+
+### Usages of string 'color' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'color' in file './src/scripts/colors.js':
+//  Global constants to describe sticker colors.
+  'font-weight: bold; color: #888',
+  'background-color: #F3F3F3; color: rgba( 0, 0, 0, 0.5 )'
+  'font-weight: bold; color: #F60',
+  'background-color: #F60; color: rgba( 255, 255, 255, 0.9 )'
+  'font-weight: bold; color: #00D',
+  'background-color: #00D; color: rgba( 255, 255, 255, 0.9 )'
+  'font-weight: bold; color: #F00',
+  'background-color: #F00; color: rgba( 255, 255, 255, 0.9 )'
+  'font-weight: bold; color: #0A0',
+  'background-color: #0A0; color: rgba( 255, 255, 255, 0.9 )'
+  'font-weight: bold; color: #ED0',
+  'background-color: #FE0; color: rgba( 0, 0, 0, 0.5 )'
+  'color: #EEE',
+  'color: #DDD'
+
+### Usages of string 'color' in file './src/scripts/controls.js':
+
+### Usages of string 'color' in file './src/scripts/cubelets.js':
+ThreeTwist.Cubelet = function( cube, id, colors ){
+  //  We're about to loop through our colors[] Array
+  if( colors === undefined ) {
+    colors = [ W, O,  ,  , G ];
+  //  Now let's map one color per side based on colors[].
+  //  We need to loop through the colors[] Array "manually"
+    color  = colors[ i ] || ThreeTwist.COLORLESS;
+    //  its current color, and so on.
+    this.faces[ i ].color = color;
+    //  If this face has no color sticker then it must be interior to the Cube.
+  this.faces[ i ].isIntrovert = color === ThreeTwist.COLORLESS;
+    if( color === ThreeTwist.COLORLESS ){
+    //  But if this face does have a color then we need to
+    //  create a sticker with that color
+  //     //  You know, the color part that makes the Cube
+  //     stickerElement.classList.add( color.name );
+  //  Now that we've run through our colors[] Array
+  //  What color is the left face? this.left() !!
+    this.colors =
+      ( this.faces[ 0 ].color ? this.faces[ 0 ].color.initial : '-' ) +
+      ( this.faces[ 1 ].color ? this.faces[ 1 ].color.initial : '-' ) +
+      ( this.faces[ 2 ].color ? this.faces[ 2 ].color.initial : '-' ) +
+      ( this.faces[ 3 ].color ? this.faces[ 3 ].color.initial : '-' ) +
+      ( this.faces[ 4 ].color ? this.faces[ 4 ].color.initial : '-' ) +
+      ( this.faces[ 5 ].color ? this.faces[ 5 ].color.initial : '-' );
+  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center';
+  //  Does this Cubelet contain a certain color?
+  //  If so, return a String decribing what face that color is on.
+  hasColor: function( color ){
+      colorRGB = _.hexToRgb( color.hex );
+      faceColorRGB = _.hexToRgb( this.faces[ i ].color.hex );
+      if( faceColorRGB.r === colorRGB.r && faceColorRGB.g === colorRGB.g && faceColorRGB.b === colorRGB.b ){
+  //  Similar to above, but accepts an arbitrary number of colors.
+    colors  = Array.prototype.slice.call( arguments );
+    colors.forEach( function( color ){
+      result = result && !!cubelet.hasColor( color );
+
+### Usages of string 'color' in file './src/scripts/cubes.js':
+  This will reveal each Face's Cubelet indexes and colors using the Face's
+  //  What colors are on the Front face of the cube? Etc.
+
+### Usages of string 'color' in file './src/scripts/directions.js':
+
+### Usages of string 'color' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'color' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'color' in file './src/scripts/extras/inspect.js':
+    //  Just a particular face's color -- called by Slice's inspector.
+    return this[ face ].color || '!';
+    //  Full on ASCII-art inspection mode -- with console colors!
+    color   = this.cube.color,
+      var colorName = that[ face ].color.name.toUpperCase();
+          colorName = colorName.justifyCenter( minimumLength );
+          colorName = colorName.justifyLeft( minimumLength );
+      return colorName;
+      this.front.color.styleB, '',
+      this.up.color.styleB,    '',
+      this.right.color.styleB, '',
+      this.down.color.styleB,  '',
+      this.left.color.styleB,  '',
+      this.back.color.styleB,  '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.front.color.styleF, '',
+      this.right.color.styleF, '',
+      this.front.color.styleF, '',
+      this.front.color.styleF, '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  ''
+    return cubelet[ side ].color.name.toUpperCase().justifyCenter( 9 );
+      this.northWest[ side ].color.styleB, '',
+      this.north[     side ].color.styleB, '',
+      this.northEast[ side ].color.styleB, '',
+      this.west[      side ].color.styleB, '',
+      this.origin[    side ].color.styleB, '',
+      this.east[      side ].color.styleB, '',
+      this.southWest[ side ].color.styleB, '',
+      this.south[     side ].color.styleB, '',
+      this.southEast[ side ].color.styleB, ''
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, ''
+
+### Usages of string 'color' in file './src/scripts/extras/renderers/iecss3d.js':
+      //  its current color, and so on.
+      //  If this face has no color sticker then it must be interior to the Cube.
+      //  But if this face does have a color then we need to
+      //  create a sticker with that color
+        //  You know, the color part that makes the Cube
+        stickerElement.classList.add( face.color.name );
+
+### Usages of string 'color' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'color' in file './src/scripts/folds.js':
+
+### Usages of string 'color' in file './src/scripts/groups.js':
+  //  What Cubelets in this ThreeTwist.Group have a particular color?
+  //  How about all of these three colors?
+  hasColor: function( color ){
+      if( cubelet.hasColor( color )) {
+    colors  = Array.prototype.slice.call( arguments );
+      if( cubelet.hasColors.apply( cubelet, colors )) {
+        var color = cubelet[ face ].color.name;
+        if( faceColors[ color ] === undefined ){
+          faceColors[ color ] = 1;
+          faceColors[ color ] ++;
+
+### Usages of string 'color' in file './src/scripts/interaction.js':
+
+### Usages of string 'color' in file './src/scripts/main.js':
+
+### Usages of string 'color' in file './src/scripts/projector.js':
+
+### Usages of string 'color' in file './src/scripts/queues.js':
+
+### Usages of string 'color' in file './src/scripts/renderer.js':
+      //  If this face has no color sticker then it must be interior to the Cube.
+      //  But if this face does have a color then we need to
+      //  create a sticker with that color
+        //  You know, the color part that makes the Cube
+        stickerElement.classList.add( face.color.name );
+
+### Usages of string 'color' in file './src/scripts/slices.js':
+  This will reveal the Slice's Cubelets, their Indices, and colors.
+    //  and what the color of the face *should* be.
+      if( this.origin.faces[ i ].color && this.origin.faces[ i ].color !== ThreeTwist.COLORLESS ){
+        this.color = this.origin.faces[ i ].color;
+        cubelet, color,
+        color = cubelet[ face ].color.name;
+        if( faceColors[ color ] === undefined ){
+          faceColors[ color ] = 1;
+          faceColors[ color ] ++;
+
+### Usages of string 'color' in file './src/scripts/solvers.js':
+    'background-color: #EEE; color: #333', ''
+    'color: #080', ''
+
+### Usages of string 'color' in file './src/scripts/twists.js':
+
+### Usages of string 'color' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'color' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'color' in file './src/scripts/utils/String.js':
+
+### Usages of string 'color' in file './src/scripts/utils/utils.js':
+

@@ -1,0 +1,170 @@
+### Usages of string 'camera' in file './src/scripts/extras/controls/locked.js':
+ThreeTwist.Locked = function ( cube, camera, domElement ) {
+    if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
+      if( projector.getIntersection( camera, x, y ) === null ){
+
+### Usages of string 'camera' in file './src/scripts/extras/deviceMotion.js':
+      quaternion.multiply( q1 );                                      // camera looks out the back of the device, not the top
+
+### Usages of string 'camera' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'camera' in file './src/scripts/extras/renderers/iecss3d.js':
+    scene.add( cube.camera );
+        renderer.render( scene, cube.camera );
+
+### Usages of string 'camera' in file './src/scripts/extras/renderers/ierenderer.js':
+ * Based on THREE.CSSRenderer http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
+  var cameraElement = document.createElement( 'div' );
+  domElement.appendChild( cameraElement );
+    cameraElement.style.width = width + 'px';
+    cameraElement.style.height = height + 'px';
+  var cameraMatrix = new THREE.Matrix4();
+    return function( vector, camera ) {
+      viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+  var renderObject = function ( object, camera ) {
+    matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
+    if ( element.parentNode !== cameraElement ) {
+      cameraElement.appendChild( element );
+  function sortVerts( obj, camera ){
+  this.render = function ( scene, camera ) {
+    fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+    if ( camera.parent === undefined ) {
+      camera.updateMatrixWorld();
+    camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+    cameraMatrix.copy( screenCenter );            // Offset to center screen
+    cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
+    cameraMatrix.multiply( fovOffset );            // Add FOV offset
+    cameraMatrix.elements[1] *= -1;
+    cameraMatrix.elements[5] *= -1;
+    cameraMatrix.elements[9] *= -1;
+    cameraMatrix.elements[13] *= -1;
+      sorted = sortVerts( a, camera );
+      sorted = sortVerts( b, camera );
+      renderObject( renderList[ i ], camera );
+      cam.subVectors( objWorldPosition, camera.position );
+
+### Usages of string 'camera' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/String.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'camera' in file './src/scripts/colors.js':
+
+### Usages of string 'camera' in file './src/scripts/controls.js':
+  return function ( object, camera, domElement ) {
+        //  of the cube and the relative position of the camera and update our axis.
+        modelViewInverse.multiply( camera.matrixWorld );
+      if( projector.getIntersection( camera, event.pageX, event.pageY ) === null ){
+      if ( api.enabled && projector.getIntersection( camera, event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) === null ){
+
+### Usages of string 'camera' in file './src/scripts/cubelets.js':
+
+### Usages of string 'camera' in file './src/scripts/cubes.js':
+  //  To display our cube, we'll need some 3D specific attributes, like a camera
+  this.camera = new THREE.PerspectiveCamera( FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR );
+  this.camera.position.z = this.size * 4;
+  this.mouseInteraction = new ThreeTwist.Interaction( this, this.camera, this.domElement );
+  this.controls = new ( parameters.controls || ThreeTwist.Controls )( this, this.camera, this.domElement );
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+
+### Usages of string 'camera' in file './src/scripts/directions.js':
+
+### Usages of string 'camera' in file './src/scripts/extras/controls/locked.js':
+ThreeTwist.Locked = function ( cube, camera, domElement ) {
+    if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
+      if( projector.getIntersection( camera, x, y ) === null ){
+
+### Usages of string 'camera' in file './src/scripts/extras/deviceMotion.js':
+      quaternion.multiply( q1 );                                      // camera looks out the back of the device, not the top
+
+### Usages of string 'camera' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'camera' in file './src/scripts/extras/renderers/iecss3d.js':
+    scene.add( cube.camera );
+        renderer.render( scene, cube.camera );
+
+### Usages of string 'camera' in file './src/scripts/extras/renderers/ierenderer.js':
+ * Based on THREE.CSSRenderer http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
+  var cameraElement = document.createElement( 'div' );
+  domElement.appendChild( cameraElement );
+    cameraElement.style.width = width + 'px';
+    cameraElement.style.height = height + 'px';
+  var cameraMatrix = new THREE.Matrix4();
+    return function( vector, camera ) {
+      viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+  var renderObject = function ( object, camera ) {
+    matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
+    if ( element.parentNode !== cameraElement ) {
+      cameraElement.appendChild( element );
+  function sortVerts( obj, camera ){
+  this.render = function ( scene, camera ) {
+    fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+    if ( camera.parent === undefined ) {
+      camera.updateMatrixWorld();
+    camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+    cameraMatrix.copy( screenCenter );            // Offset to center screen
+    cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
+    cameraMatrix.multiply( fovOffset );            // Add FOV offset
+    cameraMatrix.elements[1] *= -1;
+    cameraMatrix.elements[5] *= -1;
+    cameraMatrix.elements[9] *= -1;
+    cameraMatrix.elements[13] *= -1;
+      sorted = sortVerts( a, camera );
+      sorted = sortVerts( b, camera );
+      renderObject( renderList[ i ], camera );
+      cam.subVectors( objWorldPosition, camera.position );
+
+### Usages of string 'camera' in file './src/scripts/folds.js':
+
+### Usages of string 'camera' in file './src/scripts/groups.js':
+
+### Usages of string 'camera' in file './src/scripts/interaction.js':
+  return function( cube, camera, domElement, dragSpeed, multiDrag ){
+        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) {
+      return function( vector, camera ) {
+        camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+        viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+        projector.getIntersectionOnPlane( camera, x, y, plane, pointOnPlane );
+        if( intersected = projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
+
+### Usages of string 'camera' in file './src/scripts/main.js':
+
+### Usages of string 'camera' in file './src/scripts/projector.js':
+    function unprojectVector( vector, camera ) {
+      projectionMatrixInverse.getInverse( camera.projectionMatrix );
+      viewProjectionMatrix.multiplyMatrices( camera.matrixWorld, projectionMatrixInverse );
+    function setRay( camera, mouseX, mouseY ){
+      unprojectVector( mouse, camera );
+      unprojectVector( end, camera );
+     *  Given a three.js camera instance and a 2D mouse coordinates local to the domElement,
+      getIntersection: function( camera, mouseX, mouseY, optionalIntersectionTarget, optionalPlaneTarget ){
+        //  Shoot the camera ray into 3D
+        setRay( camera, mouseX, mouseY );
+      getIntersectionOnPlane: function( camera, mouseX, mouseY, plane, optionalTarget ){
+        //  Shoot the camera ray into 3D
+        setRay( camera, mouseX, mouseY );
+
+### Usages of string 'camera' in file './src/scripts/queues.js':
+
+### Usages of string 'camera' in file './src/scripts/renderer.js':
+  scene.add( cube.camera );
+      renderer.render( scene, cube.camera );
+
+### Usages of string 'camera' in file './src/scripts/slices.js':
+
+### Usages of string 'camera' in file './src/scripts/solvers.js':
+
+### Usages of string 'camera' in file './src/scripts/twists.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/String.js':
+
+### Usages of string 'camera' in file './src/scripts/utils/utils.js':
+

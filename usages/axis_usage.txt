@@ -1,0 +1,263 @@
+### Usages of string 'axis' in file './src/scripts/extras/controls/locked.js':
+    axis = new THREE.Vector3(),
+    axisDefined = false;
+    if( axisDefined ){
+      axis.copy( face.axis );
+      axis.transformDirection( initialRotation );
+      axis.transformDirection( inverse );
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+    axisDefined = false;
+  //  This function provides a way to 'snap' a vector to it's closest axis.
+  //  This is usefult to to determine a probable axis of rotation. It's fairly naive, but it works.
+        plane.normal.copy( faces[i].axis );
+    // If we have not previously defined an axis of rotation,
+    if( !axisDefined && direction.length() > 30 /*&& ( start.x !== current.x || start.y !== current.y )*/){
+      axisDefined = true;
+      axis.set( absDirection.y * -1, absDirection.x, 0 );
+      axis.normalize();
+      axis.x = Math.round( axis.x );
+      axis.y = Math.round( axis.y ) * ( 1.0 - Math.abs( axis.x ) );
+      axis.negate();
+      // If the axis is horizontal, then we could be rotating on one of two axes
+      if( axis.y === 0 ){
+        axis.copy( face.axis );
+        axis.transformDirection( initialRotation );
+        axis.transformDirection( inverse );
+        sign = -1 * ( Math.round( axis.x ) ||  Math.round( axis.y ) ||  Math.round( axis.z ));
+      // Find out the associated cube group to rotate based on the axis of rotation.
+      // but with a different axis of rotation.
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+    // If we have an axis to rotate on, then we can calculate how much to rotate by
+    if( axisDefined ){
+
+### Usages of string 'axis' in file './src/scripts/extras/deviceMotion.js':
+    var q1 = new THREE.Quaternion( - Math.sqrt( 0.5 ), 0, 0, Math.sqrt( 0.5 ) ); // - PI/2 around the x-axis
+
+### Usages of string 'axis' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'axis' in file './src/scripts/extras/renderers/iecss3d.js':
+    var faceLabel, axis = new THREE.Vector3();
+      faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+  var axisMap = [
+    'axisZ',
+    'axisY',
+    'axisX',
+    'axisY',
+    'axisX',
+    'axisZ'
+      faceElement.classList.add( axisMap[face.id] );
+    cubelet.front.object3D.element.classList.add( 'axisZ' );
+    cubelet.back.object3D.element.classList.add( 'axisZ' );
+    cubelet.right.object3D.element.classList.add( 'axisX' );
+    cubelet.left.object3D.element.classList.add( 'axisX' );
+    cubelet.up.object3D.element.classList.add( 'axisY' );
+    cubelet.down.object3D.element.classList.add( 'axisY' );
+    //  We need to know if we're "engaged" on an axis
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+
+### Usages of string 'axis' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/String.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'axis' in file './src/scripts/colors.js':
+
+### Usages of string 'axis' in file './src/scripts/controls.js':
+      var axis = new THREE.Vector3,
+         //  define an axis to rotate on, this is basically at a tangent to the direction
+        axis.set( direction.y, direction.x * -1, 0 ).normalize();
+        //  The axis of rotation needs to be in mode view space, otherwise the rotation
+        //  of the cube and the relative position of the camera and update our axis.
+        axis.transformDirection( modelViewInverse );
+        object.object3D.rotateOnAxis( axis, -length * api.rotationSpeed );
+
+### Usages of string 'axis' in file './src/scripts/cubelets.js':
+  //  We need to know if we're "engaged" on an axis
+
+### Usages of string 'axis' in file './src/scripts/cubes.js':
+  Rotatable around the Z axis:
+  Rotatable around the X axis:
+  Rotatable around the Y axis:
+  //  Slices that can rotate about the X-axis:
+  //  Slices that can rotate about the Y-axis:
+  //  These are Slices that can rotate about the Z-axis:
+    //  like the ability to rotate about an axis, therefore for all
+  //  we'll need to manually set an axis since once can't be automatically computed
+  this.slicesDictionary.x.axis.set( -1, 0, 0 );
+  this.slicesDictionary.y.axis.set( 0, -1, 0 );
+  this.slicesDictionary.z.axis.set( 0, 0, -1 );
+      slice.axis.rotation = 0;
+
+### Usages of string 'axis' in file './src/scripts/directions.js':
+
+### Usages of string 'axis' in file './src/scripts/extras/controls/locked.js':
+    axis = new THREE.Vector3(),
+    axisDefined = false;
+    if( axisDefined ){
+      axis.copy( face.axis );
+      axis.transformDirection( initialRotation );
+      axis.transformDirection( inverse );
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+    axisDefined = false;
+  //  This function provides a way to 'snap' a vector to it's closest axis.
+  //  This is usefult to to determine a probable axis of rotation. It's fairly naive, but it works.
+        plane.normal.copy( faces[i].axis );
+    // If we have not previously defined an axis of rotation,
+    if( !axisDefined && direction.length() > 30 /*&& ( start.x !== current.x || start.y !== current.y )*/){
+      axisDefined = true;
+      axis.set( absDirection.y * -1, absDirection.x, 0 );
+      axis.normalize();
+      axis.x = Math.round( axis.x );
+      axis.y = Math.round( axis.y ) * ( 1.0 - Math.abs( axis.x ) );
+      axis.negate();
+      // If the axis is horizontal, then we could be rotating on one of two axes
+      if( axis.y === 0 ){
+        axis.copy( face.axis );
+        axis.transformDirection( initialRotation );
+        axis.transformDirection( inverse );
+        sign = -1 * ( Math.round( axis.x ) ||  Math.round( axis.y ) ||  Math.round( axis.z ));
+      // Find out the associated cube group to rotate based on the axis of rotation.
+      // but with a different axis of rotation.
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+    // If we have an axis to rotate on, then we can calculate how much to rotate by
+    if( axisDefined ){
+
+### Usages of string 'axis' in file './src/scripts/extras/deviceMotion.js':
+    var q1 = new THREE.Quaternion( - Math.sqrt( 0.5 ), 0, 0, Math.sqrt( 0.5 ) ); // - PI/2 around the x-axis
+
+### Usages of string 'axis' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'axis' in file './src/scripts/extras/renderers/iecss3d.js':
+    var faceLabel, axis = new THREE.Vector3();
+      faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+  var axisMap = [
+    'axisZ',
+    'axisY',
+    'axisX',
+    'axisY',
+    'axisX',
+    'axisZ'
+      faceElement.classList.add( axisMap[face.id] );
+    cubelet.front.object3D.element.classList.add( 'axisZ' );
+    cubelet.back.object3D.element.classList.add( 'axisZ' );
+    cubelet.right.object3D.element.classList.add( 'axisX' );
+    cubelet.left.object3D.element.classList.add( 'axisX' );
+    cubelet.up.object3D.element.classList.add( 'axisY' );
+    cubelet.down.object3D.element.classList.add( 'axisY' );
+    //  We need to know if we're "engaged" on an axis
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+
+### Usages of string 'axis' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'axis' in file './src/scripts/folds.js':
+
+### Usages of string 'axis' in file './src/scripts/groups.js':
+  and therefore are not capable of rotation around any axis.
+  //  Engaged on the Z axis? Etc.
+
+### Usages of string 'axis' in file './src/scripts/interaction.js':
+      axisDefined = false,
+      axis  = new THREE.Vector3(),
+      //  A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
+      //  A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
+    //  This function provides a way to 'snap' a vector to it's closest axis.
+    //  This is used to find a probable axis of rotation when a user performs a drag
+          if( !axisDefined && direction.length() > 5 /*|| ( api.multiDrag && direction.length() < api.multiDragSnapArea ) */ ){
+          axisDefined = true;
+          //  and lock into an axis of rotation
+          axis.crossVectors( plane.normal, direction );
+          //  out the intended direction by snapping to the nearest axis.
+          snapVectorToBasis( axis );
+          //  From the axis aligned vector, we can isolate the correct slice
+          slice = possibleSlices[ Math.abs( axis.z * 3 + axis.y * 2 + axis.x ) - 1 ];
+          // Determine the cross vector, or the direction relative to the axis we're rotating
+          cross.crossVectors( slice.axis, plane.normal ).normalize();
+        if( axisDefined ){
+          //  By now, we already know what axis to rotate on,
+      if( api.enabled && ( x !== mouseY || y !== mouseY ) && axisDefined ){
+      axisDefined = false;
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
+
+### Usages of string 'axis' in file './src/scripts/main.js':
+
+### Usages of string 'axis' in file './src/scripts/projector.js':
+
+### Usages of string 'axis' in file './src/scripts/queues.js':
+
+### Usages of string 'axis' in file './src/scripts/renderer.js':
+  var faceLabel, axis = new THREE.Vector3();
+    faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+    var axisMap = [
+      'axisZ',
+      'axisY',
+      'axisX',
+      'axisY',
+      'axisX',
+      'axisZ'
+      face.element.classList.add( axisMap[ face.id ]);
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+      var axis = new THREE.Vector3(),
+          axis.copy( onlyAxis ).transformDirection( inv );
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+
+### Usages of string 'axis' in file './src/scripts/slices.js':
+  this.axis = new THREE.Vector3();
+  this.axis.rotation = 0;
+  //  This method does just that. Given a subset of cubelets, an axis to rotate on and
+      absAxis.sub( this.axis );
+      rotation.makeRotationAxis( this.axis, angle * -1 );
+        //  Then rotate it about our axis.
+        point.add( origin.multiply( this.axis ));
+      rotation.makeRotationAxis( this.axis, angle );
+    //   We also need to calculate what axis this slice rotates on.
+    //  For example, the Right Slice (R) would rotate on the axis pointing to the right represented by the axis ( 1, 0, 0 )
+    //  similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
+    if( this.axis === undefined || this.axis.lengthSq() === 0 ){
+      this.axis = new THREE.Vector3().crossVectors(
+      this.axis.rotation = 0;
+      this.invertedAxis.copy( this.axis ).negate();
+          this.showIntroverts( this.axis, true );
+           this.cube.showIntroverts( this.axis, true );
+    //  Define a delta rotation matrix from the axis and angle
+    this.matrix.makeRotationAxis( this.axis, radians );
+    this.axis.rotation = radians;
+    return this.axis.rotation;
+
+### Usages of string 'axis' in file './src/scripts/solvers.js':
+
+### Usages of string 'axis' in file './src/scripts/twists.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/String.js':
+
+### Usages of string 'axis' in file './src/scripts/utils/utils.js':
+

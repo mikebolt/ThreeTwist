@@ -1,0 +1,77 @@
+### Usages of string 'self' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'self' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'self' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'self' in file './src/scripts/extras/renderers/iecss3d.js':
+    // in most instances this is the renderer object itself.
+
+### Usages of string 'self' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'self' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'self' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'self' in file './src/scripts/utils/String.js':
+
+### Usages of string 'self' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'self' in file './src/scripts/colors.js':
+
+### Usages of string 'self' in file './src/scripts/controls.js':
+
+### Usages of string 'self' in file './src/scripts/cubelets.js':
+  //  During a rotation animation this Cubelet marks itself as
+
+### Usages of string 'self' in file './src/scripts/cubes.js':
+
+### Usages of string 'self' in file './src/scripts/directions.js':
+  Keep in mind that a direction cannot use itself or its opposite as the
+
+### Usages of string 'self' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'self' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'self' in file './src/scripts/extras/inspect.js':
+
+### Usages of string 'self' in file './src/scripts/extras/renderers/iecss3d.js':
+    // in most instances this is the renderer object itself.
+
+### Usages of string 'self' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'self' in file './src/scripts/folds.js':
+
+### Usages of string 'self' in file './src/scripts/groups.js':
+
+### Usages of string 'self' in file './src/scripts/interaction.js':
+
+### Usages of string 'self' in file './src/scripts/main.js':
+
+### Usages of string 'self' in file './src/scripts/projector.js':
+
+### Usages of string 'self' in file './src/scripts/queues.js':
+
+### Usages of string 'self' in file './src/scripts/renderer.js':
+  // in most instances this is the renderer object itself.
+
+### Usages of string 'self' in file './src/scripts/slices.js':
+  itself: equator, middle, and standing. When a Slice maps itself it
+  var self = this;
+
+### Usages of string 'self' in file './src/scripts/solvers.js':
+  you need to write yourself.
+  //  When you create your own Solver this is the only function you need to build yourself.
+//  figure out the next move for his/herself.
+
+### Usages of string 'self' in file './src/scripts/twists.js':
+    //  I mean... imagine call this constructor if it tried to call itself!
+
+### Usages of string 'self' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'self' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'self' in file './src/scripts/utils/String.js':
+
+### Usages of string 'self' in file './src/scripts/utils/utils.js':
+

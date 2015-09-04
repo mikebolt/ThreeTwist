@@ -1,0 +1,82 @@
+### Usages of string 'index' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'index' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'index' in file './src/scripts/extras/inspect.js':
+//  and does require some redundancy in terms of Cubelet indexes.
+
+### Usages of string 'index' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'index' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'index' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'index' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'index' in file './src/scripts/utils/String.js':
+    i = directions.indexOf( this.toUpperCase() );
+
+### Usages of string 'index' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'index' in file './src/scripts/colors.js':
+
+### Usages of string 'index' in file './src/scripts/controls.js':
+
+### Usages of string 'index' in file './src/scripts/cubelets.js':
+
+### Usages of string 'index' in file './src/scripts/cubes.js':
+  This will reveal each Face's Cubelet indexes and colors using the Face's
+  this.cubelets.forEach( function( cubelet, index ){
+        if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) {
+
+### Usages of string 'index' in file './src/scripts/directions.js':
+
+### Usages of string 'index' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'index' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'index' in file './src/scripts/extras/inspect.js':
+//  and does require some redundancy in terms of Cubelet indexes.
+
+### Usages of string 'index' in file './src/scripts/extras/renderers/iecss3d.js':
+
+### Usages of string 'index' in file './src/scripts/extras/renderers/ierenderer.js':
+
+### Usages of string 'index' in file './src/scripts/folds.js':
+
+### Usages of string 'index' in file './src/scripts/groups.js':
+  //  And index? address? Solver uses these a lot.
+
+### Usages of string 'index' in file './src/scripts/interaction.js':
+          //  to rotate, by determining the index from the possible slices.
+
+### Usages of string 'index' in file './src/scripts/main.js':
+
+### Usages of string 'index' in file './src/scripts/projector.js':
+          //  Translate the world coordinates to a 3D index of the intersected cubelets location.
+          //  Translate the 3D position to an array index
+
+### Usages of string 'index' in file './src/scripts/queues.js':
+
+### Usages of string 'index' in file './src/scripts/renderer.js':
+
+### Usages of string 'index' in file './src/scripts/slices.js':
+  this.getCubelet = function( index ){
+    return cube.cubelets[ indices[ index ]];
+        //  Use the X,Y,Z to get a 3D index
+        cubelet.faces.forEach( function( face, index ){
+          // and find the index of the new direction and add it to the new array
+
+### Usages of string 'index' in file './src/scripts/solvers.js':
+
+### Usages of string 'index' in file './src/scripts/twists.js':
+
+### Usages of string 'index' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'index' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'index' in file './src/scripts/utils/String.js':
+    i = directions.indexOf( this.toUpperCase() );
+
+### Usages of string 'index' in file './src/scripts/utils/utils.js':
+

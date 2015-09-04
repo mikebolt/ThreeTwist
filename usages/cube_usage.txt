@@ -1,0 +1,552 @@
+### Usages of string 'cube' in file './src/scripts/extras/controls/locked.js':
+ThreeTwist.Locked = function ( cube, camera, domElement ) {
+  cube.domElement.ondragstart = function(){ return false; };
+  var projector = new ThreeTwist.Projector( cube, domElement ),
+      // If the current coordinates are outside the cube,
+      // then this is a candidate for a full cube rotation.
+        if( cube.isTweening() === 0 ){
+      if     ( group === cube.slicesDictionary.x ) {
+      else if( group === cube.slicesDictionary.y ) {
+      else if( group === cube.slicesDictionary.z ) {
+      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
+      var face = getFace( [cube.front, cube.right, cube.up ],
+      inverse.getInverse( cube.matrixWorld );
+      cube.twist( command );
+      cube.object3D.updateMatrixWorld();
+      matrixInverse.getInverse( cube.matrixWorld );
+        plane.constant = cube.size * 0.5;
+        var face = getFace( [cube.front, cube.right ],
+        inverse.getInverse( cube.matrixWorld );
+      // Find out the associated cube group to rotate based on the axis of rotation.
+      // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
+        group = cube.slicesDictionary.z;
+        group = cube.slicesDictionary.y;
+        group = cube.slicesDictionary.x;
+      angle = -absDirection.dot( direction ) / cube.size ;
+      if( group === cube.slicesDictionary.z ) {
+
+### Usages of string 'cube' in file './src/scripts/extras/deviceMotion.js':
+function deviceMotion( cube, element ){
+    cube.autoRotate = false;
+      cube.autoRotateObj3D.rotation.y += ( target.y - cube.autoRotateObj3D.rotation.y ) * api.decay;
+      cube.autoRotateObj3D.rotation.x += ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
+
+### Usages of string 'cube' in file './src/scripts/extras/inspect.js':
+    color   = this.cube.color,
+  this.cubelets.forEach( function( cubelet ){
+    cubelet.inspect( face );
+  getColorName = function( cubelet ){
+    return cubelet[ side ].color.name.toUpperCase().justifyCenter( 9 );
+
+### Usages of string 'cube' in file './src/scripts/extras/renderers/iecss3d.js':
+  //  of the cube in a simple, straightforward way.
+  return function( cubelets, cube ){
+    cube.hideInvisibleFaces = true;
+    var renderer   = new ThreeTwist.IeCss3DRenderer( cube ),
+    // Add the cube 3D object to the scene
+    scene.add( cube.autoRotateObj3D );
+    scene.add( cube.camera );
+    cube.domElement = renderer.domElement;
+    cube.faces.forEach( function( face, i ){
+      faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
+      faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+      cube.object3D.add( faceLabel );
+    cube.right.label.rotation.y = Math.PI *  0.5;
+    cube.left.label.rotation.y   = Math.PI * -0.5;
+    cube.back.label.rotation.y   = Math.PI;
+    cube.up.label.rotation.x   = Math.PI * -0.5;
+    cube.down.label.rotation.x   = Math.PI *  0.5;
+    //  Each ThreeTwist.Cubelet is an abstract representation of a cubelet,
+    //   Here we take the abstract cubelet and create something you can see.
+    cubelets.forEach( ThreeTwist.renderers.IeCSS3DCubelet );
+      if( cube.domElement.parentNode ){
+        var parentWidth = cube.domElement.parentNode.clientWidth,
+          parentHeight = cube.domElement.parentNode.clientHeight;
+        if( cube.domElement.parentNode &&
+          ( cube.domElement.clientWidth  !== parentWidth ||
+          cube.domElement.clientHeight !== parentHeight )){
+            cube.setSize( parentWidth, parentHeight );
+        renderer.render( scene, cube.camera );
+  return function( cubelet ){
+    cubelet.add( cubelet.css3DObject = new THREE.Object3D() );
+    cubelet.faces.forEach( function( face ) {
+      cubelet.css3DObject.add( face.object3D );
+      faceElement.classList.add( 'cubeletId-' + cubelet.id );
+      underlineElement.innerText = cubelet.id;
+        if( cubelet.cube.hideInvisibleFaces ) {
+    cubelet.front.object3D.element.classList.add( 'axisZ' );
+    cubelet.back.object3D.element.classList.add( 'axisZ' );
+    cubelet.right.object3D.element.classList.add( 'axisX' );
+    cubelet.left.object3D.element.classList.add( 'axisX' );
+    cubelet.up.object3D.element.classList.add( 'axisY' );
+    cubelet.down.object3D.element.classList.add( 'axisY' );
+    var faceSpacing = cubelet.size / 2;
+    cubelet.front.object3D.position.z = faceSpacing;
+    cubelet.up.object3D.rotation.x     = Math.PI * -0.5;  cubelet.up.object3D.position.y     =  faceSpacing;
+    cubelet.down.object3D.rotation.x   = Math.PI *  0.5;  cubelet.down.object3D.position.y   = -faceSpacing;
+    cubelet.left.object3D.rotation.y   = Math.PI * -0.5;  cubelet.left.object3D.position.x   = -faceSpacing;
+    cubelet.right.object3D.rotation.y   = Math.PI *  0.5;  cubelet.right.object3D.position.x   =  faceSpacing;
+    cubelet.front.object3D.rotation.z   = 0;        cubelet.front.object3D.position.z   =  faceSpacing;
+    cubelet.back.object3D.rotation.y   = Math.PI;      cubelet.back.object3D.position.z   = -faceSpacing;
+    cubelet.isTweening = false;
+    cubelet.isEngagedX = false;
+    cubelet.isEngagedY = false;
+    cubelet.isEngagedZ = false;
+    cubelet.show();
+    cubelet.showIntroverts();
+    cubelet.showPlastics();
+    cubelet.showStickers();
+    cubelet.hideIds();
+    cubelet.hideTexts();
+    cubelet.hideWireframes();
+      return Array.prototype.slice.call( this.cube.domElement.querySelectorAll( '.cubeletId-'+ this.id + selectorString ));
+
+### Usages of string 'cube' in file './src/scripts/extras/renderers/ierenderer.js':
+ThreeTwist.IeCss3DRenderer = function ( cube ) {
+    var halfCubeletSize = cube.cubeletSize * 0.5;
+    cube.cubelets.forEach( function(cubelet){
+      cubelet.faces.forEach( function(face){
+    var aaa = cube.standing.northWest.front;
+    var bbb = cube.front.north.up;
+
+### Usages of string 'cube' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/String.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'cube' in file './src/scripts/colors.js':
+
+### Usages of string 'cube' in file './src/scripts/controls.js':
+        //  of the cube and the relative position of the camera and update our axis.
+        //  Then we can rotate the cube based on how far the drag occured
+
+### Usages of string 'cube' in file './src/scripts/cubelets.js':
+ThreeTwist.Cubelet = function( cube, id, colors ){
+  this.cube = cube;
+  this.size = cube.cubeletSize || 140;
+  // // Add the cublet to the cube object
+  this.cube.object3D.add( this );
+  // domElement.classList.add( 'cubelet' );
+  // domElement.classList.add( 'cubeletId-'+ this.id );
+    cubelet = this,
+      result = result && !!cubelet.hasColor( color );
+    //    cube.corners.setRadius( 90 )
+        .start( this.cube.time );
+
+### Usages of string 'cube' in file './src/scripts/cubes.js':
+  this.cubeletSize = this.size / 3;
+  //  To display our cube, we'll need some 3D specific attributes, like a camera
+  //  If we enable Auto-Rotate then the cube will spin (not twist!) in space
+  this.cubelets = [];
+  ].forEach( function( cubeletColorMap, cubeletId ){
+    this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
+  //  A Rubik's Cube is composed of 27 cubelets arranged 3 x 3 x 3.
+  //  We need a map that relates these 27 locations to the 27 cubelets
+  //  What colors are on the Front face of the cube? Etc.
+  this.cubelets.forEach( function( cubelet, index ){
+    if( cubelet.type === 'core'   ) {
+      this.core.add( cubelet );
+    if( cubelet.type === 'center' ) {
+      this.centers.add( cubelet );
+    if( cubelet.type === 'edge'   ) {
+      this.edges.add( cubelet );
+    if( cubelet.type === 'corner' ) {
+      this.corners.add( cubelet );
+    if( cubelet.type === 'center' || cubelet.type === 'edge') {
+      this.crosses.add( cubelet );
+  //  Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
+  // so the cube doesn't look broken. This happend every time a slice is rotated.
+  this.cubelets.forEach( function( cubelet, i ){
+    cubelet.setAddress( i );
+  this.renderer = renderFactory( this.cubelets, this );
+  this.domElement.classList.add( 'cube' );
+  this.domElement.style.fontSize = this.cubeletSize + 'px';
+  //  It's responsible for figuring out what cube slice is supposed to rotate
+  //  The Controls class rotates the entire cube around using an arcball implementation.
+  //   Define a default size for our cube, this will be resized to 100%
+  //  The cube needs to respond to user interaction and react accordingly.
+    //  We're shuffling the cube so we should clear any history
+      cubelet;
+      // Invalidate our cubelet tweens
+        cubelet = slice.getCubelet( l );
+        cubelet.isTweening = false;
+        cubelet.updateMatrix();
+        cubelet.matrixSlice.copy( cubelet.matrix );
+      //  If the rotation changes the cube then we should update the cubelet mapping
+  EVERYTHING:    'XxRrMmLlYyUuEeDdZzFfSsBb', //  Allow all slices, and also full cube X, Y, and Z rotations.
+  //  The cube does its own loopage.
+        //  and not a single cubelet is currently tweening
+              //  If the cube ought to be solving and a solver exists
+
+### Usages of string 'cube' in file './src/scripts/directions.js':
+  We have six Directions which we map in a spiral around a cube: front, up,
+
+### Usages of string 'cube' in file './src/scripts/extras/controls/locked.js':
+ThreeTwist.Locked = function ( cube, camera, domElement ) {
+  cube.domElement.ondragstart = function(){ return false; };
+  var projector = new ThreeTwist.Projector( cube, domElement ),
+      // If the current coordinates are outside the cube,
+      // then this is a candidate for a full cube rotation.
+        if( cube.isTweening() === 0 ){
+      if     ( group === cube.slicesDictionary.x ) {
+      else if( group === cube.slicesDictionary.y ) {
+      else if( group === cube.slicesDictionary.z ) {
+      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
+      var face = getFace( [cube.front, cube.right, cube.up ],
+      inverse.getInverse( cube.matrixWorld );
+      cube.twist( command );
+      cube.object3D.updateMatrixWorld();
+      matrixInverse.getInverse( cube.matrixWorld );
+        plane.constant = cube.size * 0.5;
+        var face = getFace( [cube.front, cube.right ],
+        inverse.getInverse( cube.matrixWorld );
+      // Find out the associated cube group to rotate based on the axis of rotation.
+      // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
+        group = cube.slicesDictionary.z;
+        group = cube.slicesDictionary.y;
+        group = cube.slicesDictionary.x;
+      angle = -absDirection.dot( direction ) / cube.size ;
+      if( group === cube.slicesDictionary.z ) {
+
+### Usages of string 'cube' in file './src/scripts/extras/deviceMotion.js':
+function deviceMotion( cube, element ){
+    cube.autoRotate = false;
+      cube.autoRotateObj3D.rotation.y += ( target.y - cube.autoRotateObj3D.rotation.y ) * api.decay;
+      cube.autoRotateObj3D.rotation.x += ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
+
+### Usages of string 'cube' in file './src/scripts/extras/inspect.js':
+    color   = this.cube.color,
+  this.cubelets.forEach( function( cubelet ){
+    cubelet.inspect( face );
+  getColorName = function( cubelet ){
+    return cubelet[ side ].color.name.toUpperCase().justifyCenter( 9 );
+
+### Usages of string 'cube' in file './src/scripts/extras/renderers/iecss3d.js':
+  //  of the cube in a simple, straightforward way.
+  return function( cubelets, cube ){
+    cube.hideInvisibleFaces = true;
+    var renderer   = new ThreeTwist.IeCss3DRenderer( cube ),
+    // Add the cube 3D object to the scene
+    scene.add( cube.autoRotateObj3D );
+    scene.add( cube.camera );
+    cube.domElement = renderer.domElement;
+    cube.faces.forEach( function( face, i ){
+      faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
+      faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+      cube.object3D.add( faceLabel );
+    cube.right.label.rotation.y = Math.PI *  0.5;
+    cube.left.label.rotation.y   = Math.PI * -0.5;
+    cube.back.label.rotation.y   = Math.PI;
+    cube.up.label.rotation.x   = Math.PI * -0.5;
+    cube.down.label.rotation.x   = Math.PI *  0.5;
+    //  Each ThreeTwist.Cubelet is an abstract representation of a cubelet,
+    //   Here we take the abstract cubelet and create something you can see.
+    cubelets.forEach( ThreeTwist.renderers.IeCSS3DCubelet );
+      if( cube.domElement.parentNode ){
+        var parentWidth = cube.domElement.parentNode.clientWidth,
+          parentHeight = cube.domElement.parentNode.clientHeight;
+        if( cube.domElement.parentNode &&
+          ( cube.domElement.clientWidth  !== parentWidth ||
+          cube.domElement.clientHeight !== parentHeight )){
+            cube.setSize( parentWidth, parentHeight );
+        renderer.render( scene, cube.camera );
+  return function( cubelet ){
+    cubelet.add( cubelet.css3DObject = new THREE.Object3D() );
+    cubelet.faces.forEach( function( face ) {
+      cubelet.css3DObject.add( face.object3D );
+      faceElement.classList.add( 'cubeletId-' + cubelet.id );
+      underlineElement.innerText = cubelet.id;
+        if( cubelet.cube.hideInvisibleFaces ) {
+    cubelet.front.object3D.element.classList.add( 'axisZ' );
+    cubelet.back.object3D.element.classList.add( 'axisZ' );
+    cubelet.right.object3D.element.classList.add( 'axisX' );
+    cubelet.left.object3D.element.classList.add( 'axisX' );
+    cubelet.up.object3D.element.classList.add( 'axisY' );
+    cubelet.down.object3D.element.classList.add( 'axisY' );
+    var faceSpacing = cubelet.size / 2;
+    cubelet.front.object3D.position.z = faceSpacing;
+    cubelet.up.object3D.rotation.x     = Math.PI * -0.5;  cubelet.up.object3D.position.y     =  faceSpacing;
+    cubelet.down.object3D.rotation.x   = Math.PI *  0.5;  cubelet.down.object3D.position.y   = -faceSpacing;
+    cubelet.left.object3D.rotation.y   = Math.PI * -0.5;  cubelet.left.object3D.position.x   = -faceSpacing;
+    cubelet.right.object3D.rotation.y   = Math.PI *  0.5;  cubelet.right.object3D.position.x   =  faceSpacing;
+    cubelet.front.object3D.rotation.z   = 0;        cubelet.front.object3D.position.z   =  faceSpacing;
+    cubelet.back.object3D.rotation.y   = Math.PI;      cubelet.back.object3D.position.z   = -faceSpacing;
+    cubelet.isTweening = false;
+    cubelet.isEngagedX = false;
+    cubelet.isEngagedY = false;
+    cubelet.isEngagedZ = false;
+    cubelet.show();
+    cubelet.showIntroverts();
+    cubelet.showPlastics();
+    cubelet.showStickers();
+    cubelet.hideIds();
+    cubelet.hideTexts();
+    cubelet.hideWireframes();
+      return Array.prototype.slice.call( this.cube.domElement.querySelectorAll( '.cubeletId-'+ this.id + selectorString ));
+
+### Usages of string 'cube' in file './src/scripts/extras/renderers/ierenderer.js':
+ThreeTwist.IeCss3DRenderer = function ( cube ) {
+    var halfCubeletSize = cube.cubeletSize * 0.5;
+    cube.cubelets.forEach( function(cubelet){
+      cubelet.faces.forEach( function(face){
+    var aaa = cube.standing.northWest.front;
+    var bbb = cube.front.north.up;
+
+### Usages of string 'cube' in file './src/scripts/folds.js':
+
+### Usages of string 'cube' in file './src/scripts/groups.js':
+  this.cubelets = [];
+    cubeletsToAdd = Array.prototype.slice.call( arguments ),
+    cubeletsToAdd.forEach( function( cubelet ){
+      if( cubelet instanceof ThreeTwist.Group ) {
+        cubelet = cubelet.cubelets;
+      if( cubelet instanceof Array ) {
+        that.add.apply( that, cubelet );
+        that.cubelets.push( cubelet );
+  remove: function( cubeletToRemove ){
+    if( cubeletToRemove instanceof ThreeTwist.Group ) {
+      cubeletToRemove = cubeletToRemove.cubelets;
+    if( cubeletToRemove instanceof Array ){
+      cubeletToRemove.forEach( function( c ){
+    var i = this.cubelets.length;
+      if( this.cubelets[ i ] === cubeletToRemove ) {
+        this.cubelets.splice( i, 1 );
+    this.cubelets.forEach( function( cubelet ){
+      count += cubelet[ property ] ? 1 : 0;
+    this.cubelets.forEach( function( cubelet ){
+      if( cubelet[ property ] === value ) {
+        results.add( cubelet );
+    this.cubelets.forEach( function( cubelet ){
+      if( cubelet.hasColor( color )) {
+        results.add( cubelet );
+    this.cubelets.forEach( function( cubelet ){
+      if( cubelet.hasColors.apply( cubelet, colors )) {
+        results.add( cubelet );
+  //  cube.slices.front.isSolved( 'front' )
+  //  cube.slices.front.up.isSolved( 'up' )
+      this.cubelets.forEach( function( cubelet ){
+        var color = cubelet[ face ].color.name;
+    this.cubelets.forEach( function( cubelet ){ cubelet.show(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hide(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIds(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts(); });
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts(); });
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity(); });
+    return avg / this.cubelets.length;
+    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ); });
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius(); });
+    return avg / this.cubelets.length;
+    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ); });
+
+### Usages of string 'cube' in file './src/scripts/interaction.js':
+  This module handles all the user interactions with the cube.
+  return function( cube, camera, domElement, dragSpeed, multiDrag ){
+    var projector = new ThreeTwist.Projector( cube, domElement );
+      cubelet, possibleSlices,
+          cubelet: projector.getCubeletAtIntersection( intersection3D ),
+          angle = dot / cube.size * api.dragSpeed;
+        //  Here we find out if the mouse is hovering over the cube,
+        //  the intersection occured. `plane` is also configured to represent the face of the cube
+        //  ( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
+          //  If a interaction happens within the cube we should prevent the event bubbling.
+          if( cube.isTweening() === 0 ){
+            //  Now we know the point of intersection, we can figure out what the associated cubelet is ...
+            cubelet = projector.getCubeletAtIntersection( intersection );
+            possibleSlices   = [ cube.slices[ cubelet.addressX + 1 ], cube.slices[ cubelet.addressY + 4 ], cube.slices[ cubelet.addressZ + 7 ]];
+        //   If this is a partial rotation that results in the same configuration of cubelets
+        cube.twist( new ThreeTwist.Twist( command, targetAngle.radiansToDegrees() ));
+
+### Usages of string 'cube' in file './src/scripts/main.js':
+Cuber is a programmable Rubiks cube of sorts.
+X   Rotate entire cube according to Right Face's orientation
+Y   Rotate entire cube according to Up Face's orientation
+Z   Rotate entire cube according to Front Face's orientation
+http://en.wikibooks.org/wiki/Template:Rubik's_cube_notation
+
+### Usages of string 'cube' in file './src/scripts/projector.js':
+  return function( cube, domElement ){
+    box.min.set( -cube.size*0.5, -cube.size*0.5, -cube.size*0.5 );
+    box.max.set(  cube.size*0.5,  cube.size*0.5,  cube.size*0.5 );
+    sphere.radius = unitCubeBoundingRadius * cube.size * 0.5;
+     *  Returns a THREE.Ray instance in cube space!
+      inverseMatrix.getInverse( cube.matrixWorld );
+     *  Given an intersection point on the surface of the cube,
+          .multiplyScalar( 2 / cube.size )
+     *   this method tests for any intersection against the cube
+     *  and returns a cubelet if one is found, otherwise it returns null indicating no intersection.
+          //  Translate the world coordinates to a 3D index of the intersected cubelets location.
+            .multiplyScalar( 3 / cube.size )
+          return cube.cubelets[ tmp.z * 9 + tmp.y * 3 + tmp.x ];
+
+### Usages of string 'cube' in file './src/scripts/queues.js':
+  cube.twistQueue, cube.taskQueue, etc.
+
+### Usages of string 'cube' in file './src/scripts/renderer.js':
+//  of the cube in a simple, straightforward way.
+ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
+  // Add the cube 3D object to the scene
+  scene.add( cube.autoRotateObj3D );
+  scene.add( cube.camera );
+  cube.faces.forEach( function( face, i ){
+    faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
+    faceLabel.position.copy( face.axis ).multiplyScalar( cube.size );
+    cube.object3D.add( faceLabel );
+  cube.right.label.rotation.y = Math.PI *  0.5;
+  cube.left.label.rotation.y   = Math.PI * -0.5;
+  cube.back.label.rotation.y   = Math.PI;
+  cube.up.label.rotation.x   = Math.PI * -0.5;
+  cube.down.label.rotation.x   = Math.PI *  0.5;
+  cube.showFaceLabels = function(){
+  cube.hideFaceLabels = function(){
+  //  Each ThreeTwist.Cubelet is an abstract representation of a cubelet,
+  //   Here we take the abstract cubelet and create something you can see.
+  cubelets.forEach( ThreeTwist.renderers.CSS3DCubelet );
+    if( cube.domElement.parentNode ){
+      var parentWidth = cube.domElement.parentNode.clientWidth,
+        parentHeight = cube.domElement.parentNode.clientHeight;
+      if( cube.domElement.parentNode &&
+        ( cube.domElement.clientWidth  !== parentWidth ||
+        cube.domElement.clientHeight !== parentHeight )){
+          cube.setSize( parentWidth, parentHeight );
+      renderer.render( scene, cube.camera );
+  return function( cubelet ){
+    domElement.classList.add( 'cubelet' );
+    domElement.classList.add( 'cubeletId-'+ cubelet.id );
+    cubelet.css3DObject = new THREE.CSS3DObject( domElement );
+    cubelet.css3DObject.name = 'css3DObject-' + cubelet.id;
+    cubelet.add( cubelet.css3DObject );
+    var faceSpacing = cubelet.size / 2;
+    cubelet.faces.forEach( function( face ) {
+      cubelet.css3DObject.element.appendChild( face.element );
+      underlineElement.innerText = cubelet.id;
+        if( cubelet.isStickerCubelet ){
+    cubelet.show();
+    cubelet.showIntroverts();
+    cubelet.showPlastics();
+    cubelet.showStickers();
+    cubelet.hideIds();
+    cubelet.hideTexts();
+    cubelet.hideWireframes();
+
+### Usages of string 'cube' in file './src/scripts/slices.js':
+  The cubelets[] Array is mapped to names for convenience:
+    cube.front.face === 'front'
+ThreeTwist.Slice = function( indices, cube ){
+  this.cube = cube;
+    return cube.cubelets[ indices[ index ]];
+  //   cubelets
+  //  Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
+  //  This method does just that. Given a subset of cubelets, an axis to rotate on and
+  //  an angle, it will shift the location of all cubelets that need changing.
+      // We can only remap the cube if it's in whole rotation,
+      var cubletsCopy = cube.cubelets.slice();
+          cubelet;
+        // For every cubelet ...
+        cubelet = cube.cubelets[ indices[ i ]];
+        point.set( cubelet.addressX, cubelet.addressY, cubelet.addressZ );
+        cube.cubelets[cubelet.address] = cubletsCopy[address];
+      for( i = 0; i < cube.cubelets.length; i ++ ){
+        cube.cubelets[ i ].setAddress( i );
+      //   Remapping the location of the cubelets is all well and good,
+      //  but we also need to reorientate each cubelets face so cubelet.front
+      // For each cubelet..
+      this.cubelets.forEach( function( cubelet ){
+        cubelet.faces.forEach( function( face, index ){
+        cubelet.faces  = faceArray.slice();
+        cubelet.front  = cubelet.faces[ 0 ];
+        cubelet.up     = cubelet.faces[ 1 ];
+        cubelet.right  = cubelet.faces[ 2 ];
+        cubelet.down   = cubelet.faces[ 3 ];
+        cubelet.left   = cubelet.faces[ 4 ];
+        cubelet.back   = cubelet.faces[ 5 ];
+  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]];},
+  get north(){   return this.cube.cubelets[ this.indices[ 1 ]];},
+  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]];},
+  get east(){    return this.cube.cubelets[ this.indices[ 5 ]];},
+  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]];},
+  get south(){  return this.cube.cubelets[ this.indices[ 7 ]];},
+  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
+  get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
+  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
+  get cubelets(){
+  map: function( indices, cubelets ){
+    // this.cubelets = cubelets;
+    //  cube notation for the X and Y axes.
+    if( hasCenter && hasCenter.cubelets.length === 1 ){
+      this.center  = this.hasType( 'center' );//.cubelets[ 0 ]
+  //  Using the rotation we can physically rotate all our cubelets.
+    if( this.ableToHideInternalFaces && this.cube.isFlagged( 'showingIntroverts' ) !== 0 && this.cube.hideInvisibleFaces ){
+           this.cube.showIntroverts( this.axis, true );
+           this.cube.showIntroverts( this.invertedAxis, true );
+           this.cube.hideIntroverts( null, true );
+    //  Iterate over the cubelets and update their relative matrices
+      cubelet,
+      cubelet = this.getCubelet( l );
+      cubelet.matrix.multiplyMatrices( this.matrix, cubelet.matrixSlice );
+      cubelet.position.setFromMatrixPosition( cubelet.matrix );
+      cubelet.scale.setFromMatrixScale( cubelet.matrix );
+      m1.extractRotation( cubelet.matrix );
+      cubelet.quaternion.setFromRotationMatrix( m1 );
+  getLocation: function( cubelet ){
+    if( cubelet === this.origin    ) {
+    if( cubelet === this.north     ) {
+    if( cubelet === this.northEast ) {
+    if( cubelet === this.east      ) {
+    if( cubelet === this.southEast ) {
+    if( cubelet === this.south     ) {
+    if( cubelet === this.southWest ) {
+    if( cubelet === this.west      ) {
+    if( cubelet === this.northWest ) {
+  //  cube.slices.front.isSolved( 'front' )
+  //  cube.slices.front.up.isSolved( 'up' )
+        cubelet, color,
+        cubelet = this.getCubelet( l );
+        color = cubelet[ face ].color.name;
+
+### Usages of string 'cube' in file './src/scripts/solvers.js':
+  window.solver.consider( cube ). This means when you create your own
+  Your logic() should return false is the cube is solved or if something's
+  this.logic = function( cube ){ return false; };
+ThreeTwist.Solver.prototype.consider = function( cube ){
+  if( cube === undefined ){
+    console.warn( 'A cube [Cube] argument must be specified for Solver.consider().' );
+  else if( cube instanceof ThreeTwist.Cube === false ){
+    console.warn( 'The cube argument provided is not a valid Cube.' );
+  cube.isShuffling = false;
+  //  If the cube is already solved then our job is done before it started.
+  if( cube.isSolved() ){
+    ThreeTwist.Solver.prototype.explain( 'I’ve found that the cube is already solved.' );
+    return this.logic( cube );
+
+### Usages of string 'cube' in file './src/scripts/twists.js':
+      //  cube.twist( new ThreeTwist.Twist( 'U' ))
+      //  cube.twist( new ThreeTwist.Twist( 'U', -17 ))
+        //  cube.twist( 'U' )
+        //  cube.twist( 'U', 45 )
+        //  cube.twist( 'UdrLf' )
+        //  cube.twist( 'Udr10Lf-30b' )
+      //  cube.twist( ThreeTwist.Direction.FRONT )
+      //  cube.twist([ ? ])
+
+### Usages of string 'cube' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/String.js':
+
+### Usages of string 'cube' in file './src/scripts/utils/utils.js':
+

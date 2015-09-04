@@ -1,0 +1,308 @@
+### Usages of string 'style' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'style' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'style' in file './src/scripts/extras/inspect.js':
+      this.front.color.styleB, '',
+      this.up.color.styleB,    '',
+      this.right.color.styleB, '',
+      this.down.color.styleB,  '',
+      this.left.color.styleB,  '',
+      this.back.color.styleB,  '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.front.color.styleF, '',
+      this.right.color.styleF, '',
+      this.front.color.styleF, '',
+      this.front.color.styleF, '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  ''
+      this.northWest[ side ].color.styleB, '',
+      this.north[     side ].color.styleB, '',
+      this.northEast[ side ].color.styleB, '',
+      this.west[      side ].color.styleB, '',
+      this.origin[    side ].color.styleB, '',
+      this.east[      side ].color.styleB, '',
+      this.southWest[ side ].color.styleB, '',
+      this.south[     side ].color.styleB, '',
+      this.southEast[ side ].color.styleB, ''
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, ''
+
+### Usages of string 'style' in file './src/scripts/extras/renderers/iecss3d.js':
+    //  things like setOpacity, and showStickers directly affects css styles.
+          faceElement.style.display = 'none';
+    item.style.display = 'block';
+    item.style.display = 'none';
+            element.style.opacity =  that.opacity;
+      return parseFloat( stickerElements[0].style.opacity );
+        sticker.style.opacity = valueStr;
+
+### Usages of string 'style' in file './src/scripts/extras/renderers/ierenderer.js':
+  this.element.style.position = 'absolute';
+  domElement.style.overflow = 'hidden';
+    domElement.style.width = width + 'px';
+    domElement.style.height = height + 'px';;
+    cameraElement.style.width = width + 'px';
+    cameraElement.style.height = height + 'px';
+       style;
+    style =  getObjectCSSTransform( matrixWorld  );
+    element.style.WebkitTransform = style;
+    element.style.MozTransform = style;
+    element.style.oTransform = style;
+    element.style.transform = style;
+    element.style.WebkitPerspective = fov + "px";
+    element.style.MozPerspective = fov + "px";
+    element.style.oPerspective = fov + "px";
+    element.style.perspective = fov + "px";
+    domElement.style.WebkitPerspective = fov + "px";
+    domElement.style.MozPerspective = fov + "px";
+    domElement.style.oPerspective = fov + "px";
+    domElement.style.perspective = fov + "px";
+      renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
+        renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+
+### Usages of string 'style' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'style' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'style' in file './src/scripts/utils/String.js':
+
+### Usages of string 'style' in file './src/scripts/utils/utils.js':
+
+### Usages of string 'style' in file './src/scripts/colors.js':
+ThreeTwist.Color = function( name, initial, hex, styleF, styleB ){
+  this.styleF  = styleF;
+  this.styleB  = styleB;
+
+### Usages of string 'style' in file './src/scripts/controls.js':
+
+### Usages of string 'style' in file './src/scripts/cubelets.js':
+  //  grab the style.getBoundingClientRect() value because
+  // this.front.element.style.transform =  "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+  // this.up.element.style.transform =     "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+  // this.right.element.style.transform =   "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+  // this.down.element.style.transform =   "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
+  // this.left.element.style.transform =   "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
+  // this.back.element.style.transform =   "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
+  // this.front.element.style.OTransform = this.front.element.style.MozTransform =   this.front.element.style.WebkitTransform   = this.front.element.style.transform;
+  // this.up.element.style.OTransform   = this.up.element.style.MozTransform =     this.up.element.style.WebkitTransform     = this.up.element.style.transform;
+  // this.right.element.style.OTransform = this.right.element.style.MozTransform =  this.right.element.style.WebkitTransform   = this.right.element.style.transform;
+  // this.down.element.style.OTransform   = this.down.element.style.MozTransform =   this.down.element.style.WebkitTransform   = this.down.element.style.transform;
+  // this.left.element.style.OTransform   = this.left.element.style.MozTransform =   this.left.element.style.WebkitTransform   = this.left.element.style.transform;
+  // this.back.element.style.OTransform   = this.back.element.style.MozTransform =   this.back.element.style.WebkitTransform   = this.back.element.style.transform;
+
+### Usages of string 'style' in file './src/scripts/cubes.js':
+  this.domElement.style.fontSize = this.cubeletSize + 'px';
+  //  You could override this with a different style of control
+
+### Usages of string 'style' in file './src/scripts/directions.js':
+
+### Usages of string 'style' in file './src/scripts/extras/controls/locked.js':
+
+### Usages of string 'style' in file './src/scripts/extras/deviceMotion.js':
+
+### Usages of string 'style' in file './src/scripts/extras/inspect.js':
+      this.front.color.styleB, '',
+      this.up.color.styleB,    '',
+      this.right.color.styleB, '',
+      this.down.color.styleB,  '',
+      this.left.color.styleB,  '',
+      this.back.color.styleB,  '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.back.color.styleF,  '',
+      this.up.color.styleF,    '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.right.color.styleF, '',
+      this.left.color.styleF,  '',
+      this.front.color.styleF, '',
+      this.right.color.styleF, '',
+      this.front.color.styleF, '',
+      this.front.color.styleF, '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  '',
+      this.down.color.styleF,  ''
+      this.northWest[ side ].color.styleB, '',
+      this.north[     side ].color.styleB, '',
+      this.northEast[ side ].color.styleB, '',
+      this.west[      side ].color.styleB, '',
+      this.origin[    side ].color.styleB, '',
+      this.east[      side ].color.styleB, '',
+      this.southWest[ side ].color.styleB, '',
+      this.south[     side ].color.styleB, '',
+      this.southEast[ side ].color.styleB, ''
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.northWest[ side ].color.styleB, '',
+        this.north[     side ].color.styleB, '',
+        this.northEast[ side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.west[      side ].color.styleB, '',
+        this.origin[    side ].color.styleB, '',
+        this.east[      side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, '',
+        this.southWest[ side ].color.styleB, '',
+        this.south[     side ].color.styleB, '',
+        this.southEast[ side ].color.styleB, ''
+
+### Usages of string 'style' in file './src/scripts/extras/renderers/iecss3d.js':
+    //  things like setOpacity, and showStickers directly affects css styles.
+          faceElement.style.display = 'none';
+    item.style.display = 'block';
+    item.style.display = 'none';
+            element.style.opacity =  that.opacity;
+      return parseFloat( stickerElements[0].style.opacity );
+        sticker.style.opacity = valueStr;
+
+### Usages of string 'style' in file './src/scripts/extras/renderers/ierenderer.js':
+  this.element.style.position = 'absolute';
+  domElement.style.overflow = 'hidden';
+    domElement.style.width = width + 'px';
+    domElement.style.height = height + 'px';;
+    cameraElement.style.width = width + 'px';
+    cameraElement.style.height = height + 'px';
+       style;
+    style =  getObjectCSSTransform( matrixWorld  );
+    element.style.WebkitTransform = style;
+    element.style.MozTransform = style;
+    element.style.oTransform = style;
+    element.style.transform = style;
+    element.style.WebkitPerspective = fov + "px";
+    element.style.MozPerspective = fov + "px";
+    element.style.oPerspective = fov + "px";
+    element.style.perspective = fov + "px";
+    domElement.style.WebkitPerspective = fov + "px";
+    domElement.style.MozPerspective = fov + "px";
+    domElement.style.oPerspective = fov + "px";
+    domElement.style.perspective = fov + "px";
+      renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
+        renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+
+### Usages of string 'style' in file './src/scripts/folds.js':
+
+### Usages of string 'style' in file './src/scripts/groups.js':
+
+### Usages of string 'style' in file './src/scripts/interaction.js':
+
+### Usages of string 'style' in file './src/scripts/main.js':
+
+### Usages of string 'style' in file './src/scripts/projector.js':
+
+### Usages of string 'style' in file './src/scripts/queues.js':
+
+### Usages of string 'style' in file './src/scripts/renderer.js':
+    item.style.display = 'block';
+    item.style.display = 'none';
+  //  things like setOpacity, and showStickers directly affects css styles.
+        style = face.element.style;
+      style.OTransform = style.MozTransform = style.WebkitTransform = style.transform = cssTransform;
+    item.style.display = 'block';
+    item.style.display = 'none';
+          that.css3DObject.element.style.opacity =  this.opacity;
+      return parseFloat( this.getFaceElements( ' .sticker' )[0].style.opacity );
+        sticker.style.opacity = valueStr.toString();
+
+### Usages of string 'style' in file './src/scripts/slices.js':
+
+### Usages of string 'style' in file './src/scripts/solvers.js':
+
+### Usages of string 'style' in file './src/scripts/twists.js':
+
+### Usages of string 'style' in file './src/scripts/utils/Array.js':
+
+### Usages of string 'style' in file './src/scripts/utils/Number.js':
+
+### Usages of string 'style' in file './src/scripts/utils/String.js':
+
+### Usages of string 'style' in file './src/scripts/utils/utils.js':
+
