@@ -80,7 +80,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     _heightHalf = _height / 2;
 
     domElement.style.width = width + 'px';
-    domElement.style.height = height + 'px';;
+    domElement.style.height = height + 'px';
 
 
     cameraElement.style.width = width + 'px';
@@ -412,7 +412,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     });
 
 
-    var p = renderList.length, q, tmp, l = renderList.length;
+    var p, q, tmp, l = renderList.length;
     for ( p = 0 ; p < l; p ++ ) {
 
       q = p;
@@ -443,22 +443,21 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
             tmp = Q.userData.zIndex;
             Q.userData.zIndex = Math.min( Q.userData.zIndex , P.userData.zIndex );
-            P.userData.zIndex = Math.max( P.userData.zIndex, tmp  );
+            P.userData.zIndex = Math.max( P.userData.zIndex, tmp );
           }
         }
 
       }
     }
-
-
-
+    
 
     var cam = new THREE.Vector3( 0, 0, -1 ),
       normal = new THREE.Vector3( 0, 0, -1 ),
-      facing = false;
+      facing = false,
       objWorldPosition = new THREE.Vector3();
 
-    for ( var i = 0, l = renderList.length; i < l; i ++ ) {
+    l = renderList.length;
+    for (var i = 0; i < l; i ++ ) {
 
       renderObject( renderList[ i ], camera );
 
@@ -472,11 +471,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
         renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
       }
 
-
     }
 
     firstRender = false;
-
 
   };
 };
