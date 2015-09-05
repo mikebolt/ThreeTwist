@@ -22,9 +22,8 @@ ThreeTwist.Controls = (function(){
   return function ( object, camera, domElement ) {
 
     var state      = STATE.NONE,
-      direction     = new THREE.Vector2,
+      direction     = new THREE.Vector2(),
       mouse      = new THREE.Vector2(),
-      mouseEnd   = new THREE.Vector2(),
       lastPosition = new THREE.Vector2(),
       projector = new ThreeTwist.Projector( object, domElement ),
       api = {
@@ -37,8 +36,7 @@ ThreeTwist.Controls = (function(){
 
     var getMouseProjectionOnBall = function( x, y, vector ){
 
-      var view = getBoundingClientRect( api.domElement ),
-        aspect = view.height / view.width;
+      var view = getBoundingClientRect( api.domElement );
 
       var dpr = window.devicePixelRatio || 1;
       x *= dpr;
@@ -53,7 +51,7 @@ ThreeTwist.Controls = (function(){
 
     api.update = function(){
 
-      var axis = new THREE.Vector3,
+      var axis = new THREE.Vector3(),
         length = 0.0,
         modelViewInverse = new THREE.Matrix4();
 
@@ -161,7 +159,7 @@ ThreeTwist.Controls = (function(){
 
     }
 
-    function mouseup( event ) {
+    function mouseup() {
 
       document.removeEventListener( 'mousemove', mousemove );
       document.removeEventListener( 'mouseup', mouseup );
@@ -209,7 +207,7 @@ ThreeTwist.Controls = (function(){
 
     }
 
-    function touchend( event ) {
+    function touchend() {
 
       document.removeEventListener( 'touchend', touchend );
       document.removeEventListener( 'touchmove', touchmove );
