@@ -99,26 +99,52 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   var getObjectCSSTransform = function(){
 
 
-     var position = new THREE.Vector3(),
-       scale    = new THREE.Vector3(),
-       euler    = new THREE.Euler(),
-       quaternion = new THREE.Quaternion();
+    var position = new THREE.Vector3(),
+      scale    = new THREE.Vector3(),
+      euler    = new THREE.Euler(),
+      quaternion = new THREE.Quaternion();
 
 
-     euler._quaternion = quaternion;
-     quaternion._euler = euler;
+    euler._quaternion = quaternion;
+    quaternion._euler = euler;
 
-     return function ( matrix ) {
+    return function ( matrix ) {
 
       matrix.decompose( position, quaternion, scale );
 
-       return 'translate3d(-50%,-50%,0) translate3d(' + epsilon( position.x ) + 'px, ' + epsilon( position.y ) + 'px, ' + epsilon( position.z ) + 'px) '
-           + 'rotateX(' + epsilon( euler.x ) + 'rad) rotateY(' + epsilon( euler.y ) + 'rad) rotateZ(' + epsilon( euler.z ) + 'rad) '
-           + 'scale3d(' + epsilon( scale.x ) + ', ' + epsilon( scale.y ) + ', ' + epsilon( scale.z ) + ')';
+      var result;
 
-     };
+      // Add the translation
+      result = 'translate3d(-50%,-50%,0) translate3d(';
+      result += epsilon( position.x );
+      result += 'px, ';
+      result += epsilon( position.y );
+      result += 'px, ';
+      result += epsilon( position.z );
+      result += 'px) ';
+      
+      // Add the rotation
+      result += 'rotateX(';
+      result += epsilon( euler.x );
+      result += 'rad) rotateY(';
+      result += epsilon( euler.y );
+      result += 'rad) rotateZ(';
+      result += epsilon( euler.z );
+      result += 'rad) ';
+        
+      // Add the scaling
+      result += 'scale3d(';
+      result += epsilon( scale.x );
+      result += ', ';
+      result += epsilon( scale.y );
+      result += ', ';
+      result += epsilon( scale.z );
+      result += ')';
 
-   }();
+      return result;
+    };
+
+  }();
 
 
   var cameraMatrix = new THREE.Matrix4();
