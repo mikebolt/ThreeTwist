@@ -91,7 +91,7 @@ var ThreeTwist = {};
     var evt = document.createEvent( 'CustomEvent' );
     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
     return evt;
-  };
+  }
 
   CustomEvent.prototype = window.Event.prototype;
 
@@ -110,9 +110,7 @@ var ThreeTwist = {};
         fToBind = this,
         fNOP = function () {},
         fBound = function () {
-          return fToBind.apply(this instanceof fNOP && oThis
-            ? this
-            : oThis,
+          return fToBind.apply(this instanceof fNOP && oThis ? this : oThis,
             aArgs.concat(Array.prototype.slice.call(arguments)));
         };
 
@@ -130,6 +128,8 @@ var ThreeTwist = {};
 // based on https://github.com/documentcloud/underscore/blob/bf657be243a075b5e72acc8a83e6f12a564d8f55/underscore.js#L767
 ThreeTwist.extend = function ( obj, source ) {
 
+  var prop;
+
   // ECMAScript5 compatibility based on: http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
   if ( Object.keys ) {
 
@@ -137,7 +137,7 @@ ThreeTwist.extend = function ( obj, source ) {
 
     for (var i = 0, il = keys.length; i < il; i++) {
 
-      var prop = keys[i];
+      prop = keys[i];
       Object.defineProperty( obj, prop, Object.getOwnPropertyDescriptor( source, prop ) );
 
     }
@@ -146,7 +146,7 @@ ThreeTwist.extend = function ( obj, source ) {
 
     var safeHasOwnProperty = {}.hasOwnProperty;
 
-    for ( var prop in source ) {
+    for ( prop in source ) {
 
       if ( safeHasOwnProperty.call( source, prop ) ) {
 
