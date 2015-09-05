@@ -25,8 +25,7 @@ ThreeTwist.Interaction = (function(){
     //  A utility class for calculating mouse intersection on a cubic surface
     var projector = new ThreeTwist.Projector( cube, domElement );
 
-    var intersected, points = [],
-      intersection = new THREE.Vector3(),
+    var intersection = new THREE.Vector3(),
       cubelet, possibleSlices,
       slice, mouseX, mouseY,
 
@@ -36,7 +35,6 @@ ThreeTwist.Interaction = (function(){
       direction = new THREE.Vector3(),
       cross = new THREE.Vector3(),
       current = new THREE.Vector2(),
-      basis = new THREE.Vector3(),
       axis  = new THREE.Vector3(),
       angle = 0, time = 0;
 
@@ -235,7 +233,7 @@ ThreeTwist.Interaction = (function(){
         //  ( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
 
 
-        if( intersected = projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
+        if( projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
 
 
           //  If a interaction happens within the cube we should prevent the event bubbling.
@@ -294,7 +292,7 @@ ThreeTwist.Interaction = (function(){
 
       if( api.active ){
 
-        current.x = ( event.touches && event.touches[0] || event ).clientX,
+        current.x = ( event.touches && event.touches[0] || event ).clientX;
         current.y = ( event.touches && event.touches[0] || event ).clientY;
       }
 
@@ -429,15 +427,13 @@ ThreeTwist.Interaction = (function(){
 
       // event.preventDefault();
 
-      ax = event.touches[0].clientX,
+      ax = event.touches[0].clientX;
       ay = event.touches[0].clientY;
 
     });
 
 
     domElement.addEventListener( 'touchend', function( event ){
-
-
 
       var bx = event.changedTouches[0].clientX,
         by = event.changedTouches[0].clientY;
