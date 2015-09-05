@@ -38,7 +38,6 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
     id      = this.id,
     address = this.address,
     type    = this.type,
-    color   = this.cube.color,
     LEFT    = 0,
     CENTER  = 1,
     getColorName = function( face, justification, minimumLength ){

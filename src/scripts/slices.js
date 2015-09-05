@@ -123,8 +123,6 @@ ThreeTwist.Slice = function( indices, cube ){
   this.ableToHideInternalFaces = true;
   this.cube = cube;
 
-  var self = this;
-
   this.getCubelet = function( index ){
     return cube.cubelets[ indices[ index ]];
   };
@@ -244,8 +242,8 @@ ThreeTwist.Slice = function( indices, cube ){
 
         faceArray = [];
 
-        //  iterate over it's faces.
-        cubelet.faces.forEach( function( face, index ){
+        //  iterate over its faces.
+        cubelet.faces.forEach( function( face ){
 
           //  Get it's normal vector
           point.copy( ThreeTwist.Direction.getDirectionByName( face.normal ).normal );
@@ -316,13 +314,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   },
 
 
-  map: function( indices, cubelets ){
-
-
-    // this.cubelets = cubelets;
-    // this.indices  = indices;
-
-
+  map: function( cubelets ){
 
     //  Now that we know what the origin Cubelet is
     //  we can determine if this is merely a Slice
@@ -407,7 +399,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     var hasCenter = this.hasType( 'center' );
     if( hasCenter && hasCenter.cubelets.length === 1 ){
 
-      this.center  = this.hasType( 'center' );//.cubelets[ 0 ]
+      this.center  = this.hasType( 'center' );
       this.corners = new ThreeTwist.Group( this.hasType( 'corner' ));
       this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ));
       this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ));

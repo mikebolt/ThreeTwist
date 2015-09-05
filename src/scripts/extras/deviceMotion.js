@@ -3,12 +3,7 @@ function deviceMotion( cube, element ){
 
   var x, y,
     bounds = getBoundingClientRect( element ),
-    target = new THREE.Euler(),
-    deviceOrientation = {},
-    screenOrientation = 0,
-    compassHeading, fixedAlpha,
-    alpha, beta, gamma;
-
+    target = new THREE.Euler();
 
 
   var api = {
@@ -78,9 +73,7 @@ function deviceMotion( cube, element ){
     };
 
   }();
-
-
-  var quat = new THREE.Quaternion();
+  
 
   function update(){
 

@@ -269,7 +269,7 @@ ThreeTwist.Cube = function( parameters ){
   this.edges   = new ThreeTwist.Group();
   this.corners = new ThreeTwist.Group();
   this.crosses = new ThreeTwist.Group();
-  this.cubelets.forEach( function( cubelet, index ){
+  this.cubelets.forEach( function( cubelet ){
 
     if( cubelet.type === 'core'   ) {
       this.core.add( cubelet );

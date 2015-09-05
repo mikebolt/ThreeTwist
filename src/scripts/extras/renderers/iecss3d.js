@@ -511,7 +511,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
 
       }
     },
-    getStickersOpacity: function( value ){
+    getStickersOpacity: function(){
 
       return parseFloat( stickerElements[0].style.opacity );
     },

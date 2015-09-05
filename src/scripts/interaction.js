@@ -122,8 +122,8 @@ ThreeTwist.Interaction = (function(){
 
     };
 
-    //  This function provides a way to 'snap' a vector to it's closest axis.
-    //  This is used to find a probable axis of rotation when a user performs a drag
+    //  This function provides a way to 'snap' a vector to its closest axis.
+    //  This is used to find a probable axis of rotation when a user performs a drag.
 
     function snapVectorToBasis( vector ){
 

@@ -58,8 +58,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   var _width, _height;
   var _widthHalf, _heightHalf;
 
-  var matrix = new THREE.Matrix4();
-
   var domElement = document.createElement( 'div' );
   domElement.style.overflow = 'hidden';
 
@@ -104,8 +102,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
      var position = new THREE.Vector3(),
        scale    = new THREE.Vector3(),
        euler    = new THREE.Euler(),
-       quaternion = new THREE.Quaternion(),
-       style;
+       quaternion = new THREE.Quaternion();
 
 
      euler._quaternion = quaternion;
@@ -127,8 +124,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   var cameraMatrix = new THREE.Matrix4();
   var matrixWorld = new THREE.Matrix4();
 
-  var renderCount;
-
   var projectVector = function(){
 
     var viewProjectionMatrix = new THREE.Matrix4();
@@ -145,12 +140,11 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   }();
 
-  var camOririgin = new THREE.Matrix4();
   var fovOffset = new THREE.Matrix4();
   var screenCenter = new THREE.Matrix4();
   var fov;
 
-  var renderObject = function ( object, camera ) {
+  var renderObject = function ( object ) {
 
 
     matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
@@ -161,7 +155,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     matrixWorld.elements[7] *= -1;
 
 
-    style =  getObjectCSSTransform( matrixWorld  );
+    var style =  getObjectCSSTransform( matrixWorld  );
 
 
     var element = object.element;
@@ -183,9 +177,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       cameraElement.appendChild( element );
 
     }
-
-
-
+    
   };
 
   function painterSort( a, b ){
@@ -193,7 +185,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   }
 
 
-  function sortVerts( obj, camera ){
+  function sortVerts( obj ){
 
     var halfCubeletSize = cube.cubeletSize * 0.5;
     obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
@@ -236,12 +228,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     };
   }();
-
-
-  function isEqual( a, b, prop ){
-    return a[prop] === b[prop];
-  }
-
 
   function Intersects( P, Q ){
 
@@ -398,10 +384,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       return p1z - p2z;
 
     });
-
-
-    var aaa = cube.standing.northWest.front;
-    var bbb = cube.front.north.up;
 
 
     var p = renderList.length, q, tmp, l = renderList.length;
