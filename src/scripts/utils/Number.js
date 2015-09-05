@@ -43,10 +43,8 @@ ThreeTwist.extend( Number.prototype, {
     return Math.cos( this );
   },
   degreesToDirection : function(){
-
-    var d = this % 360,
-
-    directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ];
+  
+    var directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ];
     return directions[ this.scale( 0, 360, 0, directions.length - 1 ).round() ];
   },
   degreesToRadians : function(){
