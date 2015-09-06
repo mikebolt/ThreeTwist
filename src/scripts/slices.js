@@ -314,7 +314,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   },
 
 
-  map: function( cubelets ){
+  map: function(){
 
     //  Now that we know what the origin Cubelet is
     //  we can determine if this is merely a Slice
@@ -357,7 +357,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
 
-    //  Addressing orthagonal strips of Cubelets is more easily done by
+    //  Addressing orthogonal strips of Cubelets is more easily done by
     //  cube notation for the X and Y axes.
 
     this.up = new ThreeTwist.Group(
