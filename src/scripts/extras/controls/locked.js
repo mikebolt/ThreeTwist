@@ -20,7 +20,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     inverse = new THREE.Matrix4(),
     absDirection = new THREE.Vector3(),
     group, time, screen, sign,
-    pixelRatio = window.devicePixelRatio || 1;
+    pixelRatio = window.devicePixelRatio || 1,
     axisDefined = false;
 
 
@@ -48,7 +48,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       screen = getBoundingClientRect( domElement );
 
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
         y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
@@ -97,8 +97,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       event.preventDefault();
 
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
-        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
       y *= pixelRatio;
@@ -121,13 +121,11 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     document.removeEventListener( 'touchmove',   onInteractMove );
     document.removeEventListener( 'touchend',    onInteractEnd );
 
+    var command;
 
     if( axisDefined ){
 
-      var command,
-        velocity,
-        angle;
-
+      var velocity, angle;
 
       // We have a group, but we need an associated command expressed as a single character.
 
@@ -180,11 +178,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     }else{
 
-
-      var command;
-
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
-        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
       y *= pixelRatio;
@@ -263,6 +258,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     return function ( faces, x, y ){
 
       var i = faces.length,
+        face,
         pointOfInteraction;
 
       cube.object3D.updateMatrixWorld();
@@ -396,7 +392,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     if( axisDefined ){
 
-      angle = -absDirection.dot( direction ) / cube.size ;
+      var angle = -absDirection.dot( direction ) / cube.size ;
       if( group === cube.slicesDictionary.z ) {
         angle *= -1;
       }
