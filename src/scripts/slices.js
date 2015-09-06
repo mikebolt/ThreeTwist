@@ -123,12 +123,29 @@ ThreeTwist.Slice = function( indices, cube ){
   this.ableToHideInternalFaces = true;
   this.cube = cube;
 
-  var self = this;
-
   this.getCubelet = function( index ){
     return cube.cubelets[ indices[ index ]];
-  }
+  };
+  
+  this.cubelets = [];
+  var l = this.indices.length;
 
+  while( l-- > 0 ){
+    this.cubelets.push( this.getCubelet( l ) );
+  }
+  
+  this.origin = this.cube.cubelets[ this.indices[ 4 ]];
+  this.north = this.cube.cubelets[ this.indices[ 1 ]];
+  this.northEast = this.cube.cubelets[ this.indices[ 2 ]];
+  this.east = this.cube.cubelets[ this.indices[ 5 ]];
+  this.southEast = this.cube.cubelets[ this.indices[ 8 ]];
+  this.south = this.cube.cubelets[ this.indices[ 7 ]];
+  this.southWest = this.cube.cubelets[ this.indices[ 6 ]];
+  this.west = this.cube.cubelets[ this.indices[ 3 ]];
+  this.northWest = this.cube.cubelets[ this.indices[ 0 ]];
+  
+  // Slice is designed to be immutable, so override Group's 'add' and 'remove' methods.
+  this.add = this.remove = function(){};
 
   // var displayInternalFaces = function( value ){
   //   cubelets
@@ -137,7 +154,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
 
-  //  Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
+  //  Once we've performed a physical rotation of a face or group, we need a way to remap the array of cubelets.
   //  This method does just that. Given a subset of cubelets, an axis to rotate on and
   //  an angle, it will shift the location of all cubelets that need changing.
 
@@ -161,7 +178,7 @@ ThreeTwist.Slice = function( indices, cube ){
       // We can only remap the cube if it's in whole rotation,
       // therefore we should round to the nearest full rotation
 
-      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25
+      angle = Math.round( angle / ( Math.PI * 0.25 ) ) * Math.PI * 0.25;
 
 
 
@@ -226,7 +243,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
       //  Good to let each Cubelet know where it exists
       for( i = 0; i < cube.cubelets.length; i ++ ){
-        cube.cubelets[ i ].setAddress( i )
+        cube.cubelets[ i ].setAddress( i );
       }
 
 
@@ -244,8 +261,8 @@ ThreeTwist.Slice = function( indices, cube ){
 
         faceArray = [];
 
-        //  iterate over it's faces.
-        cubelet.faces.forEach( function( face, index ){
+        //  iterate over its faces.
+        cubelet.faces.forEach( function( face ){
 
           //  Get it's normal vector
           point.copy( ThreeTwist.Direction.getDirectionByName( face.normal ).normal );
@@ -256,7 +273,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
           // and find the index of the new direction and add it to the new array
           faceArray[ ThreeTwist.Direction.getDirectionByNormal( point ).id ] = face;
-          face.normal = ThreeTwist.Direction.getDirectionByNormal( point ).name
+          face.normal = ThreeTwist.Direction.getDirectionByNormal( point ).name;
 
         });
 
@@ -270,7 +287,7 @@ ThreeTwist.Slice = function( indices, cube ){
         cubelet.back   = cubelet.faces[ 5 ];
 
 
-      })
+      });
 
     };
 
@@ -281,7 +298,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
 
-}
+};
 
 
 //  We want Slice to learn from ThreeTwist.Group
@@ -290,39 +307,7 @@ ThreeTwist.Slice.prototype = Object.create( ThreeTwist.Group.prototype );
 
 ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
-
-  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]]},
-  get north(){   return this.cube.cubelets[ this.indices[ 1 ]]},
-  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]]},
-  get east(){    return this.cube.cubelets[ this.indices[ 5 ]]},
-  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]]},
-  get south(){  return this.cube.cubelets[ this.indices[ 7 ]]},
-  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]]},
-  get west(){    return this.cube.cubelets[ this.indices[ 3 ]]},
-  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]]},
-
-
-  get cubelets(){
-
-    var array = [],
-      l = this.indices.length;
-
-    while( l-- > 0 ){
-      array.push( this.getCubelet( l ))
-    }
-
-    return array;
-
-  },
-
-
-  map: function( indices, cubelets ){
-
-
-    // this.cubelets = cubelets;
-    // this.indices  = indices;
-
-
+  map: function(){
 
     //  Now that we know what the origin Cubelet is
     //  we can determine if this is merely a Slice
@@ -335,8 +320,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       if( this.origin.faces[ i ].color && this.origin.faces[ i ].color !== ThreeTwist.COLORLESS ){
 
         this.color = this.origin.faces[ i ].color;
-        this.face = ThreeTwist.Direction.getNameById( i )
-        break
+        this.face = ThreeTwist.Direction.getNameById( i );
+        break;
       }
     }
 
@@ -365,52 +350,52 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
 
-    //  Addressing orthagonal strips of Cubelets is more easily done by
+    //  Addressing orthogonal strips of Cubelets is more easily done by
     //  cube notation for the X and Y axes.
 
     this.up = new ThreeTwist.Group(
 
       this.northWest, this.north, this.northEast
-    )
+    );
     this.equator = new ThreeTwist.Group(
 
       this.west, this.origin, this.east
-    )
+    );
     this.down = new ThreeTwist.Group(
 
       this.southWest, this.south, this.southEast
-    )
+    );
     this.left = new ThreeTwist.Group(
 
       this.northWest,
       this.west,
       this.southWest
-    )
+    );
     this.middle = new ThreeTwist.Group(
 
       this.north,
       this.origin,
       this.south
-    )
+    );
     this.right = new ThreeTwist.Group(
 
       this.northEast,
       this.east,
       this.southEast
-    )
+    );
 
 
     //  If our Slice has only one center piece
     // (ie. a Cubelet with only ONE single Sticker)
     //  then it is a Face -- a special kind of Slice.
 
-    var hasCenter = this.hasType( 'center' )
+    var hasCenter = this.hasType( 'center' );
     if( hasCenter && hasCenter.cubelets.length === 1 ){
 
-      this.center  = this.hasType( 'center' )//.cubelets[ 0 ]
-      this.corners = new ThreeTwist.Group( this.hasType( 'corner' ))
-      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ))
-      this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ))
+      this.center  = this.hasType( 'center' );
+      this.corners = new ThreeTwist.Group( this.hasType( 'corner' ));
+      this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ));
+      this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ));
     }
 
 
@@ -421,9 +406,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
     else {
 
-      this.centers = new ThreeTwist.Group( this.hasType( 'center' ))
+      this.centers = new ThreeTwist.Group( this.hasType( 'center' ));
     }
-    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ))
+    this.edges = new ThreeTwist.Group( this.hasType( 'edge' ));
 
 
     //  I'm still debating whether this should be Sticker-related
@@ -435,7 +420,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.northWest, this.north, this.northEast,
       this.west, this.east,
       this.southWest, this.south, this.southEast
-    )
+    );
 
 
     //  And finally for the hell of it let's try diagonals via
@@ -446,13 +431,13 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.northWest,
       this.origin,
       this.southEast
-    )
+    );
     this.sinister = new ThreeTwist.Group(//  From top-right to bottom-left.
 
       this.northEast,
       this.origin,
       this.southWest
-    )
+    );
 
     return this;
 
@@ -461,9 +446,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
   //  Using the rotation we can physically rotate all our cubelets.
-  //  This can be used to partially of fully rotate a slice.
+  //  This can be used to partially or fully rotate a slice.
 
-  set rotation( radians ){
+  setRotation: function( radians ){
 
 
     if( this.ableToHideInternalFaces && this.cube.isFlagged( 'showingIntroverts' ) !== 0 && this.cube.hideInvisibleFaces ){
@@ -525,7 +510,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   },
 
 
-  get rotation(){
+  getRotation: function(){
     return this.axis.rotation;
   },
 
@@ -537,15 +522,34 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
   getLocation: function( cubelet ){
 
-    if( cubelet === this.origin    ) return 'origin';
-    if( cubelet === this.north     ) return 'north';
-    if( cubelet === this.northEast ) return 'northEast';
-    if( cubelet === this.east      ) return 'east';
-    if( cubelet === this.southEast ) return 'southEast';
-    if( cubelet === this.south     ) return 'south';
-    if( cubelet === this.southWest ) return 'southWest';
-    if( cubelet === this.west      ) return 'west';
-    if( cubelet === this.northWest ) return 'northWest';
+    // TODO: this could be written as a map lookup
+    if( cubelet === this.origin    ) {
+      return 'origin';
+    }
+    if( cubelet === this.north     ) {
+      return 'north';
+    }
+    if( cubelet === this.northEast ) {
+      return 'northEast';
+    }
+    if( cubelet === this.east      ) {
+      return 'east';
+    }
+    if( cubelet === this.southEast ) {
+      return 'southEast';
+    }
+    if( cubelet === this.south     ) {
+      return 'south';
+    }
+    if( cubelet === this.southWest ) {
+      return 'southWest';
+    }
+    if( cubelet === this.west      ) {
+      return 'west';
+    }
+    if( cubelet === this.northWest ) {
+      return 'northWest';
+    }
 
     return false;
   },
@@ -563,7 +567,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         l = this.indices.length,
         numberOfColors = 0;
 
-      if( face instanceof ThreeTwist.Direction ) face = face.name;
+      if( face instanceof ThreeTwist.Direction ) {
+        face = face.name;
+      }
 
       while( l-- > 0 ){
 
@@ -575,7 +581,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
-        else faceColors[ color ] ++;
+        else {
+          faceColors[ color ] ++;
+        }
       }
 
       return numberOfColors === 1 ? true : false;
@@ -586,9 +594,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
       return false;
     }
-  },
+  }
 
 
 
 
-})
+});

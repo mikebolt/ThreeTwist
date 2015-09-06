@@ -25,8 +25,7 @@ ThreeTwist.Interaction = (function(){
     //  A utility class for calculating mouse intersection on a cubic surface
     var projector = new ThreeTwist.Projector( cube, domElement );
 
-    var intersected, points = [],
-      intersection = new THREE.Vector3(),
+    var intersection = new THREE.Vector3(),
       cubelet, possibleSlices,
       slice, mouseX, mouseY,
 
@@ -36,7 +35,6 @@ ThreeTwist.Interaction = (function(){
       direction = new THREE.Vector3(),
       cross = new THREE.Vector3(),
       current = new THREE.Vector2(),
-      basis = new THREE.Vector3(),
       axis  = new THREE.Vector3(),
       angle = 0, time = 0;
 
@@ -71,7 +69,7 @@ ThreeTwist.Interaction = (function(){
       //  This sets the default drag speed.
       dragSpeed : dragSpeed || 1.3
 
-    }
+    };
 
     // Apply event skills to the api
     THREE.EventDispatcher.prototype.apply( api );
@@ -86,7 +84,9 @@ ThreeTwist.Interaction = (function(){
 
       return function( x, y ){
 
-        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) return null;
+        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) {
+          return null;
+        }
 
         return {
           cubelet: projector.getCubeletAtIntersection( intersection3D ),
@@ -96,12 +96,12 @@ ThreeTwist.Interaction = (function(){
               plane3D.normal.y === -1 ? "DOWN"  :
               plane3D.normal.z ===  1 ? "FRONT" :
               "BACK"
-        }
+        };
 
 
-      }
+      };
 
-    }())
+    }());
 
 
     var projectVector = function(){
@@ -116,12 +116,12 @@ ThreeTwist.Interaction = (function(){
 
         return vector.applyProjection( viewProjectionMatrix );
 
-      }
+      };
 
-    }
+    };
 
-    //  This function provides a way to 'snap' a vector to it's closest axis.
-    //  This is used to find a probable axis of rotation when a user performs a drag
+    //  This function provides a way to 'snap' a vector to its closest axis.
+    //  This is used to find a probable axis of rotation when a user performs a drag.
 
     function snapVectorToBasis( vector ){
 
@@ -140,10 +140,10 @@ ThreeTwist.Interaction = (function(){
 
 
       var x = current.x,
-        y = current.y
+        y = current.y;
 
 
-      if( api.enabled && api.active && x !== undefined && y != undefined && ( mouseX !== x || mouseY !== y )) {
+      if( api.enabled && api.active && x !== undefined && y !== undefined && ( mouseX !== x || mouseY !== y )) {
 
 
         //  As we already know what plane, or face, the interaction began on,
@@ -161,7 +161,9 @@ ThreeTwist.Interaction = (function(){
             //  If we've already been rotating a slice but we want to change direction,
             //  for example if multiDrag is enabled, then we want to reset the original slice
 
-            if( slice ) slice.rotation = 0;
+            if( slice ) {
+              slice.setRotation( 0 );
+            }
 
 
           axisDefined = true;
@@ -202,12 +204,14 @@ ThreeTwist.Interaction = (function(){
         }
 
 
-        if( slice ) slice.rotation = angle;
+        if( slice ) {
+          slice.setRotation( angle );
+        }
 
 
       }
 
-    }
+    };
 
 
     function onInteractStart( event ){
@@ -216,8 +220,8 @@ ThreeTwist.Interaction = (function(){
       if( api.enabled && event.button !== 2 ){
 
 
-        mouseX = ( event.touches && event.touches[0] || event ).clientX
-        mouseY = ( event.touches && event.touches[0] || event ).clientY
+        mouseX = ( event.touches && event.touches[0] || event ).clientX;
+        mouseY = ( event.touches && event.touches[0] || event ).clientY;
         // console.log( mouseX, mouseY );
 
         //  Here we find out if the mouse is hovering over the cube,
@@ -229,18 +233,20 @@ ThreeTwist.Interaction = (function(){
         //  ( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
 
 
-        if( intersected = projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
+        if( projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
 
 
           //  If a interaction happens within the cube we should prevent the event bubbling.
-          if( event.touches !== null ) event.preventDefault()
+          if( event.touches !== null ) {
+            event.preventDefault();
+          }
           // event.stopImmediatePropagation();
 
 
           if( cube.isTweening() === 0 ){
 
 
-            time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() )
+            time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
 
 
             api.active = true;
@@ -286,7 +292,7 @@ ThreeTwist.Interaction = (function(){
 
       if( api.active ){
 
-        current.x = ( event.touches && event.touches[0] || event ).clientX,
+        current.x = ( event.touches && event.touches[0] || event ).clientX;
         current.y = ( event.touches && event.touches[0] || event ).clientY;
       }
 
@@ -311,13 +317,15 @@ ThreeTwist.Interaction = (function(){
       api.active = false;
 
 
-      //  When a user has finished interating, we need to finish off any rotation.
+      //  When a user has finished interacting, we need to finish off any rotation.
       //  We basically snap to the nearest face and issue a rotation command
 
       if( api.enabled && ( x !== mouseY || y !== mouseY ) && axisDefined ){
 
 
-        if( event.touches !== null ) event.preventDefault();
+        if( event.touches !== null ) {
+          event.preventDefault();
+        }
         // event.stopImmediatePropagation();
 
 
@@ -336,7 +344,7 @@ ThreeTwist.Interaction = (function(){
 
         if( velocityOfInteraction > 0.3 ){
 
-          targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5
+          targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
           targetAngle += cross.dot( direction.normalize() ) > 0 ? Math.PI * 0.5: 0;
 
         }
@@ -389,7 +397,7 @@ ThreeTwist.Interaction = (function(){
         return true;
       }
       return false;
-    }.bind( api )
+    }.bind( api );
 
 
     var ax, ay;
@@ -406,11 +414,11 @@ ThreeTwist.Interaction = (function(){
       var bx = event.clientX,
         by = event.clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
 
         detectInteraction( ax, ay );
       }
-    })
+    });
 
 
 
@@ -419,7 +427,7 @@ ThreeTwist.Interaction = (function(){
 
       // event.preventDefault();
 
-      ax = event.touches[0].clientX,
+      ax = event.touches[0].clientX;
       ay = event.touches[0].clientY;
 
     });
@@ -427,18 +435,16 @@ ThreeTwist.Interaction = (function(){
 
     domElement.addEventListener( 'touchend', function( event ){
 
-
-
       var bx = event.changedTouches[0].clientX,
         by = event.changedTouches[0].clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt(((bx-ax)*(bx-ax))+((by-ay)*(by-ay)))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
 
         if( detectInteraction( ax, ay )){
           event.preventDefault();
         }
       }
-    })
+    });
 
 
     return api;

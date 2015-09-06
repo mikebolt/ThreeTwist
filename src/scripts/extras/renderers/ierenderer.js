@@ -58,8 +58,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   var _width, _height;
   var _widthHalf, _heightHalf;
 
-  var matrix = new THREE.Matrix4();
-
   var domElement = document.createElement( 'div' );
   domElement.style.overflow = 'hidden';
 
@@ -82,7 +80,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     _heightHalf = _height / 2;
 
     domElement.style.width = width + 'px';
-    domElement.style.height = height + 'px';;
+    domElement.style.height = height + 'px';
 
 
     cameraElement.style.width = width + 'px';
@@ -101,33 +99,56 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   var getObjectCSSTransform = function(){
 
 
-     var position = new THREE.Vector3(),
-       scale    = new THREE.Vector3(),
-       euler    = new THREE.Euler(),
-       quaternion = new THREE.Quaternion(),
-       style;
+    var position = new THREE.Vector3(),
+      scale    = new THREE.Vector3(),
+      euler    = new THREE.Euler(),
+      quaternion = new THREE.Quaternion();
 
 
-     euler._quaternion = quaternion;
-     quaternion._euler = euler;
+    euler._quaternion = quaternion;
+    quaternion._euler = euler;
 
-     return function ( matrix ) {
+    return function ( matrix ) {
 
       matrix.decompose( position, quaternion, scale );
 
-       return 'translate3d(-50%,-50%,0) translate3d(' + epsilon( position.x ) + 'px, ' + epsilon( position.y ) + 'px, ' + epsilon( position.z ) + 'px) '
-           + 'rotateX(' + epsilon( euler.x ) + 'rad) rotateY(' + epsilon( euler.y ) + 'rad) rotateZ(' + epsilon( euler.z ) + 'rad) '
-           + 'scale3d(' + epsilon( scale.x ) + ', ' + epsilon( scale.y ) + ', ' + epsilon( scale.z ) + ')';
+      var result;
 
-     };
+      // Add the translation
+      result = 'translate3d(-50%,-50%,0) translate3d(';
+      result += epsilon( position.x );
+      result += 'px, ';
+      result += epsilon( position.y );
+      result += 'px, ';
+      result += epsilon( position.z );
+      result += 'px) ';
+      
+      // Add the rotation
+      result += 'rotateX(';
+      result += epsilon( euler.x );
+      result += 'rad) rotateY(';
+      result += epsilon( euler.y );
+      result += 'rad) rotateZ(';
+      result += epsilon( euler.z );
+      result += 'rad) ';
+        
+      // Add the scaling
+      result += 'scale3d(';
+      result += epsilon( scale.x );
+      result += ', ';
+      result += epsilon( scale.y );
+      result += ', ';
+      result += epsilon( scale.z );
+      result += ')';
 
-   }()
+      return result;
+    };
+
+  }();
 
 
   var cameraMatrix = new THREE.Matrix4();
   var matrixWorld = new THREE.Matrix4();
-
-  var renderCount;
 
   var projectVector = function(){
 
@@ -141,16 +162,15 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       return vector.applyProjection( viewProjectionMatrix );
       // return vector;//.applyProjection( viewProjectionMatrix );
 
-    }
+    };
 
-  }()
+  }();
 
-  var camOririgin = new THREE.Matrix4();
   var fovOffset = new THREE.Matrix4();
   var screenCenter = new THREE.Matrix4();
   var fov;
 
-  var renderObject = function ( object, camera ) {
+  var renderObject = function ( object ) {
 
 
     matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
@@ -161,7 +181,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     matrixWorld.elements[7] *= -1;
 
 
-    style =  getObjectCSSTransform( matrixWorld  )
+    var style =  getObjectCSSTransform( matrixWorld  );
 
 
     var element = object.element;
@@ -183,9 +203,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       cameraElement.appendChild( element );
 
     }
-
-
-
+    
   };
 
   function painterSort( a, b ){
@@ -193,7 +211,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   }
 
 
-  function sortVerts( obj, camera ){
+  function sortVerts( obj ){
 
     var halfCubeletSize = cube.cubeletSize * 0.5;
     obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
@@ -224,28 +242,24 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       i = 4;
       while( i-- > 0 ){
 
-        delta.subVectors( points[i], origin )//.normalize();
-        if(  epsilon( normal.dot( delta )) < 0 ) return false;
+        delta.subVectors( points[i], origin );//.normalize();
+        if(  epsilon( normal.dot( delta )) < 0 ) {
+          return false;
+        }
 
       }
 
       return true;
 
 
-    }
-  }()
-
-
-  function isEqual( a, b, prop ){
-    return a[prop] === b[prop];
-  }
-
+    };
+  }();
 
   function Intersects( P, Q ){
 
     return   IntersectsProp( P, Q, 'x' ) &&
         IntersectsProp( P, Q, 'y' ) &&
-        IntersectsProp( P, Q, 'z' )
+        IntersectsProp( P, Q, 'z' );
 
   }
 
@@ -256,7 +270,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     var i = p.length;
     while( i-- > 0 ){
 
-      v.min( p[i] )
+      v.min( p[i] );
 
     }
 
@@ -271,7 +285,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     var i = p.length;
     while( i-- > 0 ){
 
-      v.max( p[i] )
+      v.max( p[i] );
 
     }
 
@@ -305,7 +319,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   function IntersectsProp( P, Q, prop ){
 
-    return ( Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop] );
+    return Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop];
 
   }
 
@@ -323,7 +337,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     scene.updateMatrixWorld();
 
-    if ( camera.parent === undefined ) camera.updateMatrixWorld();
+    if ( camera.parent === undefined ) {
+      camera.updateMatrixWorld();
+    }
 
     camera.matrixWorldInverse.getInverse( camera.matrixWorld );
 
@@ -331,8 +347,8 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     fovOffset.makeTranslation( 0, 0, fov );
 
     cameraMatrix.copy( screenCenter );            // Offset to center screen
-    cameraMatrix.multiply( camera.matrixWorldInverse )    // Get view
-    cameraMatrix.multiply( fovOffset )            // Add FOV offset
+    cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
+    cameraMatrix.multiply( fovOffset );            // Add FOV offset
 
 
     cameraMatrix.elements[1] *= -1;
@@ -358,12 +374,12 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
               new THREE.Vector3(),
               new THREE.Vector3(),
               new THREE.Vector3()
-            ]
+            ];
           }
         }
         renderList.push( face.object3D );
 
-      })
+      });
 
     });
 
@@ -393,14 +409,10 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
       return p1z - p2z;
 
-    })
+    });
 
 
-    var aaa = cube.standing.northWest.front;
-    var bbb = cube.front.north.up;
-
-
-    var p = renderList.length, q, tmp, l = renderList.length;
+    var p, q, tmp, l = renderList.length;
     for ( p = 0 ; p < l; p ++ ) {
 
       q = p;
@@ -431,38 +443,37 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
             tmp = Q.userData.zIndex;
             Q.userData.zIndex = Math.min( Q.userData.zIndex , P.userData.zIndex );
-            P.userData.zIndex = Math.max( P.userData.zIndex, tmp  );
+            P.userData.zIndex = Math.max( P.userData.zIndex, tmp );
           }
         }
 
       }
     }
-
-
-
+    
 
     var cam = new THREE.Vector3( 0, 0, -1 ),
       normal = new THREE.Vector3( 0, 0, -1 ),
-      facing = false;
+      facing = false,
       objWorldPosition = new THREE.Vector3();
 
-    for ( var i = 0, l = renderList.length; i < l; i ++ ) {
+    l = renderList.length;
+    for (var i = 0; i < l; i ++ ) {
 
       renderObject( renderList[ i ], camera );
 
       objWorldPosition.set( renderList[i].matrixWorld.elements[12], renderList[i].matrixWorld.elements[13], renderList[i].matrixWorld.elements[14] );
       cam.subVectors( objWorldPosition, camera.position );
 
-      facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0
+      facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0;
       renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
 
-      if( renderList[i] instanceof THREE.CSS3DObject ) renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
-
+      if( renderList[i] instanceof THREE.CSS3DObject ) {
+        renderList[i].element.style.zIndex = renderList[i].userData.zIndex;
+      }
 
     }
 
     firstRender = false;
-
 
   };
 };

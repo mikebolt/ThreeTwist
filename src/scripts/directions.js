@@ -81,7 +81,7 @@ ThreeTwist.Direction = function( id, name, normal ){
   this.initial   = name.substr( 0, 1 ).toUpperCase();
   this.neighbors = [];
   this.opposite  = null;
-}
+};
 ThreeTwist.Direction.prototype.setRelationships = function( up, right, down, left, opposite ){
 
   this.neighbors = [ up, right, down, left ];
@@ -142,7 +142,7 @@ ThreeTwist.Direction.getDirectionByInitial = function( initial ){
     B: ThreeTwist.Direction.BACK
 
   }[ initial.toUpperCase() ];
-}
+};
 ThreeTwist.Direction.getDirectionByName = function( name ){
 
   return {
@@ -154,8 +154,8 @@ ThreeTwist.Direction.getDirectionByName = function( name ){
     left : ThreeTwist.Direction.LEFT,
     back : ThreeTwist.Direction.BACK
 
-  }[ name.toLowerCase() ]
-}
+  }[ name.toLowerCase() ];
+};
 ThreeTwist.Direction.getDirectionByNormal = function(){
 
   var vector  = new THREE.Vector3();
@@ -174,9 +174,9 @@ ThreeTwist.Direction.getDirectionByNormal = function(){
         vector.equals( ThreeTwist.Direction.LEFT.normal   ) ? ThreeTwist.Direction.LEFT  :
         vector.equals( ThreeTwist.Direction.RIGHT.normal   ) ? ThreeTwist.Direction.RIGHT :
         null;
-  }
+  };
 
-}()
+}();
 
 
 
@@ -188,23 +188,31 @@ ThreeTwist.Direction.getDirectionByNormal = function(){
 
 ThreeTwist.Direction.prototype.getRotation = function( vector, from, steps ){
 
-  if( from === undefined ) from = this.neighbors[ 0 ]
-  if( from === this || from === this.opposite ) return null
-  steps = steps === undefined ? 1 : steps.modulo( 4 )
+  if( from === undefined ) {
+    from = this.neighbors[ 0 ];
+  }
+  
+  if( from === this || from === this.opposite ) {
+    return null;
+  }
+  
+  steps = steps === undefined ? 1 : steps.modulo( 4 );
   for( var i = 0; i < 5; i ++ ){
 
-    if( this.neighbors[ i ] === from ) break
+    if( this.neighbors[ i ] === from ) {
+      break;
+    }
   }
   return this.neighbors[ i.add( steps * vector ).modulo( 4 )];
-}
+};
 ThreeTwist.Direction.prototype.getClockwise = function( from, steps ){
 
   return this.getRotation( +1, from, steps );
-}
+};
 ThreeTwist.Direction.prototype.getAnticlockwise = function( from, steps ){
 
   return this.getRotation( -1, from, steps );
-}
+};
 
 
 //  Similar to above,
@@ -216,23 +224,23 @@ ThreeTwist.Direction.prototype.getAnticlockwise = function( from, steps ){
 ThreeTwist.Direction.prototype.getDirection = function( direction, up ){
 
   return this.getRotation( 1, up, direction.id - 1 );
-}
+};
 ThreeTwist.Direction.prototype.getUp = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.UP, up );
-}
+};
 ThreeTwist.Direction.prototype.getRight = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.RIGHT, up );
-}
+};
 ThreeTwist.Direction.prototype.getDown = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.DOWN, up );
-}
+};
 ThreeTwist.Direction.prototype.getLeft = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.LEFT, up );
-}
+};
 
 
 
@@ -242,7 +250,7 @@ ThreeTwist.Direction.prototype.getLeft = function( up ){
 ThreeTwist.Direction.prototype.getOpposite = function(){
 
   return this.opposite;
-}
+};
 
 
 

@@ -1,7 +1,7 @@
 ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
-  cube.domElement.ondragstart = function(){ return false };
+  cube.domElement.ondragstart = function(){ return false; };
 
 
   var api = {
@@ -20,7 +20,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     inverse = new THREE.Matrix4(),
     absDirection = new THREE.Vector3(),
     group, time, screen, sign,
-    pixelRatio = window.devicePixelRatio || 1;
+    pixelRatio = window.devicePixelRatio || 1,
     axisDefined = false;
 
 
@@ -48,7 +48,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       screen = getBoundingClientRect( domElement );
 
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
         y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
@@ -65,7 +65,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
           // Get a time stamp
-          time = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() )
+          time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
 
 
           start.set( x, y, 0 );
@@ -97,8 +97,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       event.preventDefault();
 
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
-        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
       y *= pixelRatio;
@@ -121,19 +121,23 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     document.removeEventListener( 'touchmove',   onInteractMove );
     document.removeEventListener( 'touchend',    onInteractEnd );
 
+    var command;
 
     if( axisDefined ){
 
-      var command,
-        velocity,
-        angle;
-
+      var velocity, angle;
 
       // We have a group, but we need an associated command expressed as a single character.
 
-      if     ( group === cube.slicesDictionary['x'] ) command = 'x';
-      else if( group === cube.slicesDictionary['y'] ) command = 'y';
-      else if( group === cube.slicesDictionary['z'] ) command = 'z';
+      if     ( group === cube.slicesDictionary.x ) {
+        command = 'x';
+      }
+      else if( group === cube.slicesDictionary.y ) {
+        command = 'y';
+      }
+      else if( group === cube.slicesDictionary.z ) {
+        command = 'z';
+      }
 
 
 
@@ -143,7 +147,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
       // Get the velocity of the gesture.
-      velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time )
+      velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
 
 
       // If the gesture is faster than a predefined speed, then we assume this
@@ -153,7 +157,9 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
         // If we are performing a 'z' twist, we should invert the rotation calculation
-        if( command === 'z' ) absDirection.negate();
+        if( command === 'z' ) {
+          absDirection.negate();
+        }
 
 
         // Depending on the gesture direction we'll need to set the rotation to positive or negative
@@ -168,22 +174,19 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // angle = Math.min( Math.PI * 0.5, Math.max( Math.PI * -0.5, angle ));
 
       // Now that we have defined a twist, add it to the stack
-      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ))
+      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
 
     }else{
 
-
-      var command;
-
-      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left;
-        y = ( event.touches && event.touches[0] || event ).pageY - screen.top ;
+      var x = ( event.touches && event.touches[0] || event ).pageX - screen.left,
+        y = ( event.touches && event.touches[0] || event ).pageY - screen.top;
 
       x *= pixelRatio;
       y *= pixelRatio;
 
       var face = getFace( [cube.front, cube.right, cube.up ],
-          x - ( screen.width * pixelRatio * 0.5 ),
-          y - ( screen.height * pixelRatio * 0.5 ));
+          x - screen.width * pixelRatio * 0.5,
+          y - screen.height * pixelRatio * 0.5 );
 
       // console.log( x - ( screen.width * pixelRatio * 0.5 ),
       //     y - ( screen.width * pixelRatio * 0.5 ) );
@@ -194,13 +197,21 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       axis.transformDirection( inverse );
 
 
-      if     ( Math.abs( Math.round( axis.x )) === 1 ) command = 'z';
-      else if( Math.abs( Math.round( axis.y )) === 1 ) command = 'y';
-      else if( Math.abs( Math.round( axis.z )) === 1 ) command = 'x';
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+        command = 'z';
+      }
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+        command = 'y';
+      }
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+        command = 'x';
+      }
 
-      if( command === 'y' && x - ( screen.width * pixelRatio * 0.5 ) < 0 ) command = command.toUpperCase();
+      if( command === 'y' && x - screen.width * pixelRatio * 0.5 < 0 ) {
+        command = command.toUpperCase();
+      }
 
-      cube.twist( command )
+      cube.twist( command );
     }
 
     group = null;
@@ -247,6 +258,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     return function ( faces, x, y ){
 
       var i = faces.length,
+        face,
         pointOfInteraction;
 
       cube.object3D.updateMatrixWorld();
@@ -282,8 +294,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       return face;
 
-    }
-  }()
+    };
+  }();
 
 
 
@@ -318,7 +330,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // Get an absolute directon, we use this to find signed rotation
       absDirection.copy( direction );
       absDirection.normalize();
-      absDirection.x = Math.round( absDirection.x )
+      absDirection.x = Math.round( absDirection.x );
       absDirection.y = Math.round( absDirection.y ) * ( 1.0 - Math.abs( absDirection.x ) );
       absDirection.x = Math.abs( absDirection.x );
       absDirection.y = Math.abs( absDirection.y );
@@ -332,7 +344,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       // Snap to the nearest basis
 
-      axis.x = Math.round( axis.x )
+      axis.x = Math.round( axis.x );
       axis.y = Math.round( axis.y ) * ( 1.0 - Math.abs( axis.x ) );
       axis.negate();
 
@@ -342,8 +354,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
         var face = getFace( [cube.front, cube.right ],
-            current.x - ( screen.width * pixelRatio * 0.5 ),
-            current.y - ( screen.width * pixelRatio * 0.5 ) );
+            current.x - screen.width * pixelRatio * 0.5,
+            current.y - screen.width * pixelRatio * 0.5 );
         axis.copy( face.axis );
 
         inverse.getInverse( cube.matrixWorld );
@@ -361,9 +373,15 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
       // but with a different axis of rotation.
 
-      if     ( Math.abs( Math.round( axis.x )) === 1 ) group = cube.slicesDictionary[ 'z' ];
-      else if( Math.abs( Math.round( axis.y )) === 1 ) group = cube.slicesDictionary[ 'y' ];
-      else if( Math.abs( Math.round( axis.z )) === 1 ) group = cube.slicesDictionary[ 'x' ];
+      if     ( Math.abs( Math.round( axis.x )) === 1 ) {
+        group = cube.slicesDictionary.z;
+      }
+      else if( Math.abs( Math.round( axis.y )) === 1 ) {
+        group = cube.slicesDictionary.y;
+      }
+      else if( Math.abs( Math.round( axis.z )) === 1 ) {
+        group = cube.slicesDictionary.x;
+      }
 
 
 
@@ -374,8 +392,10 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     if( axisDefined ){
 
-      angle = -( absDirection.dot( direction ) / cube.size ) ;
-      if( group === cube.slicesDictionary[ 'z' ]  ) angle *= -1;
+      var angle = -absDirection.dot( direction ) / cube.size ;
+      if( group === cube.slicesDictionary.z ) {
+        angle *= -1;
+      }
       angle *= sign;
       // group.rotation = Math.min( Math.PI * 0.5, Math.max( Math.PI * -0.5, angle * api.rotationSpeed ));
       group.rotation = angle * api.rotationSpeed;
@@ -384,8 +404,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
 
 
-  }
+  };
 
   return api;
 
-}
+};

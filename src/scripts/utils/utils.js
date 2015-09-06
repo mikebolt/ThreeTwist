@@ -7,8 +7,11 @@ var _ = {
 
     var i, args = Array.prototype.slice.call( arguments );
 
-    for( i = 0; i < args.length; i ++ )
-      if( args[ i ] !== undefined ) return args[ i ];
+    for( i = 0; i < args.length; i ++ ) {
+      if( args[ i ] !== undefined ) {
+        return args[ i ];
+      }
+    }
     return false;
   },
 

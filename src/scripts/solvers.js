@@ -42,8 +42,8 @@ ThreeTwist.Solver = function(){
   //  Having said that, it will probably be the most intense function like ... ever!
   //  Check out my example in /scripts/solvers/stewart.js to see how you might go about it.
 
-  this.logic = function( cube ){ return false };;
-}
+  this.logic = function( cube ){ return false; };
+};
 
 
 
@@ -84,7 +84,9 @@ ThreeTwist.Solver.prototype.consider = function( cube ){
     ThreeTwist.Solver.prototype.explain( 'I’ve found that the cube is already solved.' );
     return false;
   }
-  else return this.logic( cube );
+  else {
+    return this.logic( cube );
+  }
 };
 
 

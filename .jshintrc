@@ -6,14 +6,15 @@
   "forin": true,
   "freeze": true,
   "futurehostile": true,
-  "predef": [
-    "ThreeTwist",
-    "THREE",
-    "TWEEN",
-    "_",
-    "R", "O", "Y", "G", "B", "W", // Defined in colors.js
-    "console" // For logging. Maybe add a release build that removes logging?
-  ],
+  "globals": {
+    "ThreeTwist": true,
+    "THREE": true,
+    "TWEEN": true,
+    "_": true,
+    "R": true, "O": true, "Y": true, "G": true, "B": true, "W": true, "COLORLESS": true,
+    "console": false,
+    "deviceMotion": true
+  },
   "latedef": "nofunc",
   "maxcomplexity": 24,
   "maxdepth": 8,
@@ -24,8 +25,8 @@
   "nocomma": true,
   "nonbsp": true,
   "nonew": true,
-  "singleGroups": true,
   "undef": true,
   "unused": true,
-  "browser": true
+  "browser": true,
+  "elision": true
 }

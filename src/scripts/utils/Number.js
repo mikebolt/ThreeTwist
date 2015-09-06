@@ -43,10 +43,8 @@ ThreeTwist.extend( Number.prototype, {
     return Math.cos( this );
   },
   degreesToDirection : function(){
-
-    var d = this % 360,
-
-    directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ];
+  
+    var directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ];
     return directions[ this.scale( 0, 360, 0, directions.length - 1 ).round() ];
   },
   degreesToRadians : function(){
@@ -69,7 +67,7 @@ ThreeTwist.extend( Number.prototype, {
     min = Math.min( a, b ),
     max = Math.max( a, b );
 
-    return ( min <= this && this <= max );
+    return min <= this && this <= max;
   },
   lerp : function( a, b ){
 
@@ -94,7 +92,7 @@ ThreeTwist.extend( Number.prototype, {
   },
   modulo : function( n ){
 
-    return (( this % n ) + n ) % n;
+    return ( this % n + n ) % n;
   },
   multiply : function(){
 
@@ -108,7 +106,9 @@ ThreeTwist.extend( Number.prototype, {
   },
   normalize : function( a, b ){
 
-    if( a == b ) return 1.0;
+    if( a === b ) {
+      return 1.0;
+    }
     return ( this - a ) / ( b - a );
   },
   raiseTo : function( exponent ){
@@ -149,54 +149,56 @@ ThreeTwist.extend( Number.prototype, {
   },
   round : function( decimals ){
 
-    var n  = this
+    var n  = this;
 
-    decimals = decimals || 0
-    n *= Math.pow( 10, decimals )
-    n  = Math.round( n )
-    n /= Math.pow( 10, decimals )
-    return n
+    decimals = decimals || 0;
+    n *= Math.pow( 10, decimals );
+    n  = Math.round( n );
+    n /= Math.pow( 10, decimals );
+    return n;
   },
   roundDown : function(){
 
-    return Math.floor( this )
+    return Math.floor( this );
   },
   roundUp : function(){
 
-    return Math.ceil( this )
+    return Math.ceil( this );
   },
   scale : function( a0, a1, b0, b1 ){
 
-    var phase = this.normalize( a0, a1 )
+    var phase = this.normalize( a0, a1 );
 
-    if( b0 == b1 ) return b1
-    return b0 + phase * ( b1 - b0 )
+    if( b0 === b1 ) {
+      return b1;
+    }
+    return b0 + phase * ( b1 - b0 );
   },
   sine : function(){
 
-    return Math.sin( this )
+    return Math.sin( this );
   },
   subtract : function(){
 
-    var sum = this
+    var sum = this;
 
     Array.prototype.slice.call( arguments ).forEach( function( n ){
 
-      sum -= n
-    })
-    return sum
+      sum -= n;
+    });
+    return sum;
   },
   tangent : function(){
 
-    return Math.tan( this )
+    return Math.tan( this );
   },
   toArray : function(){
 
-    return [ this.valueOf() ]
+    return [ this.valueOf() ];
   },
   toNumber : function(){
 
-    return this.valueOf()
+    return this.valueOf();
   },
   toPaddedString : function( padding ){
 
@@ -204,13 +206,15 @@ ThreeTwist.extend( Number.prototype, {
   },
   toSignedString : function(){
 
-    var stringed = '' + this
+    var stringed = '' + this;
 
-    if( this >= 0 ) stringed = '+' + stringed
-    return stringed
+    if( this >= 0 ) {
+      stringed = '+' + stringed;
+    }
+    return stringed;
   },
   toString : function(){
 
-    return ''+ this
+    return ''+ this;
   }
-})
+});

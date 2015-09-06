@@ -101,7 +101,7 @@ ThreeTwist.Cube = function( parameters ){
   //  Some important booleans.
 
   //  The textureSize sets the physical size of the cublets in pixels.
-  //  This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsamlping
+  //  This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsampling
   //  pretty either. In general, it's best to set the texture size to roughly the same size they'll appear on screen.
   parameters.textureSize       = parameters.textureSize === undefined ? 120 : parameters.textureSize;
 
@@ -213,20 +213,22 @@ ThreeTwist.Cube = function( parameters ){
   //  so that's going to be 27 Cubelets in total to create a Cube.
 
   this.cubelets = [];
-  ([
-
+  
+  [
+    // TODO: This should be done programmatically.
+  
     //  Front slice
 
-    [ W, O,  ,  , G,   ],    [ W, O,  ,  ,  ,   ],    [ W, O, B,  ,  ,   ],//   0,  1,  2
-    [ W,  ,  ,  , G,   ],    [ W,  ,  ,  ,  ,   ],    [ W,  , B,  ,  ,   ],//   3,  4,  5
-    [ W,  ,  , R, G,   ],    [ W,  ,  , R,  ,   ],    [ W,  , B, R,  ,   ],//   6,  7,  8
+    [ W, O,  ,  , G    ],    [ W, O             ],    [ W, O, B          ],//   0,  1,  2
+    [ W,  ,  ,  , G    ],    [ W                ],    [ W,  , B          ],//   3,  4,  5
+    [ W,  ,  , R, G    ],    [ W,  ,  , R       ],    [ W,  , B, R       ],//   6,  7,  8
 
 
     //  Standing slice
 
-    [  , O,  ,  , G,   ],    [  , O,  ,  ,  ,   ],    [  , O, B,  ,  ,   ],//   9, 10, 11
-    [  ,  ,  ,  , G,   ],    [  ,  ,  ,  ,  ,   ],    [  ,  , B,  ,  ,   ],//  12, XX, 14
-    [  ,  ,  , R, G,   ],    [  ,  ,  , R,  ,   ],    [  ,  , B, R,  ,   ],//  15, 16, 17
+    [  , O,  ,  , G    ],    [  , O             ],    [  , O, B          ],//   9, 10, 11
+    [  ,  ,  ,  , G    ],    [                  ],    [  ,  , B          ],//  12, XX, 14
+    [  ,  ,  , R, G    ],    [  ,  ,  , R       ],    [  ,  , B, R       ],//  15, 16, 17
 
 
     //  Back slice
@@ -235,7 +237,7 @@ ThreeTwist.Cube = function( parameters ){
     [  ,  ,  ,  , G, Y ],    [  ,  ,  ,  ,  , Y ],    [  ,  , B,  ,  , Y ],//  21, 22, 23
     [  ,  ,  , R, G, Y ],    [  ,  ,  , R,  , Y ],    [  ,  , B, R,  , Y ] //  24, 25, 26
 
-  ]).forEach( function( cubeletColorMap, cubeletId ){
+  ].forEach( function( cubeletColorMap, cubeletId ){
 
     this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
 
@@ -256,9 +258,6 @@ ThreeTwist.Cube = function( parameters ){
   //  What colors are on the Front face of the cube? Etc.
 
 
-  var i;
-
-
   //  Groups are simple collections of Cubelets.
   //  Their position and rotation is irrelevant.
 
@@ -267,13 +266,23 @@ ThreeTwist.Cube = function( parameters ){
   this.edges   = new ThreeTwist.Group();
   this.corners = new ThreeTwist.Group();
   this.crosses = new ThreeTwist.Group();
-  this.cubelets.forEach( function( cubelet, index ){
+  this.cubelets.forEach( function( cubelet ){
 
-    if( cubelet.type === 'core'   ) this.core.add( cubelet );
-    if( cubelet.type === 'center' ) this.centers.add( cubelet );
-    if( cubelet.type === 'edge'   ) this.edges.add( cubelet );
-    if( cubelet.type === 'corner' ) this.corners.add( cubelet );
-    if( cubelet.type === 'center' || cubelet.type === 'edge' ) this.crosses.add( cubelet );
+    if( cubelet.type === 'core'   ) {
+      this.core.add( cubelet );
+    }
+    if( cubelet.type === 'center' ) {
+      this.centers.add( cubelet );
+    }
+    if( cubelet.type === 'edge'   ) {
+      this.edges.add( cubelet );
+    }
+    if( cubelet.type === 'corner' ) {
+      this.corners.add( cubelet );
+    }
+    if( cubelet.type === 'center' || cubelet.type === 'edge') {
+      this.crosses.add( cubelet );
+    }
 
   }.bind( this ));
 
@@ -290,7 +299,7 @@ ThreeTwist.Cube = function( parameters ){
       15, 12,  9,
        6,  3,  0], this
 
-  )
+  );
   this.left.name = 'left';
   this.middle = new ThreeTwist.Slice(
 
@@ -298,7 +307,7 @@ ThreeTwist.Cube = function( parameters ){
       16, 13, 10,
        7,  4,  1], this
 
-  )
+  );
   this.middle.name = 'middle';
   this.right = new ThreeTwist.Slice(
 
@@ -306,7 +315,7 @@ ThreeTwist.Cube = function( parameters ){
        5, 14, 23,
        8, 17, 26], this
 
-  )
+  );
   this.right.name = 'right';
   this.right.neighbour = this.middle;
   this.left.neighbour = this.middle;
@@ -320,7 +329,7 @@ ThreeTwist.Cube = function( parameters ){
        9, 10, 11,
        0,  1,  2], this
 
-  )
+  );
   this.up.name = 'up';
   this.equator = new ThreeTwist.Slice(
 
@@ -328,7 +337,7 @@ ThreeTwist.Cube = function( parameters ){
       12, 13, 14,
        3,  4,  5], this
 
-  )
+  );
   this.equator.name = 'equator';
   this.down = new ThreeTwist.Slice(
 
@@ -336,7 +345,7 @@ ThreeTwist.Cube = function( parameters ){
       7, 16, 25,
       6, 15, 24], this
 
-  )
+  );
   this.down.name = 'down';
   this.down.neighbour = this.equator;
   this.up.neighbour = this.equator;
@@ -348,7 +357,7 @@ ThreeTwist.Cube = function( parameters ){
        3,  4,  5,
        6,  7,  8], this
 
-  )
+  );
   this.front.name = 'front';
   this.standing = new ThreeTwist.Slice(
 
@@ -356,7 +365,7 @@ ThreeTwist.Cube = function( parameters ){
       12, 13, 14,
       15, 16, 17], this
 
-  )
+  );
   this.standing.name = 'standing';
   this.back = new ThreeTwist.Slice(
 
@@ -364,7 +373,7 @@ ThreeTwist.Cube = function( parameters ){
       25, 22, 19,
       24, 21, 18], this
 
-  )
+  );
   this.back.name = 'back';
   this.back.neighbour = this.standing;
   this.front.neighbour = this.standing;
@@ -415,7 +424,7 @@ ThreeTwist.Cube = function( parameters ){
     'x': new ThreeTwist.Slice( allIndices, this ),
     'y': new ThreeTwist.Slice( allIndices, this ),
     'z': new ThreeTwist.Slice( allIndices, this )
-  }
+  };
 
 
 
@@ -460,7 +469,9 @@ ThreeTwist.Cube = function( parameters ){
   this.autoRotateObj3D.add( this.object3D );
 
 
-  if( this.hideInvisibleFaces ) this.hideIntroverts( null, true );
+  if( this.hideInvisibleFaces ) {
+    this.hideIntroverts( null, true );
+  }
 
 
   //  The Interaction class provides all the nifty mouse picking stuff.
@@ -481,7 +492,8 @@ ThreeTwist.Cube = function( parameters ){
   //  The Controls class rotates the entire cube around using an arcball implementation.
   //  You could override this with a different style of control
 
-  this.controls = new ( parameters.controls || ThreeTwist.Controls )( this, this.camera, this.domElement );
+  var controlsConstructor = parameters.controls || ThreeTwist.Controls;
+  this.controls = new controlsConstructor( this, this.camera, this.domElement );
 
 
 
@@ -533,7 +545,9 @@ ThreeTwist.Cube = function( parameters ){
       this.keyboardControlsEnabled ){
 
         var key = String.fromCharCode( event.which );
-        if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) this.twist( key );
+        if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) {
+          this.twist( key );
+        }
 
     }
   }.bind( this ));
@@ -541,7 +555,7 @@ ThreeTwist.Cube = function( parameters ){
 
 
 
-}
+};
 
 
 
@@ -568,7 +582,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
     //  We're shuffling the cube so we should clear any history
     this.twistQueue.empty( true );
-    this.historyQueue.empty( true )
+    this.historyQueue.empty( true );
 
 
     //  Create some random rotations based on our shuffle method
@@ -624,15 +638,12 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   isSolved: function(){
 
-    return (
-
-      this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
-      this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
-      this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
-      this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
-      this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
-      this.back.isSolved(  ThreeTwist.Direction.BACK  )
-    )
+    return this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
+           this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
+           this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
+           this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
+           this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
+           this.back.isSolved(  ThreeTwist.Direction.BACK  );
 
   },
 
@@ -664,7 +675,9 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   twist: function( command ){
 
-    if( this.undoing ) this.twistQueue.empty();
+    if( this.undoing ) {
+      this.twistQueue.empty();
+    }
     this.historyQueue.empty();
     this.undoing = false;
     this.twistQueue.add( command );
@@ -682,7 +695,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
         'Executing a twist command to rotate the '+
          twist.group +' '+ twist.wise +' by',
          twist.degrees, 'degrees.'
-      )
+      );
     }
 
 
@@ -691,7 +704,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     var slice    = this.slicesDictionary[ twist.command.toLowerCase() ],
       rotation = ( twist.degrees === undefined ? 90 : twist.degrees ) * twist.vector,
       radians  = rotation.degreesToRadians(),
-      duration = Math.abs( radians - slice.rotation ) / ( Math.PI * 0.5 ) * this.twistDuration;
+      duration = Math.abs( radians - slice.getRotation() ) / ( Math.PI * 0.5 ) * this.twistDuration;
 
 
 
@@ -705,17 +718,23 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
 
     //  Boom! Rotate a slice
-
-    new TWEEN.Tween( slice )
+    var dummySlice = {
+      rotation: slice.getRotation()
+    };
+    
+    new TWEEN.Tween( dummySlice )
     .to({
 
       rotation: radians
 
     }, duration )
     .easing( TWEEN.Easing.Quartic.Out )
+    .onUpdate( function(){
+      slice.setRotation( this.rotation );
+    })
     .onComplete( function(){
 
-      slice.rotation = radians;
+      slice.setRotation( radians );
       slice.axis.rotation = 0;
 
 
@@ -785,7 +804,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
         this.folds[ 0 ].getText(),
         this.folds[ 1 ].getText(),
         this.folds[ 2 ].getText()
-      ]
+      ];
     }
     else if( _.isNumeric( fold ) && fold >= 0 && fold <= 2 ){
 
@@ -911,8 +930,10 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
               else if( this.taskQueue.isReady === true ){
 
-                var task = this.taskQueue.do();
-                if( task instanceof Function ) task();
+                var task = this.taskQueue.dequeue();
+                if( task instanceof Function ) {
+                  task();
+                }
               }
             }
 
@@ -921,19 +942,22 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
             else {
 
-
-              var twist = queue.do();
+              var twist = queue.dequeue();
 
               if( twist.command.toLowerCase() !== 'x' &&
-                twist.command.toLowerCase() !== 'y' &&
-                twist.command.toLowerCase() !== 'z' &&
-                twist.degrees !== 0  ) this.moveCounter += this.undoing ? -1 : 1;
+                  twist.command.toLowerCase() !== 'y' &&
+                  twist.command.toLowerCase() !== 'z' &&
+                  twist.degrees !== 0  ) {
+                this.moveCounter += this.undoing ? -1 : 1;
+              }
 
 
               //  If the twist we're about to execute does not actually
               //  change any slices, ie, we're rotating back to 0,
               //  then we don't need to remember it.
-              if( twist.degrees === 0 || twist.isShuffle ) queue.purge( twist );
+              if( twist.degrees === 0 || twist.isShuffle ) {
+                queue.purge( twist );
+              }
 
 
               this.immediateTwist( twist );
@@ -956,6 +980,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
 
       }
-    }
+    };
   }())
-})
+});

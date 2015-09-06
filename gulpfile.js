@@ -66,7 +66,7 @@ var sources = [
   './src/scripts/extras/inspect.js'
 ];
 
-var allSources = [dependencies, sources];
+var allSources = dependencies.concat(sources);
 
 var projectName = 'ThreeTwist';
 
@@ -118,8 +118,7 @@ var tasks = {
   'jshint': function() {
     return gulp.src(sources)
       .pipe(jshint())
-      .pipe(jshint.reporter('jshint-stylish'))
-      .pipe(jshint.reporter('fail'));
+      .pipe(jshint.reporter('jshint-stylish'));
   },
   
   'source-metrics': function() {

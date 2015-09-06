@@ -18,8 +18,8 @@ ThreeTwist.renderers.IeCSS3D = (function(){
   //  The only caveat is that we need to temporarily define/re-define a dummy Scene object
 
   var SceneType = THREE.Scene;
-    THREE.Scene = SceneType || function(){};
-
+  
+  THREE.Scene = SceneType || function(){};
 
   return function( cubelets, cube ){
 
@@ -51,8 +51,8 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
     //  FACE LABELS
 
-    var faceLabel, axis = new THREE.Vector3();
-    cube.faces.forEach( function( face, i ){
+    var faceLabel;
+    cube.faces.forEach( function( face ){
 
       faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
 
@@ -63,7 +63,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
       faceLabel.element.innerHTML = face.face.toUpperCase();
       cube.object3D.add( faceLabel );
 
-    })
+    });
 
     cube.right.label.rotation.y = Math.PI *  0.5;
     cube.left.label.rotation.y   = Math.PI * -0.5;
@@ -126,10 +126,7 @@ ThreeTwist.renderers.IeCSS3D = (function(){
     return renderer;
 
 
-  }
-
-  // We'll need to set the scene object back to it's original type
-  if( SceneType ) THREE.Scene = SceneType;
+  };
 
 }());
 
@@ -145,8 +142,8 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     'axisX',
     'axisY',
     'axisX',
-    'axisZ',
-  ]
+    'axisZ'
+  ];
 
 
   return function( cubelet ){
@@ -216,7 +213,9 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       if( face.isIntrovert ){
 
         faceElement.classList.add( 'faceIntroverted' );
-        if( cubelet.cube.hideInvisibleFaces ) faceElement.style.display = 'none';
+        if( cubelet.cube.hideInvisibleFaces ) {
+          faceElement.style.display = 'none';
+        }
 
       }
 
@@ -270,7 +269,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     // Our faces all point in different directions so we'll need to rotate them individually
 
 
-    var faceSpacing = ( cubelet.size / 2 )
+    var faceSpacing = cubelet.size / 2;
 
     cubelet.front.object3D.position.z = faceSpacing;
 
@@ -309,7 +308,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
 
 
-  }
+  };
 
 }());
 
@@ -346,12 +345,12 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     show: function(){
 
       this.getFaceElements().forEach( showItem );
-      this.showing = true
+      this.showing = true;
     },
     hide: function(){
 
       this.getFaceElements().forEach( hideItem );
-      this.showing = false
+      this.showing = false;
     },
     showExtroverts: function(){
 
@@ -380,9 +379,11 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         }
 
         this.getFaceElements( '.faceIntroverted' + only ).forEach( showItem );
-        if( !soft ) this.showingIntroverts = true;
+        if( !soft ) {
+          this.showingIntroverts = true;
+        }
 
-      }
+      };
     }(),
     hideIntroverts: function(){
 
@@ -401,9 +402,11 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         }
 
         this.getFaceElements( '.faceIntroverted' + only ).forEach( hideItem );
-        if( !soft ) this.showingIntroverts = false;
+        if( !soft ) {
+          this.showingIntroverts = false;
+        }
 
-      }
+      };
     }(),
     showPlastics: function(){
 
@@ -461,18 +464,22 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     },
     getOpacity: function(){
 
-      return this.opacity
+      return this.opacity;
     },
     setOpacity: function( opacityTarget, onComplete ){
 
-      if( this.opacityTween ) this.opacityTween.stop()
-      if( opacityTarget === undefined ) opacityTarget = 1
+      if( this.opacityTween ) {
+        this.opacityTween.stop();
+      }
+      if( opacityTarget === undefined ) {
+        opacityTarget = 1;
+      }
       if( opacityTarget !== this.opacity ){
 
         var
         that = this,
-        elements = this.getFaceElements();
-        tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 )
+        elements = this.getFaceElements(),
+        tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 );
 
         this.opacityTween = new TWEEN.Tween({ opacity: this.opacity })
         .to({
@@ -486,29 +493,33 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
           that.opacity = this.opacity;//opacityTarget
           elements.forEach( function( element ){
             element.style.opacity =  that.opacity;
-          })
+          });
 
         })
         .onComplete( function(){
 
-          if( onComplete instanceof Function ) onComplete()
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
         })
-        .start()
+        .start();
 
       }
     },
-    getStickersOpacity: function( value ){
+    getStickersOpacity: function(){
 
-      return parseFloat( stickerElements[0].style.opacity );
+      return parseFloat( this.getFaceElements( ' .sticker' )[0].style.opacity );
     },
     setStickersOpacity: function( value ){
 
-      if( value === undefined ) value = 0.2;
+      if( value === undefined ) {
+        value = 0.2;
+      }
       var valueStr = value.toString();
       this.getFaceElements( ' .sticker' ).forEach( function( sticker ){
         sticker.style.opacity = valueStr;
       });
     }
-  }
+  };
 
-}()
+}();

@@ -3,19 +3,14 @@ function deviceMotion( cube, element ){
 
   var x, y,
     bounds = getBoundingClientRect( element ),
-    target = new THREE.Euler(),
-    deviceOrientation = {},
-    screenOrientation = 0,
-    compassHeading, fixedAlpha,
-    alpha, beta, gamma;
-
+    target = new THREE.Euler();
 
 
   var api = {
     paused: false,
     range: new THREE.Euler( Math.PI * 0.06, Math.PI * 0.06, 0 ),
     decay: 0.1
-  }
+  };
 
 
   // Returns the bounding area of the element
@@ -47,7 +42,7 @@ function deviceMotion( cube, element ){
       y = event.pageY / bounds.height * 2.0 - 1.0;
     }
 
-  })
+  });
 
 
 
@@ -75,16 +70,14 @@ function deviceMotion( cube, element ){
 
       quaternion.inverse();
 
-    }
+    };
 
   }();
-
-
-  var quat = new THREE.Quaternion();
+  
 
   function update(){
 
-    cube.autoRotate = false
+    cube.autoRotate = false;
 
 
     if( x !== undefined && y !== undefined ){

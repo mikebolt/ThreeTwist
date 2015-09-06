@@ -131,7 +131,9 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  Here's our overhead for that:
 
   var extrovertedFaces = 0;
-  if( colors === undefined ) colors = [ W, O,  ,  , G, ];
+  if( colors === undefined ) {
+    colors = [ W, O,  ,  , G ];
+  }
   this.faces = [];
 
 
@@ -266,19 +268,19 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     'edge',
     'corner'
 
-  ][ extrovertedFaces ]
+  ][ extrovertedFaces ];
 
 
 
   //  Convience accessors for the Cubelet's faces.
   //  What color is the left face? this.left() !!
 
-  this.front    = this.faces[ 0 ]
-    this.up     = this.faces[ 1 ]
-    this.right  = this.faces[ 2 ]
-    this.down   = this.faces[ 3 ]
-    this.left   = this.faces[ 4 ]
-    this.back   = this.faces[ 5 ]
+  this.front    = this.faces[ 0 ];
+    this.up     = this.faces[ 1 ];
+    this.right  = this.faces[ 2 ];
+    this.down   = this.faces[ 3 ];
+    this.left   = this.faces[ 4 ];
+    this.back   = this.faces[ 5 ];
     this.colors =
 
       ( this.faces[ 0 ].color ? this.faces[ 0 ].color.initial : '-' ) +
@@ -309,7 +311,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  If this happens to be our logo-bearing Cubelet
   //  we had better attach the logo to it!
 
-  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center'
+  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center';
 
 
 
@@ -346,7 +348,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.opacity = 1;
   this.radius  = 0;
-}
+};
 
 
 
@@ -370,10 +372,10 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   setAddress: function( address ){
 
-    this.address  = address || 0
-    this.addressX = address.modulo( 3 ).subtract( 1 )
-    this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1
-    this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1
+    this.address  = address || 0;
+    this.addressX = address.modulo( 3 ).subtract( 1 );
+    this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1;
+    this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1;
   },
 
 
@@ -393,7 +395,7 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
       if( faceColorRGB.r === colorRGB.r && faceColorRGB.g === colorRGB.g && faceColorRGB.b === colorRGB.b ){
 
         face = i;
-        break
+        break;
       }
     }
     if( face !== undefined ){
@@ -409,7 +411,9 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
       ][ face ];
     }
-    else return false;
+    else {
+      return false;
+    }
   },
 
 
@@ -421,19 +425,19 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     var
     cubelet = this,
     result  = true,
-    colors  = Array.prototype.slice.call( arguments )
+    colors  = Array.prototype.slice.call( arguments );
 
     colors.forEach( function( color ){
 
-      result = result && !!cubelet.hasColor( color )
-    })
-    return result
+      result = result && !!cubelet.hasColor( color );
+    });
+    return result;
   },
 
 
   getRadius: function(){
 
-    return this.radius
+    return this.radius;
   },
   setRadius: function( radius, onComplete ){
 
@@ -450,8 +454,11 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
     if( this.isTweening === false ){
 
-      radius = radius || 0
-      if( this.radius === undefined ) this.radius = 0
+      radius = radius || 0;
+      if( this.radius === undefined ) {
+        this.radius = 0;
+      }
+      
       if( this.radius !== radius ){
 
 
@@ -472,7 +479,7 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
         .easing( TWEEN.Easing.Quartic.Out )
         .onUpdate( function(){
 
-          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 )
+          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 );
           this.updateMatrix();
           this.matrixSlice.copy( this.matrix );
 
@@ -481,15 +488,17 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
         }.bind( this ))
         .onComplete( function(){
 
-          this.isTweening = false
+          this.isTweening = false;
 
-          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 )
+          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 );
           this.updateMatrix();
           this.matrixSlice.copy( this.matrix );
 
           this.radius = obj.radius;
 
-          if( onComplete instanceof Function ) onComplete()
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
 
         }.bind( this ))
         .start( this.cube.time );
@@ -497,4 +506,4 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
       }
     }
   }
-})
+});
