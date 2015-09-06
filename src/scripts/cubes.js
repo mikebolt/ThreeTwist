@@ -719,7 +719,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
     //  Boom! Rotate a slice
     var dummySlice = {
-      rotation: slice.getRotation();
+      rotation: slice.getRotation()
     };
     
     new TWEEN.Tween( dummySlice )
