@@ -134,6 +134,7 @@ ThreeTwist.Slice = function( indices, cube ){
     this.cubelets.push( this.getCubelet( l ) );
   }
   
+  // Slice is designed to be immutable, so override Group's 'add' and 'remove' methods.
   this.add = this.remove = function(){};
 
   // var displayInternalFaces = function( value ){
@@ -143,7 +144,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
 
-  //  Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
+  //  Once we've performed a physical rotation of a face or group, we need a way to remap the array of cubelets.
   //  This method does just that. Given a subset of cubelets, an axis to rotate on and
   //  an angle, it will shift the location of all cubelets that need changing.
 
@@ -447,9 +448,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
 
   //  Using the rotation we can physically rotate all our cubelets.
-  //  This can be used to partially of fully rotate a slice.
+  //  This can be used to partially or fully rotate a slice.
 
-  set rotation( radians ){
+  setRotation: function( radians ){
 
 
     if( this.ableToHideInternalFaces && this.cube.isFlagged( 'showingIntroverts' ) !== 0 && this.cube.hideInvisibleFaces ){
@@ -511,7 +512,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   },
 
 
-  get rotation(){
+  getRotation: function(){
     return this.axis.rotation;
   },
 

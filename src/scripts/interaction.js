@@ -162,7 +162,7 @@ ThreeTwist.Interaction = (function(){
             //  for example if multiDrag is enabled, then we want to reset the original slice
 
             if( slice ) {
-              slice.rotation = 0;
+              slice.setRotation( 0 );
             }
 
 
@@ -205,7 +205,7 @@ ThreeTwist.Interaction = (function(){
 
 
         if( slice ) {
-          slice.rotation = angle;
+          slice.setRotation( angle );
         }
 
 
@@ -317,7 +317,7 @@ ThreeTwist.Interaction = (function(){
       api.active = false;
 
 
-      //  When a user has finished interating, we need to finish off any rotation.
+      //  When a user has finished interacting, we need to finish off any rotation.
       //  We basically snap to the nearest face and issue a rotation command
 
       if( api.enabled && ( x !== mouseY || y !== mouseY ) && axisDefined ){

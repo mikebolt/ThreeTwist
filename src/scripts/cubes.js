@@ -704,7 +704,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     var slice    = this.slicesDictionary[ twist.command.toLowerCase() ],
       rotation = ( twist.degrees === undefined ? 90 : twist.degrees ) * twist.vector,
       radians  = rotation.degreesToRadians(),
-      duration = Math.abs( radians - slice.rotation ) / ( Math.PI * 0.5 ) * this.twistDuration;
+      duration = Math.abs( radians - slice.getRotation() ) / ( Math.PI * 0.5 ) * this.twistDuration;
 
 
 
@@ -718,17 +718,23 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
 
     //  Boom! Rotate a slice
-
-    new TWEEN.Tween( slice )
+    var dummySlice = {
+      rotation: slice.getRotation();
+    };
+    
+    new TWEEN.Tween( dummySlice )
     .to({
 
       rotation: radians
 
     }, duration )
     .easing( TWEEN.Easing.Quartic.Out )
+    .onUpdate( function(){
+      slice.setRotation( this.rotation );
+    })
     .onComplete( function(){
 
-      slice.rotation = radians;
+      slice.setRotation( radians );
       slice.axis.rotation = 0;
 
 
