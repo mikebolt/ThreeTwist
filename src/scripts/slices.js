@@ -126,7 +126,13 @@ ThreeTwist.Slice = function( indices, cube ){
   this.getCubelet = function( index ){
     return cube.cubelets[ indices[ index ]];
   };
+  
+  this.cubelets = [];
+  var l = this.indices.length;
 
+  while( l-- > 0 ){
+    this.cubelets.push( this.getCubelet( l ) );
+  }
 
   // var displayInternalFaces = function( value ){
   //   cubelets
@@ -298,20 +304,6 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
   get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
   get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
-
-
-  get cubelets(){
-
-    var array = [],
-      l = this.indices.length;
-
-    while( l-- > 0 ){
-      array.push( this.getCubelet( l ));
-    }
-
-    return array;
-
-  },
 
 
   map: function(){
