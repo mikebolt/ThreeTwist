@@ -133,6 +133,8 @@ ThreeTwist.Slice = function( indices, cube ){
   while( l-- > 0 ){
     this.cubelets.push( this.getCubelet( l ) );
   }
+  
+  this.add = this.remove = function(){};
 
   // var displayInternalFaces = function( value ){
   //   cubelets
