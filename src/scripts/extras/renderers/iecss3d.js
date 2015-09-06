@@ -18,8 +18,8 @@ ThreeTwist.renderers.IeCSS3D = (function(){
   //  The only caveat is that we need to temporarily define/re-define a dummy Scene object
 
   var SceneType = THREE.Scene;
-    THREE.Scene = SceneType || function(){};
-
+  
+  THREE.Scene = SceneType || function(){};
 
   return function( cubelets, cube ){
 
@@ -51,8 +51,8 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
     //  FACE LABELS
 
-    var faceLabel, axis = new THREE.Vector3();
-    cube.faces.forEach( function( face, i ){
+    var faceLabel;
+    cube.faces.forEach( function( face ){
 
       faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
 
@@ -127,11 +127,6 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
 
   };
-
-  // We'll need to set the scene object back to it's original type
-  if( SceneType ) {
-    THREE.Scene = SceneType;
-  }
 
 }());
 
@@ -483,7 +478,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
 
         var
         that = this,
-        elements = this.getFaceElements();
+        elements = this.getFaceElements(),
         tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 );
 
         this.opacityTween = new TWEEN.Tween({ opacity: this.opacity })
@@ -513,7 +508,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
     },
     getStickersOpacity: function(){
 
-      return parseFloat( stickerElements[0].style.opacity );
+      return parseFloat( this.getFaceElements( ' .sticker' )[0].style.opacity );
     },
     setStickersOpacity: function( value ){
 
