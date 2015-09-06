@@ -11,8 +11,9 @@
     "THREE": true,
     "TWEEN": true,
     "_": true,
-    "R": true , "O": true, "Y": true, "G": true, "B": true, "W": true, "COLORLESS": true,
-    "console": false
+    "R": true, "O": true, "Y": true, "G": true, "B": true, "W": true, "COLORLESS": true,
+    "console": false,
+    "deviceMotion": true
   },
   "latedef": "nofunc",
   "maxcomplexity": 24,
