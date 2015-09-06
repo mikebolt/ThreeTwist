@@ -134,6 +134,16 @@ ThreeTwist.Slice = function( indices, cube ){
     this.cubelets.push( this.getCubelet( l ) );
   }
   
+  this.origin = this.cube.cubelets[ this.indices[ 4 ]];
+  this.north = this.cube.cubelets[ this.indices[ 1 ]];
+  this.northEast = this.cube.cubelets[ this.indices[ 2 ]];
+  this.east = this.cube.cubelets[ this.indices[ 5 ]];
+  this.southEast = this.cube.cubelets[ this.indices[ 8 ]];
+  this.south = this.cube.cubelets[ this.indices[ 7 ]];
+  this.southWest = this.cube.cubelets[ this.indices[ 6 ]];
+  this.west = this.cube.cubelets[ this.indices[ 3 ]];
+  this.northWest = this.cube.cubelets[ this.indices[ 0 ]];
+  
   // Slice is designed to be immutable, so override Group's 'add' and 'remove' methods.
   this.add = this.remove = function(){};
 
@@ -296,18 +306,6 @@ ThreeTwist.Slice = function( indices, cube ){
 ThreeTwist.Slice.prototype = Object.create( ThreeTwist.Group.prototype );
 
 ThreeTwist.extend( ThreeTwist.Slice.prototype, {
-
-
-  get origin(){   return this.cube.cubelets[ this.indices[ 4 ]];},
-  get north(){   return this.cube.cubelets[ this.indices[ 1 ]];},
-  get northEast(){return this.cube.cubelets[ this.indices[ 2 ]];},
-  get east(){    return this.cube.cubelets[ this.indices[ 5 ]];},
-  get southEast(){return this.cube.cubelets[ this.indices[ 8 ]];},
-  get south(){  return this.cube.cubelets[ this.indices[ 7 ]];},
-  get southWest(){return this.cube.cubelets[ this.indices[ 6 ]];},
-  get west(){    return this.cube.cubelets[ this.indices[ 3 ]];},
-  get northWest(){return this.cube.cubelets[ this.indices[ 0 ]];},
-
 
   map: function(){
 
