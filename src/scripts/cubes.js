@@ -101,7 +101,7 @@ ThreeTwist.Cube = function( parameters ){
   //  Some important booleans.
 
   //  The textureSize sets the physical size of the cublets in pixels.
-  //  This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsamlping
+  //  This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsampling
   //  pretty either. In general, it's best to set the texture size to roughly the same size they'll appear on screen.
   parameters.textureSize       = parameters.textureSize === undefined ? 120 : parameters.textureSize;
 
@@ -927,7 +927,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
               else if( this.taskQueue.isReady === true ){
 
-                var task = this.taskQueue.do();
+                var task = this.taskQueue.dequeue();
                 if( task instanceof Function ) {
                   task();
                 }
@@ -939,8 +939,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
             else {
 
-
-              var twist = queue.do();
+              var twist = queue.dequeue();
 
               if( twist.command.toLowerCase() !== 'x' &&
                   twist.command.toLowerCase() !== 'y' &&

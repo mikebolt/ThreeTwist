@@ -116,7 +116,7 @@ ThreeTwist.Queue.prototype.empty = function( emptyHistory ){
     this.history = [];
   }
 };
-ThreeTwist.Queue.prototype.do = function(){
+ThreeTwist.Queue.prototype.dequeue = function(){
 
   if( this.future.length ){
 
@@ -143,7 +143,7 @@ ThreeTwist.Queue.prototype.undo = function(){
 };
 ThreeTwist.Queue.prototype.redo = function(){
 
-  return this.do();
+  return this.dequeue();
 };
 
 
