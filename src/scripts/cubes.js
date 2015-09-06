@@ -258,9 +258,6 @@ ThreeTwist.Cube = function( parameters ){
   //  What colors are on the Front face of the cube? Etc.
 
 
-  var i;
-
-
   //  Groups are simple collections of Cubelets.
   //  Their position and rotation is irrelevant.
 
@@ -495,7 +492,8 @@ ThreeTwist.Cube = function( parameters ){
   //  The Controls class rotates the entire cube around using an arcball implementation.
   //  You could override this with a different style of control
 
-  this.controls = new ( parameters.controls || ThreeTwist.Controls )( this, this.camera, this.domElement );
+  var controlsConstructor = parameters.controls || ThreeTwist.Controls;
+  this.controls = new controlsConstructor( this, this.camera, this.domElement );
 
 
 
@@ -640,13 +638,12 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   isSolved: function(){
 
-    return 
-      this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
-      this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
-      this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
-      this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
-      this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
-      this.back.isSolved(  ThreeTwist.Direction.BACK  );
+    return this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
+           this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
+           this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
+           this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
+           this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
+           this.back.isSolved(  ThreeTwist.Direction.BACK  );
 
   },
 
