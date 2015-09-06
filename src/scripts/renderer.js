@@ -38,8 +38,8 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
   //  FACE LABELS
 
-  var faceLabel, axis = new THREE.Vector3();
-  cube.faces.forEach( function( face, i ){
+  var faceLabel;
+  cube.faces.forEach( function( face ){
 
     faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
 
