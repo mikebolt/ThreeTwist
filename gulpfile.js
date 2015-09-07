@@ -77,11 +77,15 @@ var tasks = {
       .pipe(gulp.dest('./build/styles'));
   },
   
-  'minify': function() {
+  'concat': function() {
     return gulp.src(allSources)
       .pipe(concat(projectName + '.js'))
-      .pipe(gulp.dest('./build'))
-      .pipe(rename(projectName + '.min.js'))
+      .pipe(gulp.dest('./build'));
+  },
+  
+  'minify': function() {
+    return gulp.src(allSources)
+      .pipe(concat(projectName + '.min.js'))
       .pipe(uglify())
       .pipe(gulp.dest('./build'));
   },
