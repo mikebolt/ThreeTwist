@@ -174,15 +174,10 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       //  related DOM elements to be attached to.
 
 
-      // var faceElement = document.createElement( 'div' );
       faceElement.classList.add( 'cubeletId-' + cubelet.id );
       faceElement.classList.add( 'face' );
       faceElement.classList.add( axisMap[face.id] );
       faceElement.classList.add( 'face' + ThreeTwist.Direction.getNameById( face.id ).capitalize() );
-
-      // domElement.appendChild( this.faces[i].element );
-      // this.css3DObject.element.appendChild( faceElement );
-      // this.faces[i].element = faceElement;
 
       var wireframeElement = document.createElement( 'div' );
       wireframeElement.classList.add( 'wireframe' );
@@ -490,7 +485,7 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
         .easing( TWEEN.Easing.Quadratic.InOut )
         .onUpdate( function(){
 
-          that.opacity = this.opacity;//opacityTarget
+          that.opacity = this.opacity;
           elements.forEach( function( element ){
             element.style.opacity =  that.opacity;
           });

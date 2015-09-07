@@ -46,14 +46,13 @@ ThreeTwist.extend( Array.prototype, {
 
     return this[ Math.floor( Math.random() * this.length )];
   },
-  //  Ran into trouble here with Three.js. Will investigate....
-  /*remove: function( from, to ){
+  remove: function( from, to ){
+    // TODO: Ran into trouble here with Three.js. Will investigate....
+    var rest = this.slice(( to || from ) + 1 || this.length );
 
-    var rest = this.slice(( to || from ) + 1 || this.length )
-
-    this.length = from < 0 ? this.length + from : from
-    return this.push.apply( this, rest )
-  },*/
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply( this, rest );
+  },
   shuffle : function(){
 
     var

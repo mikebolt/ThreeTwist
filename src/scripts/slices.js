@@ -147,10 +147,6 @@ ThreeTwist.Slice = function( indices, cube ){
   // Slice is designed to be immutable, so override Group's 'add' and 'remove' methods.
   this.add = this.remove = function(){};
 
-  // var displayInternalFaces = function( value ){
-  //   cubelets
-  // }
-
 
 
 
@@ -302,7 +298,6 @@ ThreeTwist.Slice = function( indices, cube ){
 
 
 //  We want Slice to learn from ThreeTwist.Group
-// THREE.extend( ThreeTwist.Slice.prototype, ThreeTwist.Group.prototype );
 ThreeTwist.Slice.prototype = Object.create( ThreeTwist.Group.prototype );
 
 ThreeTwist.extend( ThreeTwist.Slice.prototype, {
@@ -553,10 +548,6 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
     return false;
   },
-
-
-  //  cube.slices.front.isSolved( 'front' )
-  //  cube.slices.front.up.isSolved( 'up' )
 
   isSolved: function( face ){
 

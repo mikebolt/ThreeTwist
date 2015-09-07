@@ -222,7 +222,6 @@ ThreeTwist.Interaction = (function(){
 
         mouseX = ( event.touches && event.touches[0] || event ).clientX;
         mouseY = ( event.touches && event.touches[0] || event ).clientY;
-        // console.log( mouseX, mouseY );
 
         //  Here we find out if the mouse is hovering over the cube,
         //  If it is, then `intersection` is populated with the 3D local coordinates of where
@@ -240,7 +239,6 @@ ThreeTwist.Interaction = (function(){
           if( event.touches !== null ) {
             event.preventDefault();
           }
-          // event.stopImmediatePropagation();
 
 
           if( cube.isTweening() === 0 ){
@@ -326,7 +324,6 @@ ThreeTwist.Interaction = (function(){
         if( event.touches !== null ) {
           event.preventDefault();
         }
-        // event.stopImmediatePropagation();
 
 
         //  Now we can get the direction of rotation and the associated command.
@@ -424,8 +421,6 @@ ThreeTwist.Interaction = (function(){
 
 
     domElement.addEventListener( 'touchstart', function( event ){
-
-      // event.preventDefault();
 
       ax = event.touches[0].clientX;
       ay = event.touches[0].clientY;

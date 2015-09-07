@@ -168,11 +168,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       }
 
-
-      // We'll need to bound the rotation to 90 degree intervals to ensure
-       // var origin = Math.round( group.rotation / Math.PI * 2.0 ) * Math.PI * 0.5;
-      // angle = Math.min( Math.PI * 0.5, Math.max( Math.PI * -0.5, angle ));
-
       // Now that we have defined a twist, add it to the stack
       cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
 
@@ -187,9 +182,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       var face = getFace( [cube.front, cube.right, cube.up ],
           x - screen.width * pixelRatio * 0.5,
           y - screen.height * pixelRatio * 0.5 );
-
-      // console.log( x - ( screen.width * pixelRatio * 0.5 ),
-      //     y - ( screen.width * pixelRatio * 0.5 ) );
 
       axis.copy( face.axis );
       inverse.getInverse( cube.matrixWorld );
@@ -319,7 +311,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     // for example, when a user begins interacting and the movement is not accidental,
     // then we can define a direction to rotate.
 
-    if( !axisDefined && direction.length() > 30 /*&& ( start.x !== current.x || start.y !== current.y )*/){
+    if( !axisDefined && direction.length() > 30 ){
 
 
       axisDefined = true;
@@ -397,7 +389,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         angle *= -1;
       }
       angle *= sign;
-      // group.rotation = Math.min( Math.PI * 0.5, Math.max( Math.PI * -0.5, angle * api.rotationSpeed ));
       group.rotation = angle * api.rotationSpeed;
 
     }

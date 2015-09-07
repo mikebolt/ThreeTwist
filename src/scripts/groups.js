@@ -179,9 +179,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
   },
 
 
-  //  cube.slices.front.isSolved( 'front' )
-  //  cube.slices.front.up.isSolved( 'up' )
-
   isSolved: function( face ){
 
     if( face ){

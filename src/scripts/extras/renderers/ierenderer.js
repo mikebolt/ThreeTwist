@@ -160,7 +160,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
 
       return vector.applyProjection( viewProjectionMatrix );
-      // return vector;//.applyProjection( viewProjectionMatrix );
 
     };
 
@@ -242,7 +241,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       i = 4;
       while( i-- > 0 ){
 
-        delta.subVectors( points[i], origin );//.normalize();
+        delta.subVectors( points[i], origin );
         if(  epsilon( normal.dot( delta )) < 0 ) {
           return false;
         }

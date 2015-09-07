@@ -502,7 +502,7 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         .onUpdate( function(){
 
           that.css3DObject.element.style.opacity =  this.opacity;
-          that.opacity = this.opacity;//opacityTarget
+          that.opacity = this.opacity;
         })
         .onComplete( function(){
 

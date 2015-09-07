@@ -509,15 +509,6 @@ ThreeTwist.Cube = function( parameters ){
   ];
 
 
-
-  //  Enable some "Hero" text for this Cube.
-
-  // this.setText( 'BEYONDRUBIKs  CUBE', 0 );
-  // this.setText( 'BEYONDRUBIKs  CUBE', 1 );
-  // this.setText( 'BEYONDRUBIKs  CUBE', 2 );
-
-
-
   //   Define a default size for our cube, this will be resized to 100%
   //  of it's containing dom element during the render.
   this.setSize( 400, 200 );

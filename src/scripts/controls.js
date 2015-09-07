@@ -43,8 +43,8 @@ ThreeTwist.Controls = (function(){
       y *= dpr;
 
       return vector.set(
-        ( x - view.width - view.left ) * 0.001 , // view.width,// * ( devicePixelRatio || 1 ) ,
-        ( view.height + view.top - y ) * 0.001 // view.height// * aspect // ( devicePixelRatio || 1 )
+        ( x - view.width - view.left ) * 0.001,
+        ( view.height + view.top - y ) * 0.001
       );
 
     };
@@ -193,8 +193,6 @@ ThreeTwist.Controls = (function(){
     function touchmove( event ) {
 
       if ( api.enabled ){
-
-        // event.preventDefault();
 
         state = STATE.ROTATE;
 

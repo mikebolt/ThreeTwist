@@ -112,20 +112,7 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   // // Add the cublet to the cube object
   this.cube.object3D.add( this );
 
-
-
-  // var domElement = document.createElement( 'div' );
-  // domElement.classList.add( 'cubelet' );
-  // domElement.classList.add( 'cubeletId-'+ this.id );
-  // this.css3DObject = new THREE.CSS3DObject( domElement );
-
-
-  // this.css3DObject.name = 'css3DObject-' + this.id;
-  // this.add( this.css3DObject );
-
-
-
-
+  
   //  We're about to loop through our colors[] Array
   //  to build the six faces of our Cubelet.
   //  Here's our overhead for that:
@@ -174,34 +161,11 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //   //  This face of our Cubelet needs a DOM element for all the
   //   //  related DOM elements to be attached to.
 
-  //   var faceElement = document.createElement( 'div' );
-  //   faceElement.classList.add( 'face' );
-  //   faceElement.classList.add( 'face'+ ThreeTwist.Direction.getNameById( i ).capitalize() );
-  //   this.css3DObject.element.appendChild( faceElement );
-  //   this.faces[i].element = faceElement;
-
-
-
   //   //  WIREFRAME.
-
-  //   var wireframeElement = document.createElement( 'div' );
-  //   wireframeElement.classList.add( 'wireframe' );
-  //   faceElement.appendChild( wireframeElement );
-
 
   //   //  CUBELET ID.
   //   //  For debugging we want the ability to display this Cubelet's ID number
   //   //  with an underline (to make numbers like 6 and 9 legible upside-down).
-
-  //   var idElement = document.createElement( 'div' );
-  //   idElement.classList.add( 'id' );
-  //   faceElement.appendChild( idElement );
-
-  //   var underlineElement = document.createElement( 'span' );
-  //   underlineElement.classList.add( 'underline' );
-  //   underlineElement.innerText = this.id;
-  //   idElement.appendChild( underlineElement );
-
 
     //  INTROVERTED FACES.
     //  If this face has no color sticker then it must be interior to the Cube.
@@ -209,20 +173,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.faces[ i ].isIntrovert = color === ThreeTwist.COLORLESS;
 
-    if( color === ThreeTwist.COLORLESS ){
+    if( color !== ThreeTwist.COLORLESS ){
 
-  //     faceElement.classList.add( 'faceIntroverted' );
-
-    }
-
-
-    //  EXTROVERTED FACES.
-    //  But if this face does have a color then we need to
-    //  create a sticker with that color
-    //  and also allow text to be placed on it.
-
-    else {
-
+      //  EXTROVERTED FACES.
+      //  But if this face does have a color then we need to
+      //  create a sticker with that color
+      //  and also allow text to be placed on it.
 
       //  We're going to use the number of exposed sides
       //  to determine below what 'type' of Cubelet this is:
@@ -230,28 +186,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
       extrovertedFaces ++;
 
-
-  //     faceElement.classList.add( 'faceExtroverted' );
-
-
   //     //  STICKER.
   //     //  You know, the color part that makes the Cube
   //     //  the most frustrating toy ever.
 
-  //     var stickerElement = document.createElement( 'div' );
-  //     stickerElement.classList.add( 'sticker' );
-  //     stickerElement.classList.add( color.name );
-  //     faceElement.appendChild( stickerElement );
-
-
   //     //  TEXT.
   //     //  One character per face, mostly for our branding.
-
-  //     var textElement = document.createElement( 'div' );
-  //     textElement.classList.add( 'text' );
-  //     textElement.innerText = i;
-  //     this.faces[ i ].text = textElement;
-  //     faceElement.appendChild( textElement );
 
     }
   }
@@ -290,24 +230,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
       ( this.faces[ 4 ].color ? this.faces[ 4 ].color.initial : '-' ) +
       ( this.faces[ 5 ].color ? this.faces[ 5 ].color.initial : '-' );
 
-
-
-
-  // this.front.element.style.transform =  "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.up.element.style.transform =     "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.right.element.style.transform =   "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.down.element.style.transform =   "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
-  // this.left.element.style.transform =   "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-  // this.back.element.style.transform =   "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-
-  // this.front.element.style.OTransform = this.front.element.style.MozTransform =   this.front.element.style.WebkitTransform   = this.front.element.style.transform;
-  // this.up.element.style.OTransform   = this.up.element.style.MozTransform =     this.up.element.style.WebkitTransform     = this.up.element.style.transform;
-  // this.right.element.style.OTransform = this.right.element.style.MozTransform =  this.right.element.style.WebkitTransform   = this.right.element.style.transform;
-  // this.down.element.style.OTransform   = this.down.element.style.MozTransform =   this.down.element.style.WebkitTransform   = this.down.element.style.transform;
-  // this.left.element.style.OTransform   = this.left.element.style.MozTransform =   this.left.element.style.WebkitTransform   = this.left.element.style.transform;
-  // this.back.element.style.OTransform   = this.back.element.style.MozTransform =   this.back.element.style.WebkitTransform   = this.back.element.style.transform;
-
-
   //  If this happens to be our logo-bearing Cubelet
   //  we had better attach the logo to it!
 
@@ -327,15 +249,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   // //  These will perform their actions, of course,
   // //  but also setup their own boolean toggles.
-
-  // this.show();
-  // this.showIntroverts();
-  // this.showPlastics();
-  // this.showStickers();
-  // this.hideIds();
-  // this.hideTexts();
-  // this.hideWireframes();
-
 
   //  During a rotation animation this Cubelet marks itself as
   //  this.isTweening = true.
@@ -464,8 +377,6 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
         //  Here's some extra cuteness to make the tween's duration
         //  proportional to the distance traveled.
-
-        // var tweenDuration = ( this.radius - radius ).absolute().scale( 0, 100, 0, 1000 )
 
         this.isTweening = true;
 
