@@ -40,8 +40,9 @@ Then run the command `gulp`. This will run all the gulp tasks necessary to build
 
 You can run the individual gulp tasks by running the command `gulp task-name` in the project directory.
 
+- concat : This concatenates all the source files in the proper order to create ThreeTwist.js in the build directory.
 - copy-stylesheets : This just copies the stylesheets from src/styles into the build/styles directory.
-- minify : This concatenates all the source files in the proper order to create ThreeTwist.js in the build directory. It then minifies this file to create ThreeTwist.min.js in the build directory.
+- minify : This concatenates the source files and minifies the result to create ThreeTwist.min.js in the build directory.
 - jsdoc-generate : This runs the jsdoc-to-markdown script on the source files in order to turn the jsdoc comments into a complete markdown-formatted documentation.
 - jshint : This runs jshint on each individual source file using the options found in the .jshintrc file, and prints out warnings to be heeded by all.
 
