@@ -1,6 +1,5 @@
 /*
 
-
   COLORS
 
   Here's a little bootstrapping to create our Color constants.
@@ -14,15 +13,7 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
-
 
 
 ThreeTwist.Color = function( name, initial, hex, styleF, styleB ){

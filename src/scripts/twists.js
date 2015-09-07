@@ -1,7 +1,5 @@
 /*
 
-
-
   TWISTS
 
   Why have twist validation code in multiple places when we can create a
@@ -12,14 +10,7 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Twist = function( command, degrees ){
@@ -30,9 +21,7 @@ ThreeTwist.Twist = function( command, degrees ){
 
 };
 
-
 ThreeTwist.Twist.prototype.set = function( command, degrees ){
-
 
   //  What group of Cubelets do we intend to twist?
 
@@ -55,12 +44,10 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
   }[ command.toUpperCase() ];
 
-
   //  If we've received a valid twist group to operate on
   //  then we can proceed. Otherwise return false!
 
   if( group !== undefined ){
-
 
     //  If our degrees of rotation are negative
     //  then we need to invert the twist direction
@@ -75,7 +62,6 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
       degrees = degrees.absolute();
     }
 
-
     //  Now let's note the absolute direction of the rotation
     //  as both a number and in English.
 
@@ -87,14 +73,14 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
       vector =  1;
       wise   = 'clockwise';
+
     }
     else if( command === command.toLowerCase() ){
 
       vector = -1;
       wise   = 'anticlockwise';
+
     }
-
-
 
     //  Finally we're ready to package up all the relevant information
     //  about this particular twist.
@@ -107,21 +93,20 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     this.wise      = wise;    //  Absolute clock direction in English;
     this.isShuffle   = false;
 
-
     //  Best to leave this as a function rather than a property.
     //  I mean... imagine call this constructor if it tried to call itself!
     //  Infinite loopage mess.
 
     this.getInverse = function(){
-
       return new ThreeTwist.Twist( command.invert(), degrees );
     };
+    
   }
   else {
     return false;
   }
-};
 
+};
 
 ThreeTwist.Twist.prototype.equals = function( twist ){
 
@@ -142,7 +127,6 @@ ThreeTwist.Twist.prototype.copy = function( twist ){
 
 };
 
-
 ThreeTwist.Twist.validate = function(){
 
   var
@@ -160,19 +144,17 @@ ThreeTwist.Twist.validate = function(){
       lookAhead = undefined;
     }
 
-
     if( element instanceof ThreeTwist.Twist ){
-
 
       //  Example usage:
       //  cube.twist( new ThreeTwist.Twist( 'U' ))
       //  cube.twist( new ThreeTwist.Twist( 'U', -17 ))
       //  AWESOME. Nothing to do here.
+
     }
     else if( typeof element === 'string' ){
 
       if( element.length === 1 ){
-
 
         //  Example usage:
         //  cube.twist( 'U' )
@@ -181,6 +163,7 @@ ThreeTwist.Twist.validate = function(){
         if( typeof lookAhead === 'number' ){
 
            elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
+
         }
         else {
           elements[ i ] = new ThreeTwist.Twist( element );
@@ -188,7 +171,6 @@ ThreeTwist.Twist.validate = function(){
 
       }
       else if( element.length > 1 ){
-
 
         //  Example usage:
         //  cube.twist( 'UdrLf' )
@@ -208,25 +190,29 @@ ThreeTwist.Twist.validate = function(){
             foot    = matches.slice( m + 1 );
             match   = match.split( '' );
             matches = head.concat( match, foot );
+
           }
+
         }
+
         head = elements.slice( 0, i );
         foot = elements.slice( i + 1 );
         elements = head.concat( matches, foot );
         i --;//  Send it through the loop again to avoid duplicating logic.
+
       }
+
     }
     else if( element instanceof ThreeTwist.Direction ){
-
 
       //  Example usage:
       //  cube.twist( ThreeTwist.Direction.FRONT )
 
       elements[ i ] = element.initial;
       i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
     else if( element instanceof Array ){
-
 
       //  Example usage:
       //  cube.twist([ ? ])
@@ -235,19 +221,20 @@ ThreeTwist.Twist.validate = function(){
       foot = elements.slice( i + 1 );
       elements = head.concat( element, foot );
       i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
     else {
-
 
       //  Whatever this element is, we don't recognize it.
       //  (Could be a Number that we're discarding on purpose.)
 
       elements.splice( i, 1 );
       i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
+
   }
+
   return elements;
+
 };
-
-
-

@@ -1,6 +1,5 @@
 ThreeTwist.extend( Number.prototype, {
 
-
   absolute : function(){
 
     return Math.abs( this );

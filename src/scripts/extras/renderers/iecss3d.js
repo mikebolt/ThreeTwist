@@ -1,14 +1,10 @@
-
-
 ThreeTwist.renderers = ThreeTwist.renderers || {};
 
 ThreeTwist.renderers.IeCSS3D = (function(){
 
-
   //  This is a basic css renderer that uses a modified version of the three.js CSS3DRenderer.
   //  Having the renderer is a seperate file allows us to abstract all the visual components
   //  of the cube in a simple, straightforward way.
-
 
   //  THREE.JS HACK
 
@@ -23,12 +19,10 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
   return function( cubelets, cube ){
 
-
     //   The IE Renderer only works when hideInvisible faces is true,
     //  otherwise you get depth sorting issues.
 
     cube.hideInvisibleFaces = true;
-
 
     // SCENE + RENDERER
 
@@ -36,18 +30,12 @@ ThreeTwist.renderers.IeCSS3D = (function(){
       scene     = new THREE.Object3D();
     renderer.scene = scene;
 
-
     // Add the cube 3D object to the scene
 
     scene.add( cube.autoRotateObj3D );
     scene.add( cube.camera );
 
-
-
     cube.domElement = renderer.domElement;
-
-
-
 
     //  FACE LABELS
 
@@ -71,8 +59,6 @@ ThreeTwist.renderers.IeCSS3D = (function(){
     cube.up.label.rotation.x   = Math.PI * -0.5;
     cube.down.label.rotation.x   = Math.PI *  0.5;
 
-
-
     //  CSS CUBELETS
     //  Each ThreeTwist.Cubelet is an abstract representation of a cubelet,
     //  it has some useful information like a list of faces, but it doesn't have any visual component.
@@ -83,13 +69,9 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
     ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.IeCSS3DCubelet.methods );
 
-
-
     //   Then we use the CSS3DCubelet function to create all the dom elements.
 
     cubelets.forEach( ThreeTwist.renderers.IeCSS3DCubelet );
-
-
 
     // RENDER LOOP
 
@@ -115,26 +97,19 @@ ThreeTwist.renderers.IeCSS3D = (function(){
 
     }
 
-
     requestAnimationFrame( render );
-
-
 
     // All renderers must return an object containing a domElement and an setSize method,
     // in most instances this is the renderer object itself.
 
     return renderer;
 
-
   };
 
 }());
 
 
-
-
 ThreeTwist.renderers.IeCSS3DCubelet = (function(){
-
 
   var axisMap = [
     'axisZ',
@@ -145,12 +120,9 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     'axisZ'
   ];
 
-
   return function( cubelet ){
 
-
     cubelet.add( cubelet.css3DObject = new THREE.Object3D() );
-
 
     //  CUBELET FACES
 
@@ -168,11 +140,9 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       var faceElement = face.element = face.object3D.element;
       cubelet.css3DObject.add( face.object3D );
 
-
       //  FACE CONTAINER.
       //  This face of our Cubelet needs a DOM element for all the
       //  related DOM elements to be attached to.
-
 
       faceElement.classList.add( 'cubeletId-' + cubelet.id );
       faceElement.classList.add( 'face' );
@@ -183,8 +153,6 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       wireframeElement.classList.add( 'wireframe' );
       faceElement.appendChild( wireframeElement );
 
-
-
       //  CUBELET ID.
       //  For debugging we want the ability to display this Cubelet's ID number
       //  with an underline (to make numbers like 6 and 9 legible upside-down).
@@ -193,17 +161,14 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
       idElement.classList.add( 'id' );
       faceElement.appendChild( idElement );
 
-
       var underlineElement = document.createElement( 'span' );
       underlineElement.classList.add( 'underline' );
       underlineElement.innerText = cubelet.id;
       idElement.appendChild( underlineElement );
 
-
       //  INTROVERTED FACES.
       //  If this face has no color sticker then it must be interior to the Cube.
       //  That means in a normal state (no twisting happening) it is entirely hidden.
-
 
       if( face.isIntrovert ){
 
@@ -214,7 +179,6 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
       }
 
-
       //  EXTROVERTED FACES.
       //  But if this face does have a color then we need to
       //  create a sticker with that color
@@ -222,11 +186,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
 
       else {
 
-
-
         faceElement.classList.add( 'faceExtroverted' );
-
-
 
         //  STICKER.
         //  You know, the color part that makes the Cube
@@ -236,8 +196,6 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
         stickerElement.classList.add( 'sticker' );
         stickerElement.classList.add( face.color.name );
         faceElement.appendChild( stickerElement );
-
-
 
         //  TEXT.
         //  One character per face, mostly for our branding.
@@ -260,9 +218,7 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     cubelet.up.object3D.element.classList.add( 'axisY' );
     cubelet.down.object3D.element.classList.add( 'axisY' );
 
-
     // Our faces all point in different directions so we'll need to rotate them individually
-
 
     var faceSpacing = cubelet.size / 2;
 
@@ -275,9 +231,6 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     cubelet.front.object3D.rotation.z   = 0;        cubelet.front.object3D.position.z   =  faceSpacing;
     cubelet.back.object3D.rotation.y   = Math.PI;      cubelet.back.object3D.position.z   = -faceSpacing;
 
-
-
-
     //  We need to know if we're "engaged" on an axis
     //  which at first seems indentical to isTweening,
     //  until you consider partial rotations.
@@ -286,7 +239,6 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     cubelet.isEngagedX = false;
     cubelet.isEngagedY = false;
     cubelet.isEngagedZ = false;
-
 
     //  These will perform their actions, of course,
     //  but also setup their own boolean toggles.
@@ -299,23 +251,15 @@ ThreeTwist.renderers.IeCSS3DCubelet = (function(){
     cubelet.hideTexts();
     cubelet.hideWireframes();
 
-
-
-
-
   };
 
 }());
-
-
 
 
 //   The method object contains functionality specific to the CSS3D renderer that we add
 //  to the ThreeTwist.Cubelet prototype
 
 ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
-
-
 
   function showItem( item ){
     item.style.display = 'block';
@@ -324,8 +268,6 @@ ThreeTwist.renderers.IeCSS3DCubelet.methods = function(){
   function hideItem( item ){
     item.style.display = 'none';
   }
-
-
 
   return {
 

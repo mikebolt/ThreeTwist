@@ -1,6 +1,5 @@
 /*
 
-
   FOLDS
 
   Folds are two adjacent Faces joined together, as if one
@@ -37,20 +36,12 @@
   heroized after the first Cube mapping. After the Cube
   twists things would get rather weird...
 
-
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Fold = function( left, right ){
@@ -77,31 +68,32 @@ ThreeTwist.Fold = function( left, right ){
     right.southWest[   right.face ].text,
     right.south[        right.face ].text,
     right.southEast[   right.face ].text
+    
   ];
+  
 };
-
-
-
 
 ThreeTwist.Fold.prototype.getText = function(){
 
   var text = '';
 
   this.map.forEach( function( element ){
-
     text += element.innerHTML;
   });
+  
   return text;
+  
 };
+
 ThreeTwist.Fold.prototype.setText = function( text ){
 
   var i;
 
   text = text.justifyLeft( 18 );
   for( i = 0; i < 18; i ++ ){
-
     this.map[ i ].innerHTML = text.substr( i, 1 );
   }
+  
 };
 
 

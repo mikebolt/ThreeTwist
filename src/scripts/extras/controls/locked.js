@@ -1,8 +1,6 @@
 ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
-
   cube.domElement.ondragstart = function(){ return false; };
-
 
   var api = {
     enabled : true,
@@ -10,9 +8,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     rotateOnClick:false
   };
 
-
   var projector = new ThreeTwist.Projector( cube, domElement ),
-
     axis = new THREE.Vector3(),
     current = new THREE.Vector3(),
     start = new THREE.Vector3(),
@@ -23,9 +19,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     pixelRatio = window.devicePixelRatio || 1,
     axisDefined = false;
 
-
   var initialRotation = new THREE.Matrix4().makeRotationFromEuler( new THREE.Euler( Math.PI * 0.1, Math.PI * -0.25, 0 ));
-
 
   // Returns the bounding area of the element
   function getBoundingClientRect( element ){
@@ -41,7 +35,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
   }
 
-
   function onInteractStart( event ){
 
     if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
@@ -54,23 +47,18 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       x *= pixelRatio;
       y *= pixelRatio;
 
-
       // If the current coordinates are outside the cube,
       // then this is a candidate for a full cube rotation.
 
       if( projector.getIntersection( camera, x, y ) === null ){
 
-
         if( cube.isTweening() === 0 ){
-
 
           // Get a time stamp
           time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
 
-
           start.set( x, y, 0 );
           current.set( x, y, 0 );
-
 
           domElement.removeEventListener( 'mousedown', onInteractStart );
           document.addEventListener( 'mousemove',    onInteractMove );
@@ -80,7 +68,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
           document.addEventListener( 'touchmove',    onInteractMove );
           document.addEventListener( 'touchend',      onInteractEnd );
 
-
         }
 
       }
@@ -89,9 +76,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
   }
 
-
   function onInteractMove( event ){
-
 
     if( api.enabled ){
 
@@ -105,13 +90,10 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
       current.set( x, y, 0 );
 
-
     }
   }
 
-
   function onInteractEnd( event ){
-
 
     domElement.addEventListener( 'mousedown',   onInteractStart );
     document.removeEventListener( 'mousemove',  onInteractMove );
@@ -139,28 +121,21 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         command = 'z';
       }
 
-
-
       // Find the nearest 'complete' rotation
       angle = -Math.round( group.rotation / Math.PI * 2.0 ) * Math.PI * 0.5;
 
-
-
       // Get the velocity of the gesture.
       velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
-
 
       // If the gesture is faster than a predefined speed, then we assume this
       // is a swipe rather than a drag
 
       if( velocity > 0.8 ){
 
-
         // If we are performing a 'z' twist, we should invert the rotation calculation
         if( command === 'z' ) {
           absDirection.negate();
         }
-
 
         // Depending on the gesture direction we'll need to set the rotation to positive or negative
 
@@ -188,7 +163,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       axis.transformDirection( initialRotation );
       axis.transformDirection( inverse );
 
-
       if     ( Math.abs( Math.round( axis.x )) === 1 ) {
         command = 'z';
       }
@@ -213,15 +187,12 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     start.set( 0, 0, 0 );
     time = 0;
 
-
   }
-
 
   //  This function provides a way to 'snap' a vector to it's closest axis.
   //  This is usefult to to determine a probable axis of rotation. It's fairly naive, but it works.
 
   function snapVectorToBasis( vector ){
-
 
     var max = Math.max( Math.abs( vector.x ), Math.abs( vector.y ), Math.abs( vector.z ));
 
@@ -233,13 +204,10 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
   }
 
-
-
   // For any given screen coordinates, this function
   // returns the face most likely to be associated with it.
 
   var getFace = function(){
-
 
     var intersection = new THREE.Vector3(),
       matrixInverse = new THREE.Matrix4(),
@@ -256,12 +224,10 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       cube.object3D.updateMatrixWorld();
       matrixInverse.getInverse( cube.matrixWorld );
 
-
       // For every face ...
       while( i-- ){
 
         point.set( x *-1 , y, 0 );
-
 
         // get the associated plane ...
         plane.normal.copy( faces[i].axis );
@@ -271,7 +237,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         plane.constant = cube.size * 0.5;
 
         plane.normal.transformDirection( initialRotation );
-
 
         // and calculate where it intersects with the coordinates
         plane.orthoPoint( point, intersection );
@@ -288,24 +253,15 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     };
   }();
-
-
-
-
-
-
+  
   domElement.addEventListener( 'mousedown',   onInteractStart );
   domElement.addEventListener( 'touchstart',  onInteractStart );
 
-
-
   api.update = function(){
-
 
     // get a direction of movment
     direction.x = current.x - start.x;
     direction.y = current.y - start.y;
-
 
     // If we have not previously defined an axis of rotation,
     // for example, when a user begins interacting and the movement is not accidental,
@@ -313,11 +269,9 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     if( !axisDefined && direction.length() > 30 ){
 
-
       axisDefined = true;
 
       sign = 1;
-
 
       // Get an absolute directon, we use this to find signed rotation
       absDirection.copy( direction );
@@ -328,22 +282,17 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       absDirection.y = Math.abs( absDirection.y );
       absDirection.z = Math.abs( absDirection.z );
 
-
       // Get a vector perpendicular to the direction
       axis.set( absDirection.y * -1, absDirection.x, 0 );
       axis.normalize();
 
-
       // Snap to the nearest basis
-
       axis.x = Math.round( axis.x );
       axis.y = Math.round( axis.y ) * ( 1.0 - Math.abs( axis.x ) );
       axis.negate();
 
-
       // If the axis is horizontal, then we could be rotating on one of two axes
       if( axis.y === 0 ){
-
 
         var face = getFace( [cube.front, cube.right ],
             current.x - screen.width * pixelRatio * 0.5,
@@ -354,12 +303,9 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         axis.transformDirection( initialRotation );
         axis.transformDirection( inverse );
 
-
         sign = -1 * ( Math.round( axis.x ) ||  Math.round( axis.y ) ||  Math.round( axis.z ));
 
-
       }
-
 
       // Find out the associated cube group to rotate based on the axis of rotation.
       // ThreeTwist.Cube maintains 3 special groups (X, Y, Z ) that contain all cubelets,
@@ -375,10 +321,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         group = cube.slicesDictionary.x;
       }
 
-
-
     }
-
 
     // If we have an axis to rotate on, then we can calculate how much to rotate by
 
@@ -392,8 +335,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       group.rotation = angle * api.rotationSpeed;
 
     }
-
-
 
   };
 

@@ -1,6 +1,5 @@
 /*
 
-
   GROUPS
 
    ThreeTwist.Groups are collections of an arbitrary number of Cubelets.
@@ -12,14 +11,7 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Group = function(){
@@ -29,11 +21,9 @@ ThreeTwist.Group = function(){
   this.add( Array.prototype.slice.call( arguments ));
 };
 
-
 ThreeTwist.extend( ThreeTwist.Group.prototype, THREE.EventDispatcher.prototype );
 
 ThreeTwist.extend( ThreeTwist.Group.prototype, {
-
 
   add: function(){
 
@@ -79,9 +69,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     return this;
   },
 
-
-
-
   //  Boolean checker.
   //  Are any Cubelets in this group tweening?
   //  Engaged on the Z axis? Etc.
@@ -115,9 +102,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     return this.isEngagedX() + this.isEngagedY() + this.isEngagedZ();
   },
-
-
-
 
   //  Search functions.
   //  What Cubelets in this ThreeTwist.Group have a particular color?
@@ -178,7 +162,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     return results;
   },
 
-
   isSolved: function( face ){
 
     if( face ){
@@ -210,8 +193,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       return false;
     }
   },
-
-
 
 
   //  Visual switches.
@@ -298,10 +279,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts(); });
     return this;
   },
-
-
-
-
   getOpacity: function(){
 
     var avg = 0;
@@ -326,8 +303,5 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ); });
     return this;
   }
-
-
-
 
 });

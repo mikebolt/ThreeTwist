@@ -1,6 +1,5 @@
 /*
 
-
   QUEUES
 
   Queues are glorified Arrays and rather useful for things like our
@@ -11,18 +10,10 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
 
 
-
-
-
-
-
-
 ThreeTwist.Queue = function( validation ){
-
 
   //  Do we want to run a validation routine on objects being stored in
   //  this ThreeTwist.Queue? If so you can send the function as an argument to the
@@ -32,7 +23,6 @@ ThreeTwist.Queue = function( validation ){
     this.validate = validation;
   }
 
-
   //  The rest is vanilla.
 
   this.history = [];
@@ -40,9 +30,8 @@ ThreeTwist.Queue = function( validation ){
   this.future  = [];
   this.isReady = true;
   this.isLooping = false;
+  
 };
-
-
 
 
 //  The idea here with .add() is that .validate() will always return an Array.
@@ -69,6 +58,7 @@ ThreeTwist.Queue.prototype.add = function(){
   return this.future;
 
 };
+
 ThreeTwist.Queue.prototype.remove = function(){
 
   var  elements = Array.prototype.slice.call( arguments );
@@ -115,7 +105,9 @@ ThreeTwist.Queue.prototype.empty = function( emptyHistory ){
   if( emptyHistory ) {
     this.history = [];
   }
+  
 };
+
 ThreeTwist.Queue.prototype.dequeue = function(){
 
   if( this.future.length ){
@@ -125,13 +117,16 @@ ThreeTwist.Queue.prototype.dequeue = function(){
       this.history.push( element );
     }
     return element;
+    
   }
   else if( this.isLooping ){
 
     this.future  = this.history.slice();
     this.history = [];
   }
+  
 };
+
 ThreeTwist.Queue.prototype.undo = function(){
 
   if( this.history.length ){
@@ -139,12 +134,12 @@ ThreeTwist.Queue.prototype.undo = function(){
     var element = this.history.pop();
     this.future.unshift( element );
     return element;
+    
   }
+  
 };
 ThreeTwist.Queue.prototype.redo = function(){
 
   return this.dequeue();
+  
 };
-
-
-

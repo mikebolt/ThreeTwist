@@ -1,6 +1,5 @@
 ThreeTwist.extend( Array.prototype, {
 
-
   distanceTo : function( target ){
 
     var i, sum = 0;
@@ -114,6 +113,5 @@ ThreeTwist.extend( Array.prototype, {
     }
     return text;
   }
-
 
 });

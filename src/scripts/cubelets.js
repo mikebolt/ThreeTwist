@@ -1,6 +1,5 @@
 /*
 
-
   CUBELETS
 
   Faces are mapped in a clockwise spiral from Front to Back:
@@ -30,7 +29,6 @@
     this.faces[ 4 ] === this.left
     this.faces[ 5 ] === this.back
 
-
   Each Cubelet has an Index which is assigned during Cube creation
   and an Address which changes as the Cubelet changes location.
   Additionally an AddressX, AddressY, and AddressZ are calculated
@@ -40,33 +38,22 @@
 
     this.inspect()
 
-
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Cubelet = function( cube, id, colors ){
 
-
   THREE.Object3D.call( this );
-
 
   //  Our Cube can directly address its Cubelet children,
   //  only fair the Cubelet can address their parent Cube!
 
   this.cube = cube;
-
 
   //  Our Cubelet's ID is its unique number on the Cube.
   //  Each Cube has Cubletes numbered 0 through 26.
@@ -76,14 +63,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.id = id || 0;
 
-
   //  Our Cubelet's address is its current location on the Cube.
   //  When the Cubelet is initialized its ID and address are the same.
   //  This method will also set the X, Y, and Z components of the
   //  Cubelet's address on the Cube.
 
   this.setAddress( this.id );
-
 
   //  We're going to build Cubelets that are 140 pixels square.
   //  Yup. This size is hardwired in Cube.
@@ -92,7 +77,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  that's a 2D measurement -- doesn't account for pos and rot.
 
   this.size = cube.cubeletSize || 140;
-
 
   //  Now we can find our Cubelet's X, Y, and Z position in space.
   //  We only need this momentarily to create our Object3D so
@@ -107,12 +91,9 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
   this.updateMatrix();
 
-
-
   // // Add the cublet to the cube object
   this.cube.object3D.add( this );
 
-  
   //  We're about to loop through our colors[] Array
   //  to build the six faces of our Cubelet.
   //  Here's our overhead for that:
@@ -123,7 +104,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   }
   this.faces = [];
 
-
   //  Now let's map one color per side based on colors[].
   //  Undefined values are allowed (and anticipated).
   //  We need to loop through the colors[] Array "manually"
@@ -131,14 +111,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   for( var i = 0; i < 6; i ++ ){
 
-
     //  Before we create our face's THREE object
     //  we need to know where it should be positioned and rotated.
     // (This is based on our above positions and rotations map.)
 
     var
     color  = colors[ i ] || ThreeTwist.COLORLESS;
-
 
     //  Each face is an object and keeps track of its original ID number
     // (which is important because its address will change with each rotation)
@@ -148,14 +126,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     this.faces[ i ].id = i;
     this.faces[ i ].color = color;
 
-
     //  We're going to keep track of what face was what at the moment of initialization,
     //  mostly for solving purposes.
     //  This is particularly useful for Striegel's solver
     //  which requires an UP normal.
 
     this.faces[ i ].normal = ThreeTwist.Direction.getNameById( i );
-
 
   //   //  FACE CONTAINER.
   //   //  This face of our Cubelet needs a DOM element for all the
@@ -196,7 +172,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     }
   }
 
-
   //  Now that we've run through our colors[] Array
   //  and counted the number of extroverted sides
   //  we can determine what 'type' of Cubelet this is.
@@ -209,8 +184,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     'corner'
 
   ][ extrovertedFaces ];
-
-
 
   //  Convience accessors for the Cubelet's faces.
   //  What color is the left face? this.left() !!
@@ -235,8 +208,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center';
 
-
-
   //  We need to know if we're "engaged" on an axis
   //  which at first seems indentical to isTweening,
   //  until you consider partial rotations.
@@ -245,7 +216,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   this.isEngagedX = false;
   this.isEngagedY = false;
   this.isEngagedZ = false;
-
 
   // //  These will perform their actions, of course,
   // //  but also setup their own boolean toggles.
@@ -256,16 +226,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.isTweening = false;
 
-
   //  Some fun tweenable properties.
 
   this.opacity = 1;
   this.radius  = 0;
+  
 };
-
-
-
-
 
 
 //  Let's add some functionality to Cubelet's prototype
@@ -274,7 +240,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 ThreeTwist.Cubelet.prototype = Object.create( THREE.Object3D.prototype );
 
 ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
-
 
   //  Aside from initialization this function will be called
   //  by the Cube during remapping.
@@ -289,8 +254,8 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     this.addressX = address.modulo( 3 ).subtract( 1 );
     this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1;
     this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1;
+    
   },
-
 
   //  Does this Cubelet contain a certain color?
   //  If so, return a String decribing what face that color is on.
@@ -309,26 +274,25 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
         face = i;
         break;
+        
       }
     }
     if( face !== undefined ){
 
       return [
-
         'front',
         'up',
         'right',
         'down',
         'left',
         'back'
-
       ][ face ];
+      
     }
     else {
       return false;
     }
   },
-
 
   //  Similar to above, but accepts an arbitrary number of colors.
   //  This function implies AND rather than OR, XOR, etc.
@@ -347,13 +311,11 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     return result;
   },
 
-
   getRadius: function(){
 
     return this.radius;
   },
   setRadius: function( radius, onComplete ){
-
 
     //  @@
     //  It's a shame that we can't do this whilst tweening
@@ -374,7 +336,6 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
       
       if( this.radius !== radius ){
 
-
         //  Here's some extra cuteness to make the tween's duration
         //  proportional to the distance traveled.
 
@@ -382,8 +343,6 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
         var tweenDuration = ( this.radius - radius ).absolute(),
           obj = {radius:this.radius};
-
-
 
         new TWEEN.Tween( obj )
         .to( { radius: radius }, tweenDuration )
@@ -415,6 +374,9 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
         .start( this.cube.time );
 
       }
+      
     }
+    
   }
+  
 });

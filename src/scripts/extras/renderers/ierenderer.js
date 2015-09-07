@@ -1,4 +1,3 @@
-
 /**
  * Based on THREE.CSSRenderer http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
  *
@@ -14,7 +13,6 @@
  * NOTE: This isn't entirely bug free. There are some visible glitches when the depth sorting is incorrect.
  *
  */
-
 
 THREE.CSS3DObject = function ( element ) {
 
@@ -50,8 +48,6 @@ THREE.CSS3DSprite = function ( element ) {
 };
 
 THREE.CSS3DSprite.prototype = Object.create( THREE.CSS3DObject.prototype );
-
-
 
 ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
@@ -94,16 +90,12 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   };
 
-
-
   var getObjectCSSTransform = function(){
-
 
     var position = new THREE.Vector3(),
       scale    = new THREE.Vector3(),
       euler    = new THREE.Euler(),
       quaternion = new THREE.Quaternion();
-
 
     euler._quaternion = quaternion;
     quaternion._euler = euler;
@@ -146,7 +138,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   }();
 
-
   var cameraMatrix = new THREE.Matrix4();
   var matrixWorld = new THREE.Matrix4();
 
@@ -155,7 +146,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     var viewProjectionMatrix = new THREE.Matrix4();
 
     return function( vector, camera ) {
-
 
       viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
 
@@ -171,7 +161,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   var renderObject = function ( object ) {
 
-
     matrixWorld.multiplyMatrices( cameraMatrix, object.matrixWorld );
 
     matrixWorld.elements[4] *= -1;
@@ -179,12 +168,9 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     matrixWorld.elements[6] *= -1;
     matrixWorld.elements[7] *= -1;
 
-
     var style =  getObjectCSSTransform( matrixWorld  );
 
-
     var element = object.element;
-
 
     element.style.WebkitTransform = style;
     element.style.MozTransform = style;
@@ -195,7 +181,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     element.style.MozPerspective = fov + "px";
     element.style.oPerspective = fov + "px";
     element.style.perspective = fov + "px";
-
 
     if ( element.parentNode !== cameraElement ) {
 
@@ -208,7 +193,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   function painterSort( a, b ){
     return a.z - b.z;
   }
-
 
   function sortVerts( obj ){
 
@@ -223,8 +207,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     return obj.userData.points;
 
   }
-
-
 
   var sameSide = function(){
 
@@ -249,7 +231,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       }
 
       return true;
-
 
     };
   }();
@@ -315,7 +296,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   }
 
-
   function IntersectsProp( P, Q, prop ){
 
     return Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop];
@@ -349,16 +329,12 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     cameraMatrix.multiply( camera.matrixWorldInverse );    // Get view
     cameraMatrix.multiply( fovOffset );            // Add FOV offset
 
-
     cameraMatrix.elements[1] *= -1;
     cameraMatrix.elements[5] *= -1;
     cameraMatrix.elements[9] *= -1;
     cameraMatrix.elements[13] *= -1;
 
-
     renderList = [];
-
-
 
     cube.cubelets.forEach( function(cubelet){
 
@@ -382,12 +358,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     });
 
-
-
-
     var sorted, p1z, p2z;
-
-
 
     // Sort by furthest point
     renderList.sort( function( a, b ){
@@ -396,7 +367,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       p1z = sorted[0].z;
       smallest( a.userData.min, sorted );
       largest( a.userData.max, sorted );
-
 
       sorted = sortVerts( b, camera );
       p2z = sorted[0].z;
@@ -410,7 +380,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
     });
 
-
     var p, q, tmp, l = renderList.length;
     for ( p = 0 ; p < l; p ++ ) {
 
@@ -420,13 +389,11 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
       P.userData.zIndex = ( P.userData.zIndex === null ) ? p : P.userData.zIndex;
 
-
       for ( q = p; q < l; q ++ ) {
 
         var Q = renderList[q];
 
         Q.userData.zIndex = ( Q.userData.zIndex === null ) ? q : Q.userData.zIndex;
-
 
         if( Intersects( P, Q ) ) {
 

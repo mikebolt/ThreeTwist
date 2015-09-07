@@ -1,6 +1,5 @@
 /*
 
-
   CUBES
 
   A Cube is composed of 27 Cubelets (3x3x3 grid) numbered 0 through 26.
@@ -36,8 +35,6 @@
     this.corners
     this.crosses
 
-
-
   Portions of the Cube are grouped and rotatable (Slices):
 
   Rotatable around the Z axis:
@@ -55,8 +52,6 @@
     this.equator
     this.down
 
-
-
   A Cube may be inspected through its Faces (see Slices for more
   information on Faces vs Slices). From the browser's JavaScript console:
 
@@ -68,27 +63,21 @@
 
     this.inspect( true )
 
-
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
 
 
 ThreeTwist.Cube = function( parameters ){
 
-
   ThreeTwist.Group.call( this );
-
 
   // Constructor parameters
 
   parameters = parameters || {};
-
 
   this.paused             = parameters.paused === undefined ? false : parameters.paused;
   this.autoRotate          = parameters.autoRotate === undefined ? false : parameters.autoRotate;
@@ -97,14 +86,12 @@ ThreeTwist.Cube = function( parameters ){
 
   var renderFactory         = parameters.renderer || ThreeTwist.renderers.CSS3D;
 
-
   //  Some important booleans.
 
   //  The textureSize sets the physical size of the cublets in pixels.
   //  This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsampling
   //  pretty either. In general, it's best to set the texture size to roughly the same size they'll appear on screen.
   parameters.textureSize       = parameters.textureSize === undefined ? 120 : parameters.textureSize;
-
 
   this.isShuffling   = false;
   this.isReady       = true;
@@ -114,54 +101,36 @@ ThreeTwist.Cube = function( parameters ){
   this.finalShuffle   = null;
   this.hideInvisibleFaces = parameters.hideInvisibleFaces === undefined ? false : parameters.hideInvisibleFaces;
 
-
-
-
   //  The amount of time we've been running
   this.time = 0;
-
 
   //   We'll keep an record of the number of moves we've made
   //   Useful for keeping scores.
   this.moveCounter = 0;
 
-
   //  Every fire of this.loop() will attempt to complete our tasks
   //  which can only be run if this.isReady === true.
-
   this.taskQueue = new ThreeTwist.Queue();
-
 
   //  We need the ability to gang up twist commands.
   //  Every fire of this.loop() will attempt to empty it.
-
   this.twistQueue = new ThreeTwist.Queue( ThreeTwist.Twist.validate );
-
 
   //  Although we have a queue containing all our twists
   //  we also need a way to collect any undo requests into a similar queue
-
   this.historyQueue = new ThreeTwist.Queue( ThreeTwist.Twist.validate );
 
-
   //  How long should a Cube.twist() take?
-
   this.twistDuration = parameters.twistDuration !== undefined ? parameters.twistDuration : 500;
 
-
   //  If we shuffle, how shall we do it?
-
   this.shuffleMethod = this.PRESERVE_LOGO;
-
 
   //  Size matters? Cubelets will attempt to read these values.
   this.size = parameters.textureSize * 3;
   this.cubeletSize = this.size / 3;
 
-
-
   //  To display our cube, we'll need some 3D specific attributes, like a camera
-
   var
   FIELD_OF_VIEW = 35,
   WIDTH         = window.innerWidth,
@@ -173,12 +142,9 @@ ThreeTwist.Cube = function( parameters ){
   this.camera = new THREE.PerspectiveCamera( FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR );
   this.camera.position.z = this.size * 4;
 
-
-
-  //  To do all the things normaly associated with a 3D object
+  //  To do all the things normally associated with a 3D object
   //  we'll need to borrow a few properties from Three.js.
   //  Things like position rotation and orientation.
-
   this.object3D = new THREE.Object3D();
   this.autoRotateObj3D = new THREE.Object3D();
   this.rotation   = this.object3D.rotation;
@@ -187,7 +153,6 @@ ThreeTwist.Cube = function( parameters ){
   this.matrix   = this.object3D.matrix;
   this.matrixWorld= this.object3D.matrixWorld;
 
-
   this.rotation.set(
 
     25  * Math.PI / 180,
@@ -195,15 +160,9 @@ ThreeTwist.Cube = function( parameters ){
     0
   );
 
-
-
   //  If we enable Auto-Rotate then the cube will spin (not twist!) in space
   //  by adding the following values to the Three object on each frame.
-
   this.rotationDelta = new THREE.Euler( 0.1 * Math.PI / 180, 0.15 * Math.PI / 180, 0 );
-
-
-
 
   //  Here's the first big map we've come across in the program so far.
   //  Imagine you're looking at the Cube straight on so you only see the front face.
@@ -211,28 +170,21 @@ ThreeTwist.Cube = function( parameters ){
   //  that's 3 x 3 = 9 Cubelets.
   //  But then behind the Front slice we also have a Standing slice (9) and Back slice (9),
   //  so that's going to be 27 Cubelets in total to create a Cube.
-
+  // TODO: This should be done programmatically.
   this.cubelets = [];
   
   [
-    // TODO: This should be done programmatically.
-  
     //  Front slice
-
     [ W, O,  ,  , G    ],    [ W, O             ],    [ W, O, B          ],//   0,  1,  2
     [ W,  ,  ,  , G    ],    [ W                ],    [ W,  , B          ],//   3,  4,  5
     [ W,  ,  , R, G    ],    [ W,  ,  , R       ],    [ W,  , B, R       ],//   6,  7,  8
 
-
     //  Standing slice
-
     [  , O,  ,  , G    ],    [  , O             ],    [  , O, B          ],//   9, 10, 11
     [  ,  ,  ,  , G    ],    [                  ],    [  ,  , B          ],//  12, XX, 14
     [  ,  ,  , R, G    ],    [  ,  ,  , R       ],    [  ,  , B, R       ],//  15, 16, 17
 
-
     //  Back slice
-
     [  , O,  ,  , G, Y ],    [  , O,  ,  ,  , Y ],    [  , O, B,  ,  , Y ],//  18, 19, 20
     [  ,  ,  ,  , G, Y ],    [  ,  ,  ,  ,  , Y ],    [  ,  , B,  ,  , Y ],//  21, 22, 23
     [  ,  ,  , R, G, Y ],    [  ,  ,  , R,  , Y ],    [  ,  , B, R,  , Y ] //  24, 25, 26
@@ -243,12 +195,6 @@ ThreeTwist.Cube = function( parameters ){
 
   }.bind( this ));
 
-
-
-
-
-
-
   //  Mapping the Cube creates all the convenience shortcuts
   //  that we will need later. (Demonstrated immediately below!)
 
@@ -256,7 +202,6 @@ ThreeTwist.Cube = function( parameters ){
   //  We need a map that relates these 27 locations to the 27 cubelets
   //  such that we can ask questions like:
   //  What colors are on the Front face of the cube? Etc.
-
 
   //  Groups are simple collections of Cubelets.
   //  Their position and rotation is irrelevant.
@@ -285,8 +230,6 @@ ThreeTwist.Cube = function( parameters ){
     }
 
   }.bind( this ));
-
-
 
   //  Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
   //  Slices are Groups with purpose; they are rotate-able!
@@ -319,7 +262,6 @@ ThreeTwist.Cube = function( parameters ){
   this.right.name = 'right';
   this.right.neighbour = this.middle;
   this.left.neighbour = this.middle;
-
 
   //  Slices that can rotate about the Y-axis:
 
@@ -378,15 +320,11 @@ ThreeTwist.Cube = function( parameters ){
   this.back.neighbour = this.standing;
   this.front.neighbour = this.standing;
 
-
   //  Faces .... special kind of Slice!
 
   this.faces = [ this.front, this.up, this.right, this.down, this.left, this.back ];
 
-
   this.slices = [ this.left, this.middle, this.right, this.down, this.equator, this.up, this.back, this.standing, this.front ];
-
-
 
   //   We also probably want a handle on any update events that occur, for example, when a slice is rotated
   var onSliceRotated = function( evt ){
@@ -396,9 +334,6 @@ ThreeTwist.Cube = function( parameters ){
   this.slices.forEach( function( slice ){
     slice.addEventListener( 'change', onSliceRotated );
   });
-
-
-
 
   // Dictionary to lookup slice
   var allIndices = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 ];
@@ -426,8 +361,6 @@ ThreeTwist.Cube = function( parameters ){
     'z': new ThreeTwist.Slice( allIndices, this )
   };
 
-
-
   // Internally we have the ability to hide any invisible faces,
   // When a slice is rotated we determine what faces should be visible
   // so the cube doesn't look broken. This happend every time a slice is rotated.
@@ -437,9 +370,6 @@ ThreeTwist.Cube = function( parameters ){
   this.slicesDictionary.y.ableToHideInternalFaces = false;
   this.slicesDictionary.z.ableToHideInternalFaces = false;
 
-
-
-
   //  For the x,y and z groups we've defined above,
   //  we'll need to manually set an axis since once can't be automatically computed
 
@@ -447,15 +377,11 @@ ThreeTwist.Cube = function( parameters ){
   this.slicesDictionary.y.axis.set( 0, -1, 0 );
   this.slicesDictionary.z.axis.set( 0, 0, -1 );
 
-
-
   //  Good to let each Cubelet know where it exists
 
   this.cubelets.forEach( function( cubelet, i ){
     cubelet.setAddress( i );
   });
-
-
 
   //   RENDERER
   //  Create a renderer object from the renderer factory.
@@ -468,11 +394,9 @@ ThreeTwist.Cube = function( parameters ){
 
   this.autoRotateObj3D.add( this.object3D );
 
-
   if( this.hideInvisibleFaces ) {
     this.hideIntroverts( null, true );
   }
-
 
   //  The Interaction class provides all the nifty mouse picking stuff.
   //  It's responsible for figuring out what cube slice is supposed to rotate
@@ -480,55 +404,40 @@ ThreeTwist.Cube = function( parameters ){
 
   this.mouseInteraction = new ThreeTwist.Interaction( this, this.camera, this.domElement );
 
-
   this.mouseInteraction.addEventListener( 'click', function( evt ){
 
     this.dispatchEvent( new CustomEvent("click", { detail: evt.detail  }));
 
   }.bind( this ));
 
-
   //  set up interactive controls
   //  The Controls class rotates the entire cube around using an arcball implementation.
   //  You could override this with a different style of control
-
   var controlsConstructor = parameters.controls || ThreeTwist.Controls;
   this.controls = new controlsConstructor( this, this.camera, this.domElement );
-
-
-
 
   //  We need to map our folds separately from Cube.map()
   //  because we only want folds mapped at creation time.
   //  Remapping folds with each Cube.twist() would get weird...
-
   this.folds = [
     new ThreeTwist.Fold( this.front, this.right ),
     new ThreeTwist.Fold( this.left,  this.up    ),
     new ThreeTwist.Fold( this.down,  this.back  )
   ];
 
-
   //   Define a default size for our cube, this will be resized to 100%
   //  of it's containing dom element during the render.
   this.setSize( 400, 200 );
 
-
-
-
   //  Get ready for major loop-age.
   //  Our Cube checks these booleans at 60fps.
-
   this.loop = this.loop.bind( this );
   requestAnimationFrame( this.loop );
-
-
 
   //  The cube needs to respond to user interaction and react accordingly.
   //  We'll set up a few event below to listen for specific commands,
 
   //  Enable key commands for our Cube.
-
   document.addEventListener( 'keypress', function( event ){
     if( event.target.tagName.toLowerCase() !== 'input' &&
       event.target.tagName.toLowerCase() !== 'textarea' &&
@@ -543,21 +452,14 @@ ThreeTwist.Cube = function( parameters ){
     }
   }.bind( this ));
 
-
-
-
 };
-
-
 
 
 ThreeTwist.Cube.prototype = Object.create( ThreeTwist.Group.prototype );
 ThreeTwist.Cube.prototype.constructor = ThreeTwist.Cube;
 ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
-
   shuffle: function( amount, sequence ){
-
 
     //  How many times should we shuffle?
     amount = amount || 30;
@@ -565,16 +467,13 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
                 //  random moves from this.shuffleMethod.
     sequence = sequence || '';
 
-
     var moves = this.shuffleMethod.slice(),
       move, inverseOfLastMove = new ThreeTwist.Twist(), allowedMoves,
       sequenceLength = sequence.length, sequenceIndex = 0;
 
-
     //  We're shuffling the cube so we should clear any history
     this.twistQueue.empty( true );
     this.historyQueue.empty( true );
-
 
     //  Create some random rotations based on our shuffle method
     while( amount-- > 0 ){
@@ -589,7 +488,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         //  We don't want to chose a move that reverses the last shuffle, it just looks odd,
         //  so we should only select a move if it's a new one.
-
         while( move.equals( inverseOfLastMove )){
 
           move.set( allowedMoves.splice( Math.floor( Math.random() * allowedMoves.length  ), 1 )[0] );
@@ -597,35 +495,28 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
         }
       }
 
-
       //  If we flag this move as a shuffle, then we can remove it from the history
       //  once we've executed it.
       move.isShuffle = true;
 
-
       //  execute the shuffle
       this.twist( move );
-
 
       //  Store a reference to the reverse of the move ( a twist that undoes the shuffle )
       inverseOfLastMove = move.getInverse();
 
     }
 
-
     //  By stashing the last move in our shuffle sequence, we can
     //   later check if the shuffling is complete
     this.finalShuffle = move;
 
-
   },
-
 
   solve: function(){
 
     this.isSolving = true;
   },
-
 
   isSolved: function(){
 
@@ -638,7 +529,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   },
 
-
   undo: function(){
 
     if( this.twistQueue.history.length > 0 ){
@@ -649,7 +539,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     }
 
   },
-
 
   redo: function(){
 
@@ -663,7 +552,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   },
 
-
   twist: function( command ){
 
     if( this.undoing ) {
@@ -675,9 +563,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   },
 
-
   immediateTwist: function( twist ){
-
 
     if( this.verbosity >= 0.8 ){
 
@@ -689,15 +575,11 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
       );
     }
 
-
-
     //   We now need to find the slice to rotate and figure out how much we need to rotate it by.
     var slice    = this.slicesDictionary[ twist.command.toLowerCase() ],
       rotation = ( twist.degrees === undefined ? 90 : twist.degrees ) * twist.vector,
       radians  = rotation.degreesToRadians(),
       duration = Math.abs( radians - slice.getRotation() ) / ( Math.PI * 0.5 ) * this.twistDuration;
-
-
 
     var l = slice.indices.length,
       cubelet;
@@ -706,7 +588,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
       slice.getCubelet( l ).isTweening = true;
 
     }
-
 
     //  Boom! Rotate a slice
     var dummySlice = {
@@ -728,7 +609,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
       slice.setRotation( radians );
       slice.axis.rotation = 0;
 
-
       // Invalidate our cubelet tweens
       l = slice.indices.length;
       while( l-- > 0 ){
@@ -738,18 +618,13 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
         cubelet.updateMatrix();
         cubelet.matrixSlice.copy( cubelet.matrix );
 
-
       }
-
-
 
       //  If the rotation changes the cube then we should update the cubelet mapping
 
       if( rotation !== 0 ){
 
-
         slice.rotateGroupMappingOnAxis( radians );
-
 
         // Also, since everythings changed, we might aswell tell everyone
          this.dispatchEvent( new CustomEvent( 'onTwistComplete', { detail: {
@@ -759,8 +634,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         }}));
       }
-
-
 
       //  If we're on the final twist of a shuffle
       if( twist === this.finalShuffle ){
@@ -776,16 +649,13 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
       }
 
-
     }.bind( this ))
     .start( this.time );
 
   },
 
-
   //  We can read and write text to the Cube.
   //  This is handled by Folds which are composed of two Faces.
-
   getText: function( fold ){
 
     if( fold === undefined ){
@@ -816,22 +686,14 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     }
   },
 
-
   setSize: function ( width, height ){
-
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize( width, height );
 
-
   },
-
-
-
-
-
 
   //  Shuffle methods.
 
@@ -839,23 +701,18 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
   ALL_SLICES:    'RrMmLlUuEeDdFfSsBb',       //  Allow all slices to rotate.
   EVERYTHING:    'XxRrMmLlYyUuEeDdZzFfSsBb', //  Allow all slices, and also full cube X, Y, and Z rotations.
 
-
   //  The cube does its own loopage.
   //  It attempts to execute twists in the twistQueue
   //  and then tasks in the taskQueue.
   //  This is how shuffling and solving are handled.
 
-
   loop: (function(){
-
 
     var time = 0;
 
     return function(){
 
-
       requestAnimationFrame( this.loop );
-
 
       //  Kick off the next animation frame
 
@@ -863,19 +720,12 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
       var frameDelta = localTime - ( time || localTime );
       time = localTime;
 
-
       if( !this.paused ){
-
-
 
         //  Update the internal animation frame
         this.time += frameDelta;
 
-
         TWEEN.update( this.time );
-
-
-
 
         if( this.autoRotate ){
 
@@ -885,8 +735,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         }
 
-
-
         //  If the Cube is "ready"
         //  and not a single cubelet is currently tweening
         //  regardless of it's resting state (engagement;
@@ -895,72 +743,64 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         if( this.isReady && this.isTweening() === 0 ){
 
-          // if( this.twistQueue.isReady ){
+          var queue = this.undoing ? this.historyQueue : this.twistQueue;
 
+          //  We have zero twists in the queue
+          //  so perhaps we'd like to add some?
+          if( queue.future.length === 0 ){
 
-            var queue = this.undoing ? this.historyQueue : this.twistQueue;
+            //  If the cube ought to be solving and a solver exists
+            //  and we're not shuffling, tweening, etc.
 
+            if( this.isSolving && window.solver ){
 
-            //  We have zero twists in the queue
-            //  so perhaps we'd like to add some?
-
-            if( queue.future.length === 0 ){
-
-
-              //  If the cube ought to be solving and a solver exists
-              //  and we're not shuffling, tweening, etc.
-
-              if( this.isSolving && window.solver ){
-
-                this.isSolving = window.solver.consider( this );
-              }
-
-
-              //  If we are doing absolutely nothing else
-              //  then we can can try executing a task.
-
-              else if( this.taskQueue.isReady === true ){
-
-                var task = this.taskQueue.dequeue();
-                if( task instanceof Function ) {
-                  task();
-                }
-              }
+              this.isSolving = window.solver.consider( this );
+              
             }
 
-            //  Otherwise, we have some twists in the queue
-            //  and we should put everything else aside and tend to those.
+            //  If we are doing absolutely nothing else
+            //  then we can can try executing a task.
+            else if( this.taskQueue.isReady === true ){
 
-            else {
-
-              var twist = queue.dequeue();
-
-              if( twist.command.toLowerCase() !== 'x' &&
-                  twist.command.toLowerCase() !== 'y' &&
-                  twist.command.toLowerCase() !== 'z' &&
-                  twist.degrees !== 0  ) {
-                this.moveCounter += this.undoing ? -1 : 1;
+              var task = this.taskQueue.dequeue();
+              if( task instanceof Function ) {
+              
+                task();
+                
               }
+              
+            }
+            
+          }
 
+          //  Otherwise, we have some twists in the queue
+          //  and we should put everything else aside and tend to those.
 
-              //  If the twist we're about to execute does not actually
-              //  change any slices, ie, we're rotating back to 0,
-              //  then we don't need to remember it.
-              if( twist.degrees === 0 || twist.isShuffle ) {
-                queue.purge( twist );
-              }
+          else {
 
+            var twist = queue.dequeue();
 
-              this.immediateTwist( twist );
-
-
-
+            if( twist.command.toLowerCase() !== 'x' &&
+                twist.command.toLowerCase() !== 'y' &&
+                twist.command.toLowerCase() !== 'z' &&
+                twist.degrees !== 0  ) {
+              this.moveCounter += this.undoing ? -1 : 1;
             }
 
-          // }
+            //  If the twist we're about to execute does not actually
+            //  change any slices, ie, we're rotating back to 0,
+            //  then we don't need to remember it.
+            if( twist.degrees === 0 || twist.isShuffle ) {
+            
+              queue.purge( twist );
+              
+            }
+
+            this.immediateTwist( twist );
+
+          }
 
         }
-
 
         // Our mouse controls should only be active if we are not rotating
         this.mouseInteraction.enabled = this.mouseControlsEnabled && !this.finalShuffle;
@@ -968,7 +808,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         this.controls.enabled = this.mouseControlsEnabled && !this.mouseInteraction.active;
         this.controls.update();
-
 
       }
     };

@@ -1,17 +1,14 @@
 function deviceMotion( cube, element ){
 
-
   var x, y,
     bounds = getBoundingClientRect( element ),
     target = new THREE.Euler();
-
 
   var api = {
     paused: false,
     range: new THREE.Euler( Math.PI * 0.06, Math.PI * 0.06, 0 ),
     decay: 0.1
   };
-
 
   // Returns the bounding area of the element
   function getBoundingClientRect( element ){
@@ -33,8 +30,6 @@ function deviceMotion( cube, element ){
 
   }
 
-
-
   element.addEventListener( 'mousemove', function( event ){
 
     if( !api.paused ){
@@ -43,8 +38,6 @@ function deviceMotion( cube, element ){
     }
 
   });
-
-
 
   // The angles alpha, beta and gamma form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
 
@@ -73,12 +66,11 @@ function deviceMotion( cube, element ){
     };
 
   }();
-  
+ 
 
   function update(){
 
     cube.autoRotate = false;
-
 
     if( x !== undefined && y !== undefined ){
 
@@ -90,7 +82,6 @@ function deviceMotion( cube, element ){
       cube.autoRotateObj3D.rotation.x += ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
 
     }
-
 
     requestAnimationFrame( update );
 

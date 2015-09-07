@@ -23,13 +23,11 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
 
   if( face !== undefined ){
 
-
     //  Just a particular face's color -- called by Slice's inspector.
 
     return this[ face ].color || '!';
   }
   else {
-
 
     //  Full on ASCII-art inspection mode -- with console colors!
 
@@ -212,7 +210,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.northEast ) +' %c '+
         '\n          %c           %c %c           %c %c           %c '+
 
-
         '\n\n          %c           %c %c           %c %c           %c '+
         '\n          %c    west   %c '+
         '%c   origin  %c '+
@@ -227,7 +224,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.east ) +' %c '+
         '\n          %c           %c %c           %c %c           %c '+
 
-
         '\n\n          %c           %c %c           %c %c           %c '+
         '\n          %c southWest %c '+
         '%c   south   %c '+
@@ -241,7 +237,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.south ) +' %c '+
         '%c '+ getColorName( this.southEast ) +' %c '+
         '\n          %c           %c %c           %c %c           %c\n',
-
 
         this.northWest[ side ].color.styleB, '',
         this.north[     side ].color.styleB, '',

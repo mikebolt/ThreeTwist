@@ -1,6 +1,5 @@
 /*
 
-
   PROJECTOR
 
   Converts mouse coordinates into 3D and detects mouse interaction
@@ -9,29 +8,17 @@
 
   @author Mark Lundin - http://www.mark-lundin.com
 
-
 */
 
 
-
-
-
-
-
-
-
 ThreeTwist.Projector = (function(){
-
-
 
   //  The Cube Projector is a specialised class that detects mouse interaction.
   //  It's designed specifically for cubic geometry, in that it makes assumptions
   //  that cannot be applied to other 3D geometry. This makes the performance faster
   //  than other more generalised mouse picking techniques.
 
-
   return function( cube, domElement ){
-
 
     var api,
       screen,
@@ -46,14 +33,10 @@ ThreeTwist.Projector = (function(){
       projectionMatrixInverse = new THREE.Matrix4(),
       unitCubeBoundingRadius = mouse.distanceTo( end );
 
-
-
     //  Configure the bounding spehere and Axis Aligned Bounding Box dimensions.
     box.min.set( -cube.size*0.5, -cube.size*0.5, -cube.size*0.5 );
     box.max.set(  cube.size*0.5,  cube.size*0.5,  cube.size*0.5 );
     sphere.radius = unitCubeBoundingRadius * cube.size * 0.5;
-
-
 
     //  Utility function that unprojects 2D normalised screen coordinate to 3D.
     //  Taken from Three.js Projector class
@@ -65,7 +48,6 @@ ThreeTwist.Projector = (function(){
       return vector.applyProjection( viewProjectionMatrix );
 
     }
-
 
     // Returns the bounding area of the element
     function getBoundingClientRect( element ){
@@ -87,12 +69,10 @@ ThreeTwist.Projector = (function(){
 
     }
 
-
     /*
      *  Returns a THREE.Ray instance in cube space!
      */
     function setRay( camera, mouseX, mouseY ){
-
 
       //  Get the bounding area
       screen = getBoundingClientRect( domElement );
@@ -105,38 +85,30 @@ ThreeTwist.Projector = (function(){
       // set two vectors with opposing z values
       end.set( mouse.x, mouse.y, 1.0 );
 
-
       //  Unproject screen coordinates into 3D
       unprojectVector( mouse, camera );
       unprojectVector( end, camera );
 
-
       // find direction from vector to end
       end.sub( mouse ).normalize();
 
-
       //  Configure the ray caster
       ray.set( mouse, end );
-
 
       //  Apply the world inverse
       inverseMatrix.getInverse( cube.matrixWorld );
       ray.applyMatrix4( inverseMatrix );
 
-
       return ray;
 
-
     }
-
 
     /*
      *  Given an intersection point on the surface of the cube,
      *   this returns a vector indicating the normal of the face
      */
 
-     function getFaceNormalForIntersection ( intersection, optionalTarget ){
-
+    function getFaceNormalForIntersection ( intersection, optionalTarget ){
 
       var target = optionalTarget || new THREE.Vector3();
 
@@ -147,9 +119,7 @@ ThreeTwist.Projector = (function(){
 
       return normal;
 
-
     }
-
 
     /*
      *  Given a three.js camera instance and a 2D mouse coordinates local to the domElement,
@@ -157,30 +127,22 @@ ThreeTwist.Projector = (function(){
      *  and returns a cubelet if one is found, otherwise it returns null indicating no intersection.
      */
 
-
     api = {
 
       getIntersection: function( camera, mouseX, mouseY, optionalIntersectionTarget, optionalPlaneTarget ){
 
-
         var intersection = optionalIntersectionTarget || new THREE.Vector3();
 
-
         //  If we haven't detected any mouse movement, then we've not made interacted!
-
         if( mouseX === null || mouseY === null ) {
           return null;
         }
 
-
         //  Shoot the camera ray into 3D
-
         setRay( camera, mouseX, mouseY );
-
 
         //  Check ray casting against the bounding sphere first as it's easier to compute,
         //  if it passes, then check the Axis Aligned Bounding Box.
-
         if( ray.isIntersectionSphere( sphere ) &&
           ray.intersectBox( box, intersection ) !== null ){
 
@@ -204,10 +166,8 @@ ThreeTwist.Projector = (function(){
           return null;
         }
 
-
         //  Shoot the camera ray into 3D
         setRay( camera, mouseX, mouseY );
-
 
         return ray.intersectPlane( plane, optionalTarget );
 
@@ -226,10 +186,8 @@ ThreeTwist.Projector = (function(){
             .multiplyScalar( 3 / cube.size )
             .set( Math.min( tmp.x|0, 2 ), Math.min( 3 - tmp.y|0, 2 ), Math.min( 3 - tmp.z|0, 2 ));
 
-
           //  Translate the 3D position to an array index
           return cube.cubelets[ tmp.z * 9 + tmp.y * 3 + tmp.x ];
-
 
         };
 
@@ -239,6 +197,5 @@ ThreeTwist.Projector = (function(){
 
     return api;
   };
-
 
 }());

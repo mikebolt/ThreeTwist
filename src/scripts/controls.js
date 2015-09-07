@@ -1,9 +1,7 @@
-
 ThreeTwist.Controls = (function(){
 
   //Enum of states
   var STATE = { NONE: -1, ROTATE: 0, INERTIA: 1 };
-
 
   // Returns the bounding area of the element
   function getBoundingClientRect( element ){
@@ -33,7 +31,6 @@ ThreeTwist.Controls = (function(){
         damping: 0.25
       };
 
-
     var getMouseProjectionOnBall = function( x, y, vector ){
 
       var view = getBoundingClientRect( api.domElement );
@@ -61,10 +58,8 @@ ThreeTwist.Controls = (function(){
           return;
         }
 
-
-         //  define an axis to rotate on, this is basically at a tangent to the direction
+        //  define an axis to rotate on, this is basically at a tangent to the direction
         axis.set( direction.y, direction.x * -1, 0 ).normalize();
-
 
         //  The axis of rotation needs to be in mode view space, otherwise the rotation
         //  will happen in a really strange way. We therefore need to get the local rotation
@@ -77,22 +72,16 @@ ThreeTwist.Controls = (function(){
         // If we're in a INERTIA state, then apply an inertia like effect
         direction.multiplyScalar( 1.0 - Math.max( 0.0, Math.min( 1.0, api.damping )));
 
-
         //  Determine how far we've moved. This to determine how much to rotate by
         length = direction.length();
 
-
         //  Then we can rotate the cube based on how far the drag occured
         object.object3D.rotateOnAxis( axis, -length * api.rotationSpeed );
-
-
-
 
         //  Reset our internal state
         if( state === STATE.ROTATE ) {
           state = STATE.NONE;
         }
-
 
         //  If the rotation is below a certain threshold specified as a factor of the damping effect,
         //  then for all purposes, any more rotation is not noticesable, so we can might aswell stop rotating.
@@ -108,29 +97,23 @@ ThreeTwist.Controls = (function(){
 
     }();
 
-
     /**
      *  Define listeners for user initiated events
      */
 
     function mousedown( event ) {
 
-
       if ( !api.enabled || event.which !== 1 ) {
         return;
       }
 
-
       if( projector.getIntersection( camera, event.pageX, event.pageY ) === null ){
 
-
         state = STATE.ROTATE;
-
 
         direction.multiplyScalar( 0 );
         getMouseProjectionOnBall( event.pageX, event.pageY, mouse );
         lastPosition.copy( mouse );
-
 
         api.domElement.removeEventListener( 'mousedown', mousedown );
         document.addEventListener( 'mousemove', mousemove );
@@ -141,7 +124,6 @@ ThreeTwist.Controls = (function(){
     }
 
     function mousemove( event ) {
-
 
       if ( api.enabled ){
 
@@ -154,8 +136,8 @@ ThreeTwist.Controls = (function(){
         //  Get the delta between mouse positions
         direction.subVectors( mouse, lastPosition );
         lastPosition.copy( mouse );
+        
       }
-
 
     }
 
@@ -165,14 +147,12 @@ ThreeTwist.Controls = (function(){
       document.removeEventListener( 'mouseup', mouseup );
       api.domElement.addEventListener( 'mousedown', mousedown );
 
-
       if ( api.enabled ){
 
         state = STATE.INERTIA;
       }
 
     }
-
 
     function touchstart( event ) {
 
@@ -187,7 +167,9 @@ ThreeTwist.Controls = (function(){
         api.domElement.removeEventListener( 'touchstart', touchstart );
         document.addEventListener( 'touchend', touchend );
         document.addEventListener( 'touchmove', touchmove );
+        
       }
+      
     }
 
     function touchmove( event ) {
@@ -201,6 +183,7 @@ ThreeTwist.Controls = (function(){
         //  Get the delta between mouse positions
         direction.subVectors( mouse, lastPosition );
         lastPosition.copy( mouse );
+        
       }
 
     }
@@ -214,15 +197,16 @@ ThreeTwist.Controls = (function(){
       if ( api.enabled ){
 
         state = STATE.INERTIA;
+        
       }
+      
     }
-
-
 
     api.domElement.addEventListener( 'mousedown', mousedown );
     api.domElement.addEventListener( 'touchstart', touchstart );
 
     return api;
+    
   };
 
 }());
