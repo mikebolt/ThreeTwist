@@ -20,6 +20,9 @@ var jshint = require('gulp-jshint');
 // for the source-metrics task
 var sloc = require('gulp-sloc');
 
+// for the test task
+var mocha = require('gulp-mocha');
+
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
 
@@ -68,6 +71,8 @@ var sources = [
 
 var allSources = dependencies.concat(sources);
 
+var tests = './tests/*.js'; // For now all the tests just sit in the tests directory.
+
 var projectName = 'ThreeTwist';
 
 // It's important not to modify any of the original source files in any of these tasks.
@@ -111,6 +116,16 @@ var tasks = {
   'source-metrics': function() {
     return gulp.src(sources)
       .pipe(sloc());
+  },
+  
+  'test': function() {
+    return gulp.src(tests)
+      .pipe(mocha({
+        ui: 'bdd',
+        reporter: 'spec',
+        timeout: '15000', // 15 seconds
+        bail: 'false',
+      }));
   }
 };
 
