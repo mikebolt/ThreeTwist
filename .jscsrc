@@ -1,0 +1,10 @@
+{
+  "disallowMixedSpacesAndTabs": true, // part of rule 1
+  "disallowTrailingWhitespace": true, // rule 4
+  "maximumLineLength": 100, // rule 2
+  "validateLineBreaks": { // rule 3
+    "character": "LF",
+    "reportOncePerFile": true
+  },
+  "validateIndentation": 2
+}

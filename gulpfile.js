@@ -17,6 +17,9 @@ var jslint = require('gulp-jslint');
 // for the jshint task
 var jshint = require('gulp-jshint');
 
+// for the jscs task
+var jscs = require('gulp-jscs');
+
 // for the source-metrics task
 var sloc = require('gulp-sloc');
 
@@ -111,6 +114,13 @@ var tasks = {
     return gulp.src(sources)
       .pipe(jshint())
       .pipe(jshint.reporter('jshint-stylish'));
+  },
+
+  'checkstyle': function() {
+    return gulp.src(sources)
+      .pipe(jscs({
+        configPath: './.jscsrc'
+      }));
   },
   
   'source-metrics': function() {
