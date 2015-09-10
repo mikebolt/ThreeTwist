@@ -12,7 +12,6 @@
 
 */
 
-
 ThreeTwist.Twist = function( command, degrees ){
 
   if( command ) {
@@ -100,7 +99,7 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     this.getInverse = function(){
       return new ThreeTwist.Twist( command.invert(), degrees );
     };
-    
+
   }
   else {
     return false;
@@ -162,7 +161,7 @@ ThreeTwist.Twist.validate = function(){
 
         if( typeof lookAhead === 'number' ){
 
-           elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
+          elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
 
         }
         else {

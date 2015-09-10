@@ -13,7 +13,7 @@ ThreeTwist.Controls = (function(){
       height: window.innerHeight
     };
 
-     return bounds;
+    return bounds;
 
   }
 
@@ -83,8 +83,9 @@ ThreeTwist.Controls = (function(){
           state = STATE.NONE;
         }
 
-        //  If the rotation is below a certain threshold specified as a factor of the damping effect,
-        //  then for all purposes, any more rotation is not noticesable, so we can might aswell stop rotating.
+        // If the rotation is below a certain threshold specified as a factor of the
+        // damping effect, then for all purposes, any more rotation is not noticeable,
+        // so we might as well stop rotating.
         else if( state === STATE.INERTIA && length >= 0.0001 ){
 
           mouse.add( direction );
@@ -136,7 +137,7 @@ ThreeTwist.Controls = (function(){
         //  Get the delta between mouse positions
         direction.subVectors( mouse, lastPosition );
         lastPosition.copy( mouse );
-        
+
       }
 
     }
@@ -156,7 +157,9 @@ ThreeTwist.Controls = (function(){
 
     function touchstart( event ) {
 
-      if ( api.enabled && projector.getIntersection( camera, event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) === null ){
+      if ( api.enabled &&
+           projector.getIntersection( camera, event.touches[ 0 ].pageX,
+                                              event.touches[ 0 ].pageY ) === null ){
 
         state = STATE.ROTATE;
 
@@ -167,9 +170,9 @@ ThreeTwist.Controls = (function(){
         api.domElement.removeEventListener( 'touchstart', touchstart );
         document.addEventListener( 'touchend', touchend );
         document.addEventListener( 'touchmove', touchmove );
-        
+
       }
-      
+
     }
 
     function touchmove( event ) {
@@ -178,12 +181,13 @@ ThreeTwist.Controls = (function(){
 
         state = STATE.ROTATE;
 
-        getMouseProjectionOnBall( event.changedTouches[ 0 ].pageX, event.changedTouches[ 0 ].pageY, mouse );
+        getMouseProjectionOnBall( event.changedTouches[ 0 ].pageX,
+                                  event.changedTouches[ 0 ].pageY, mouse );
 
-        //  Get the delta between mouse positions
+        // Get the delta between mouse positions
         direction.subVectors( mouse, lastPosition );
         lastPosition.copy( mouse );
-        
+
       }
 
     }
@@ -197,16 +201,16 @@ ThreeTwist.Controls = (function(){
       if ( api.enabled ){
 
         state = STATE.INERTIA;
-        
+
       }
-      
+
     }
 
     api.domElement.addEventListener( 'mousedown', mousedown );
     api.domElement.addEventListener( 'touchstart', touchstart );
 
     return api;
-    
+
   };
 
 }());

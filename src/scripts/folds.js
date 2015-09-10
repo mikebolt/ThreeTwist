@@ -68,9 +68,9 @@ ThreeTwist.Fold = function( left, right ){
     right.southWest[   right.face ].text,
     right.south[        right.face ].text,
     right.southEast[   right.face ].text
-    
+
   ];
-  
+
 };
 
 ThreeTwist.Fold.prototype.getText = function(){
@@ -80,9 +80,9 @@ ThreeTwist.Fold.prototype.getText = function(){
   this.map.forEach( function( element ){
     text += element.innerHTML;
   });
-  
+
   return text;
-  
+
 };
 
 ThreeTwist.Fold.prototype.setText = function( text ){
@@ -93,8 +93,5 @@ ThreeTwist.Fold.prototype.setText = function( text ){
   for( i = 0; i < 18; i ++ ){
     this.map[ i ].innerHTML = text.substr( i, 1 );
   }
-  
+
 };
-
-
-
