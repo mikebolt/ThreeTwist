@@ -120,12 +120,13 @@ var ThreeTwist = {};
 
 })();
 
-// based on https://github.com/documentcloud/underscore/blob/bf657be243a075b5e72acc8a83e6f12a564d8f55/underscore.js#L767
+// based on https://github.com/jashkenas/underscore/blob/bf657be243/underscore.js#L767
 ThreeTwist.extend = function ( obj, source ) {
 
   var prop;
 
-  // ECMAScript5 compatibility based on: http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
+  // ECMAScript5 compatibility based on:
+  // http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
   if ( Object.keys ) {
 
     var keys = Object.keys( source );

@@ -112,14 +112,14 @@ ThreeTwist.Slice = function( indices, cube ){
   this.getCubelet = function( index ){
     return cube.cubelets[ indices[ index ]];
   };
-  
+
   this.cubelets = [];
   var l = this.indices.length;
 
   while( l-- > 0 ){
     this.cubelets.push( this.getCubelet( l ) );
   }
-  
+
   this.origin = this.cube.cubelets[ this.indices[ 4 ]];
   this.north = this.cube.cubelets[ this.indices[ 1 ]];
   this.northEast = this.cube.cubelets[ this.indices[ 2 ]];
@@ -129,13 +129,14 @@ ThreeTwist.Slice = function( indices, cube ){
   this.southWest = this.cube.cubelets[ this.indices[ 6 ]];
   this.west = this.cube.cubelets[ this.indices[ 3 ]];
   this.northWest = this.cube.cubelets[ this.indices[ 0 ]];
-  
+
   // Slice is designed to be immutable, so override Group's 'add' and 'remove' methods.
   this.add = this.remove = function(){};
 
-  //  Once we've performed a physical rotation of a face or group, we need a way to remap the array of cubelets.
-  //  This method does just that. Given a subset of cubelets, an axis to rotate on and
-  //  an angle, it will shift the location of all cubelets that need changing.
+  //  Once we've performed a physical rotation of a face or group,
+  //  we need a way to remap the array of cubelets. This method does just that.
+  //  Given a subset of cubelets, an axis to rotate on and an angle,
+  //  it will shift the location of all cubelets that need changing.
 
   this.rotateGroupMappingOnAxis = (function(){
 
@@ -190,17 +191,18 @@ ThreeTwist.Slice = function( indices, cube ){
         point.add( origin.multiply( this.axis ));
         point.add( max );
 
-        //  The cublet array is in a funny order, so invert some of the axes of from our new position
+        //  The cublet array is in a funny order,
+        //  so invert some of the axes of from our new position.
         point.y = 2 - point.y;
         point.z = 2 - point.z;
 
-        //  Use the X,Y,Z to get a 3D index
+        //  Use the X,Y,Z to get a 3D index.
         var address = point.z * 9 + point.y * 3 + point.x;
         cube.cubelets[cubelet.address] = cubletsCopy[address];
 
       }
 
-      //  Good to let each Cubelet know where it exists
+      //  Good to let each Cubelet know where it exists.
       for( i = 0; i < cube.cubelets.length; i ++ ){
         cube.cubelets[ i ].setAddress( i );
       }
@@ -276,8 +278,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     }
 
     //   We also need to calculate what axis this slice rotates on.
-    //  For example, the Right Slice (R) would rotate on the axis pointing to the right represented by the axis ( 1, 0, 0 )
-    //  similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
+    //  For example, the Right Slice (R) would rotate on the axis pointing to the right
+    //  represented by the axis ( 1, 0, 0 ). Similarly the Equator Slice (E) would rotate
+    //  on the axis pointing straight up ( 0, 1, 0 ).
 
     if( this.axis === undefined || this.axis.lengthSq() === 0 ){
 
@@ -341,7 +344,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.corners = new ThreeTwist.Group( this.hasType( 'corner' ));
       this.cross   = new ThreeTwist.Group( this.center, this.hasType( 'edge' ));
       this.ex      = new ThreeTwist.Group( this.center, this.hasType( 'corner' ));
-      
+
     }
 
     //  Otherwise our Slice will have multiple center pieces
@@ -352,9 +355,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     else {
 
       this.centers = new ThreeTwist.Group( this.hasType( 'center' ));
-      
+
     }
-    
+
     this.edges = new ThreeTwist.Group( this.hasType( 'edge' ));
 
     //  I'm still debating whether this should be Sticker-related
@@ -390,7 +393,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
   setRotation: function( radians ){
 
-    if( this.ableToHideInternalFaces && this.cube.isFlagged( 'showingIntroverts' ) !== 0 && this.cube.hideInvisibleFaces ){
+    if( this.ableToHideInternalFaces && this.cube.isFlagged( 'showingIntroverts' ) !== 0 &&
+        this.cube.hideInvisibleFaces ){
 
       var partialRotation = radians % ( Math.PI * 0.5 ) !== 0;
 
@@ -400,12 +404,12 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         if( this.neighbour ){
 
           this.showIntroverts( this.axis, true );
-           this.neighbour.showIntroverts( this.invertedAxis, true );
+          this.neighbour.showIntroverts( this.invertedAxis, true );
 
-         }else{
-           this.cube.showIntroverts( this.axis, true );
-           this.cube.showIntroverts( this.invertedAxis, true );
-         }
+        }else{
+          this.cube.showIntroverts( this.axis, true );
+          this.cube.showIntroverts( this.invertedAxis, true );
+        }
       }
       else{
         if( this.neighbour ){
@@ -517,9 +521,10 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     }
     else {
 
-      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
+      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified ' +
+                    'when using ThreeTwist.Group.isSolved().' );
       return false;
-      
+
     }
   }
 

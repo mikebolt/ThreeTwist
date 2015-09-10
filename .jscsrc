@@ -6,5 +6,6 @@
     "character": "LF",
     "reportOncePerFile": true
   },
-  "disallowTrailingWhitespace": true // rule 4
+  "disallowTrailingWhitespace": true, // rule 4
+  "maxErrors": 200 // default was 50
 }

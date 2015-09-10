@@ -88,7 +88,8 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
       '\n          /%c'+ getColorName( 'up', CENTER, 11 ) +'%c/  |'+
       '\n  %cleft%c    -----------   %cright%c'+
       '\n   %c4%c     |           |   %c2%c'+
-      '\n%c'+ getColorName( 'left', CENTER, 8 ) +'%c |   %cfront%c   |  %c'+ getColorName( 'right' ) +'%c'+
+      '\n%c'+ getColorName( 'left', CENTER, 8 ) +'%c |   %cfront%c   |  %c'+
+        getColorName( 'right' ) +'%c'+
       '\n         |     %c0%c     |  /'+
       '\n         |%c'+ getColorName( 'front', CENTER, 11 ) +'%c| /'+
       '\n         |           |/'+

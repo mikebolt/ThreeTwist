@@ -1,16 +1,19 @@
 /**
- * Based on THREE.CSSRenderer http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
+ * Based on THREE.CSSRenderer
+ * http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
  *
- * The IeCss3DRenderer is a heavily influenced/modified version of the THREE.CSS3DRenderer. It is designed to circumvent
- * the annoyingly problematic fact that IE 10/11 does not support the 'preserve-3d' property which means we need to calculate
- * and apply the model view matrix to each dom elements individually. Not only this, but it needs a manual depth sorting
+ * The IeCss3DRenderer is a heavily influenced/modified version of the THREE.CSS3DRenderer.
+ * It is designed to circumvent the annoyingly problematic fact that IE 10/11 does not support
+ * the 'preserve-3d' property which means we need to calculate and apply the model view matrix
+ * to each dom elements individually. Not only this, but it needs a manual depth sorting
  * routine. Painter sort just doesn't cut the mustard.
  *
- * For those reasons, this renderer is not general purpose, it only works with Cuber. It makes a lot of assumptions about
- * the elements it's rendering. It could be possible to refactor this into a generalised CSS 3D renderer for IE, but not
- * without some significant work.
+ * For those reasons, this renderer is not general purpose, it only works with Cuber. It makes
+ * a lot of assumptions about the elements it's rendering. It could be possible to refactor
+ * this into a generalised CSS 3D renderer for IE, but not without some significant work.
  *
- * NOTE: This isn't entirely bug free. There are some visible glitches when the depth sorting is incorrect.
+ * NOTE: This isn't entirely bug free.
+ * There are some visible glitches when the depth sorting is incorrect.
  *
  */
 
@@ -78,7 +81,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
     domElement.style.width = width + 'px';
     domElement.style.height = height + 'px';
 
-
     cameraElement.style.width = width + 'px';
     cameraElement.style.height = height + 'px';
 
@@ -114,7 +116,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       result += 'px, ';
       result += epsilon( position.z );
       result += 'px) ';
-      
+
       // Add the rotation
       result += 'rotateX(';
       result += epsilon( euler.x );
@@ -123,7 +125,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       result += 'rad) rotateZ(';
       result += epsilon( euler.z );
       result += 'rad) ';
-        
+
       // Add the scaling
       result += 'scale3d(';
       result += epsilon( scale.x );
@@ -187,7 +189,7 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
       cameraElement.appendChild( element );
 
     }
-    
+
   };
 
   function painterSort( a, b ){
@@ -197,10 +199,14 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
   function sortVerts( obj ){
 
     var halfCubeletSize = cube.cubeletSize * 0.5;
-    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
-    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
-    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
-    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 ).applyMatrix4( obj.matrixWorld );
+    obj.userData.points[0].set( -halfCubeletSize, -halfCubeletSize, 0 )
+      .applyMatrix4( obj.matrixWorld );
+    obj.userData.points[1].set(  halfCubeletSize, -halfCubeletSize, 0 )
+      .applyMatrix4( obj.matrixWorld );
+    obj.userData.points[2].set(  halfCubeletSize,  halfCubeletSize, 0 )
+      .applyMatrix4( obj.matrixWorld );
+    obj.userData.points[3].set( -halfCubeletSize,  halfCubeletSize, 0 )
+      .applyMatrix4( obj.matrixWorld );
 
     obj.userData.points.sort( painterSort );
 
@@ -298,7 +304,8 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
   function IntersectsProp( P, Q, prop ){
 
-    return Q.userData.max[prop] > P.userData.min[prop] && P.userData.max[prop] > Q.userData.min[prop];
+    return Q.userData.max[prop] > P.userData.min[prop] &&
+           P.userData.max[prop] > Q.userData.min[prop];
 
   }
 
@@ -415,7 +422,6 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
       }
     }
-    
 
     var cam = new THREE.Vector3( 0, 0, -1 ),
       normal = new THREE.Vector3( 0, 0, -1 ),
@@ -427,10 +433,14 @@ ThreeTwist.IeCss3DRenderer = function ( cube ) {
 
       renderObject( renderList[ i ], camera );
 
-      objWorldPosition.set( renderList[i].matrixWorld.elements[12], renderList[i].matrixWorld.elements[13], renderList[i].matrixWorld.elements[14] );
+      objWorldPosition.set( renderList[i].matrixWorld.elements[12],
+                            renderList[i].matrixWorld.elements[13],
+                            renderList[i].matrixWorld.elements[14] );
       cam.subVectors( objWorldPosition, camera.position );
 
-      facing =  normal.set( 0, 0, 1 ).transformDirection( renderList[i].matrixWorld ).dot( cam ) < 0;
+      facing = normal.set( 0, 0, 1 )
+        .transformDirection( renderList[i].matrixWorld )
+        .dot( cam ) < 0;
       renderList[i].element.style.visibility = facing ? 'visible' : 'hidden';
 
       if( renderList[i] instanceof THREE.CSS3DObject ) {

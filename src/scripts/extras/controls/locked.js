@@ -19,7 +19,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
     pixelRatio = window.devicePixelRatio || 1,
     axisDefined = false;
 
-  var initialRotation = new THREE.Matrix4().makeRotationFromEuler( new THREE.Euler( Math.PI * 0.1, Math.PI * -0.25, 0 ));
+  var initialRotation = new THREE.Matrix4().makeRotationFromEuler(
+    new THREE.Euler( Math.PI * 0.1, Math.PI * -0.25, 0 ));
 
   // Returns the bounding area of the element
   function getBoundingClientRect( element ){
@@ -31,13 +32,15 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       height: window.innerHeight
     };
 
-     return bounds;
+    return bounds;
 
   }
 
   function onInteractStart( event ){
 
-    if ( api.enabled && projector.getIntersection( camera, ( event.touches && event.touches[0] || event ).pageX, ( event.touches && event.touches[0] || event ).pageY ) === null ){
+    if ( api.enabled && projector.getIntersection( camera,
+         ( event.touches && event.touches[0] || event ).pageX,
+         ( event.touches && event.touches[0] || event ).pageY ) === null ){
 
       screen = getBoundingClientRect( domElement );
 
@@ -55,7 +58,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         if( cube.isTweening() === 0 ){
 
           // Get a time stamp
-          time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
+          time = typeof window !== 'undefined' && window.performance !== undefined &&
+            window.performance.now !== undefined ? window.performance.now() : Date.now();
 
           start.set( x, y, 0 );
           current.set( x, y, 0 );
@@ -125,7 +129,9 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       angle = -Math.round( group.rotation / Math.PI * 2.0 ) * Math.PI * 0.5;
 
       // Get the velocity of the gesture.
-      velocity = direction.length() / (( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
+      velocity = direction.length() /
+        (( typeof window !== 'undefined' && window.performance !== undefined &&
+        window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
 
       // If the gesture is faster than a predefined speed, then we assume this
       // is a swipe rather than a drag
@@ -241,7 +247,6 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         // and calculate where it intersects with the coordinates
         plane.orthoPoint( point, intersection );
 
-
         if( pointOfInteraction === undefined || intersection.z <= pointOfInteraction ){
           pointOfInteraction = intersection.z;
           face = faces[i];
@@ -253,7 +258,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
 
     };
   }();
-  
+
   domElement.addEventListener( 'mousedown',   onInteractStart );
   domElement.addEventListener( 'touchstart',  onInteractStart );
 

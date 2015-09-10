@@ -26,7 +26,6 @@
 
 */
 
-
 ThreeTwist.Solver = function(){
 
   //  When you create your own Solver this is the only function you need to build yourself.
@@ -34,7 +33,7 @@ ThreeTwist.Solver = function(){
   //  Check out my example in /scripts/solvers/stewart.js to see how you might go about it.
 
   this.logic = function( cube ){ return false; };
-  
+
 };
 
 //  This is the method called within Cube.loop() when Cube.isSolving === true.
@@ -47,13 +46,13 @@ ThreeTwist.Solver.prototype.consider = function( cube ){
 
     console.warn( 'A cube [Cube] argument must be specified for Solver.consider().' );
     return false;
-    
+
   }
   else if( cube instanceof ThreeTwist.Cube === false ){
 
     console.warn( 'The cube argument provided is not a valid Cube.' );
     return false;
-    
+
   }
 
   //  If we're solving we should really make certain we aren't shuffling!
@@ -61,21 +60,19 @@ ThreeTwist.Solver.prototype.consider = function( cube ){
   //  The hook for this is in Cube.loop() so look there to see what's up.
   cube.isShuffling = false;
 
-
   //  If the cube is already solved then our job is done before it started.
   //  If not, we need to try solving it using our current solve method.
   if( cube.isSolved() ){
 
     ThreeTwist.Solver.prototype.explain( 'I’ve found that the cube is already solved.' );
     return false;
-    
+
   }
   else {
     return this.logic( cube );
   }
-  
-};
 
+};
 
 //  We should always hit at what the Solver wants to do next
 //  so we can hault auto-solving and give the user a chance to
@@ -86,7 +83,7 @@ ThreeTwist.Solver.prototype.hint = function( text ){
     '%c'+ text +'%c\n',
     'background-color: #EEE; color: #333', ''
   );
-  
+
 };
 
 //  If hinting is text displayed *before* a move is made
@@ -97,5 +94,5 @@ ThreeTwist.Solver.prototype.explain = function( text ){
     'Solver says: %c '+ text +' %c\n',
     'color: #080', ''
   );
-  
+
 };
