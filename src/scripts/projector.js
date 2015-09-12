@@ -61,11 +61,11 @@ ThreeTwist.Projector = (function(){
 
       if( element !== document ){
         var d = element.ownerDocument.documentElement;
-         bounds.left += window.pageXOffset - d.clientLeft;
-         bounds.top  += window.pageYOffset - d.clientTop;
-       }
+        bounds.left += window.pageXOffset - d.clientLeft;
+        bounds.top  += window.pageYOffset - d.clientTop;
+      }
 
-       return bounds;
+      return bounds;
 
     }
 
@@ -123,13 +123,14 @@ ThreeTwist.Projector = (function(){
 
     /*
      *  Given a three.js camera instance and a 2D mouse coordinates local to the domElement,
-     *   this method tests for any intersection against the cube
-     *  and returns a cubelet if one is found, otherwise it returns null indicating no intersection.
+     *  this method tests for any intersection against the cube and returns a cubelet if one
+     *  is found, otherwise it returns null indicating no intersection.
      */
 
     api = {
 
-      getIntersection: function( camera, mouseX, mouseY, optionalIntersectionTarget, optionalPlaneTarget ){
+      getIntersection: function( camera, mouseX, mouseY,
+                                 optionalIntersectionTarget, optionalPlaneTarget ){
 
         var intersection = optionalIntersectionTarget || new THREE.Vector3();
 

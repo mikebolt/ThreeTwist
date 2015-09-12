@@ -119,9 +119,19 @@ ThreeTwist.extend( String.prototype, {
   },
   directionToDegrees : function(){
 
-    var
-    directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ],
-    i = directions.indexOf( this.toUpperCase() );
+    var directions = [
+      'N',
+      'NNE', 'NE', 'NEE',
+      'E',
+      'SEE', 'SE', 'SSE',
+      'S',
+      'SSW', 'SW', 'SWW',
+      'W',
+      'NWW', 'NW', 'NNW',
+      'N'
+    ];
+
+    var i = directions.indexOf( this.toUpperCase() );
 
     return i >= 0 ? i.scale( 0, directions.length - 1, 0, 360 ) : Number.NaN;
   },

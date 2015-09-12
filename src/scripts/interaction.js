@@ -117,7 +117,9 @@ ThreeTwist.Interaction = (function(){
       var x = current.x,
         y = current.y;
 
-      if( api.enabled && api.active && x !== undefined && y !== undefined && ( mouseX !== x || mouseY !== y )) {
+      if( api.enabled && api.active &&
+          x !== undefined && y !== undefined &&
+          ( mouseX !== x || mouseY !== y )) {
 
         //  As we already know what plane, or face, the interaction began on,
         //  we can then find the point on the plane where the interaction continues.
@@ -126,7 +128,7 @@ ThreeTwist.Interaction = (function(){
 
         direction.subVectors( pointOnPlane, intersection );
 
-        if( !axisDefined && direction.length() > 5 /*|| ( api.multiDrag && direction.length() < api.multiDragSnapArea ) */ ){
+        if( !axisDefined && direction.length() > 5 ){
 
           //  If we've already been rotating a slice but we want to change direction,
           //  for example if multiDrag is enabled, then we want to reset the original slice
@@ -182,41 +184,49 @@ ThreeTwist.Interaction = (function(){
 
         //  Here we find out if the mouse is hovering over the cube,
         //  If it is, then `intersection` is populated with the 3D local coordinates of where
-        //  the intersection occured. `plane` is also configured to represent the face of the cube
-        //  where the intersection occured. This is used later to determine the direction
+        //  the intersection occurred. `plane` is also configured to represent the face of the cube
+        //  where the intersection occurred. This is used later to determine the direction
         //  of the drag.
 
-        //  ( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
+        //  ( Note: although a plane is conceptually similar to a cube's face,
+        //   the plane is a mathematical representation )
 
         if( projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
 
-          //  If a interaction happens within the cube we should prevent the event bubbling.
+          //  If an interaction happens within the cube we should prevent the event bubbling.
           if( event.touches !== null ) {
             event.preventDefault();
           }
 
           if( cube.isTweening() === 0 ){
 
-            time = typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now();
+            time = typeof window !== 'undefined' && window.performance !== undefined &&
+              window.performance.now !== undefined ? window.performance.now() : Date.now();
 
             api.active = true;
 
-            //  Now we know the point of intersection, we can figure out what the associated cubelet is ...
+            //  Now we know the point of intersection,
+            //  we can figure out what the associated cubelet is ...
             cubelet = projector.getCubeletAtIntersection( intersection );
 
-            //  ... and the possible slices that might be rotated. Remeber, we can only figure out the exact slice once a drag happens.
-            possibleSlices   = [ cube.slices[ cubelet.addressX + 1 ], cube.slices[ cubelet.addressY + 4 ], cube.slices[ cubelet.addressZ + 7 ]];
+            //  ... and the possible slices that might be rotated.
+            //  Remember, we can only figure out the exact slice once a drag happens.
+            possibleSlices = [ cube.slices[ cubelet.addressX + 1 ],
+                               cube.slices[ cubelet.addressY + 4 ],
+                               cube.slices[ cubelet.addressZ + 7 ]];
 
             //  Add a listener for interaction in the entire document.
             domElement.addEventListener( 'mousemove', onInteractUpdate );
             domElement.addEventListener( 'touchmove', onInteractUpdate );
 
-            //  Add a lister to detect the end of interaction, remember this could happen outside the domElement, but still within the document
+            //  Add a listener to detect the end of interaction.
+            //  Remember this could happen outside the domElement, but still within the document.
             domElement.addEventListener( 'mouseup', onInteractEnd );
             domElement.addEventListener( 'touchcancel', onInteractEnd );
             domElement.addEventListener( 'touchend', onInteractEnd );
 
-            //  Whilst interacting we can temporarily remove the listeners detecting the start of interaction
+            //  Whilst interacting we can temporarily remove the listeners
+            //  detecting the start of interaction.
             domElement.removeEventListener( 'mousedown', onInteractStart );
             domElement.removeEventListener( 'touchstart', onInteractStart );
 
@@ -264,12 +274,13 @@ ThreeTwist.Interaction = (function(){
         //  Now we can get the direction of rotation and the associated command.
         var command =  slice.name[0].toUpperCase();
 
-        //   We then find the nearest rotation to snap to and calculate how long the rotation should take
-        //  based on the distance between our current rotation and the target rotation
-        
+        //  We then find the nearest rotation to snap to and calculate how long the rotation
+        //  should take based on the distance between our current rotation and the target rotation.
         var targetAngle = Math.round( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
 
-        var velocityOfInteraction =  direction.length() / ( ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
+        var velocityOfInteraction = direction.length() /
+          ( ( typeof window !== 'undefined' && window.performance !== undefined &&
+          window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
 
         if( velocityOfInteraction > 0.3 ){
 
@@ -278,12 +289,10 @@ ThreeTwist.Interaction = (function(){
 
         }
 
-        //   If this is a partial rotation that results in the same configuration of cubelets
-        //  then it doesn't really count as a move, and we don't need to add it to the history
+        //  If this is a partial rotation that results in the same configuration of cubelets,
+        //  then it doesn't really count as a move, and we don't need to add it to the history.
 
         cube.twist( new ThreeTwist.Twist( command, targetAngle.radiansToDegrees() ));
-
-        // Delete the reference to our slice
 
       }
 
@@ -313,7 +322,7 @@ ThreeTwist.Interaction = (function(){
 
       var intersection = this.getIntersectionAt( x, y );
       if( intersection ){
-        this.dispatchEvent( new CustomEvent("click", { detail: intersection  }));
+        this.dispatchEvent( new CustomEvent("click", { detail: intersection }));
         return true;
       }
       return false;
@@ -332,12 +341,13 @@ ThreeTwist.Interaction = (function(){
       var bx = event.clientX,
         by = event.clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) <
+          10 * ( window.devicePixelratio || 1 )){
 
         detectInteraction( ax, ay );
-        
+
       }
-      
+
     });
 
     domElement.addEventListener( 'touchstart', function( event ){
@@ -352,14 +362,15 @@ ThreeTwist.Interaction = (function(){
       var bx = event.changedTouches[0].clientX,
         by = event.changedTouches[0].clientY;
 
-      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) < 10 * ( window.devicePixelratio || 1 )){
+      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) <
+          10 * ( window.devicePixelratio || 1 )){
 
         if( detectInteraction( ax, ay )){
           event.preventDefault();
         }
-        
+
       }
-      
+
     });
 
     return api;

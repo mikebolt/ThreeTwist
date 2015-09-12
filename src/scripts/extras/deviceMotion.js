@@ -22,11 +22,12 @@ function deviceMotion( cube, element ){
 
     if( element !== document ){
       var d = element.ownerDocument.documentElement;
-       bounds.left += window.pageXOffset - d.clientLeft;
-       bounds.top  += window.pageYOffset - d.clientTop;
-     }
 
-     return bounds;
+      bounds.left += window.pageXOffset - d.clientLeft;
+      bounds.top  += window.pageYOffset - d.clientTop;
+    }
+
+    return bounds;
 
   }
 
@@ -49,24 +50,28 @@ function deviceMotion( cube, element ){
 
     var q0 = new THREE.Quaternion();
 
-    var q1 = new THREE.Quaternion( - Math.sqrt( 0.5 ), 0, 0, Math.sqrt( 0.5 ) ); // - PI/2 around the x-axis
+    // - PI/2 around the x-axis
+    var q1 = new THREE.Quaternion( - Math.sqrt( 0.5 ), 0, 0, Math.sqrt( 0.5 ) );
 
     return function ( quaternion, alpha, beta, gamma, orient ) {
 
-      euler.set( beta, alpha, - gamma, 'YXZ' );                       // 'ZXY' for the device, but 'YXZ' for us
+      // 'ZXY' for the device, but 'YXZ' for us
+      euler.set( beta, alpha, - gamma, 'YXZ' );
 
-      quaternion.setFromEuler( euler );                               // orient the device
+      // orient the device
+      quaternion.setFromEuler( euler );
 
-      quaternion.multiply( q1 );                                      // camera looks out the back of the device, not the top
+      // camera looks out the back of the device, not the top
+      quaternion.multiply( q1 );
 
-      quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );    // adjust for screen orientation
+      // adjust for screen orientation
+      quaternion.multiply( q0.setFromAxisAngle( zee, - orient ) );
 
       quaternion.inverse();
 
     };
 
   }();
- 
 
   function update(){
 
@@ -78,8 +83,10 @@ function deviceMotion( cube, element ){
       target.y *= x;
       target.x *= y;
 
-      cube.autoRotateObj3D.rotation.y += ( target.y - cube.autoRotateObj3D.rotation.y ) * api.decay;
-      cube.autoRotateObj3D.rotation.x += ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
+      cube.autoRotateObj3D.rotation.y +=
+        ( target.y - cube.autoRotateObj3D.rotation.y ) * api.decay;
+      cube.autoRotateObj3D.rotation.x +=
+        ( target.x - cube.autoRotateObj3D.rotation.x ) * api.decay;
 
     }
 

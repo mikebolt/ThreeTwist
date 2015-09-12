@@ -30,7 +30,7 @@ ThreeTwist.Queue = function( validation ){
   this.future  = [];
   this.isReady = true;
   this.isLooping = false;
-  
+
 };
 
 
@@ -105,7 +105,7 @@ ThreeTwist.Queue.prototype.empty = function( emptyHistory ){
   if( emptyHistory ) {
     this.history = [];
   }
-  
+
 };
 
 ThreeTwist.Queue.prototype.dequeue = function(){
@@ -117,14 +117,14 @@ ThreeTwist.Queue.prototype.dequeue = function(){
       this.history.push( element );
     }
     return element;
-    
+
   }
   else if( this.isLooping ){
 
     this.future  = this.history.slice();
     this.history = [];
   }
-  
+
 };
 
 ThreeTwist.Queue.prototype.undo = function(){
@@ -134,12 +134,12 @@ ThreeTwist.Queue.prototype.undo = function(){
     var element = this.history.pop();
     this.future.unshift( element );
     return element;
-    
+
   }
-  
+
 };
 ThreeTwist.Queue.prototype.redo = function(){
 
   return this.dequeue();
-  
+
 };

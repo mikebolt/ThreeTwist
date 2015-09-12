@@ -45,6 +45,7 @@ You can run the individual gulp tasks by running the command `gulp task-name` in
 - minify : This concatenates the source files and minifies the result to create ThreeTwist.min.js in the build directory.
 - jsdoc-generate : This runs the jsdoc-to-markdown script on the source files in order to turn the jsdoc comments into a complete markdown-formatted documentation.
 - jshint : This runs jshint on each individual source file using the options found in the .jshintrc file, and prints out warnings to be heeded by all.
+- checkstyle: Runs a jscs style checking script, enforcing the rules in the [Style Guide](https://github.com/mikebolt/ThreeTwist/wiki/Style-Guide), and failing the build if any rules are violated.
 - test : This runs the tests in the tests directory using Mocha's 'spec' reporter, and fails the build if any tests fail. Tests are currently written using the Unit.js assertion library and Mocha's 'BDD' interface.
 
 ##Wiki Links

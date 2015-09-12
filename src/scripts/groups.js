@@ -172,7 +172,7 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       if( face instanceof ThreeTwist.Direction ) {
         face = face.name;
       }
-      
+
       this.cubelets.forEach( function( cubelet ){
 
         var color = cubelet[ face ].color.name;
@@ -189,7 +189,8 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     }
     else {
 
-      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' );
+      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified ' +
+        'when using ThreeTwist.Group.isSolved().' );
       return false;
     }
   },

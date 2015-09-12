@@ -64,7 +64,7 @@ ThreeTwist.extend( Array.prototype, {
     if( i === 0 ) {
       return false;
     }
-    
+
     while( -- i ){
 
       j = Math.floor( Math.random() * ( i + 1 ));

@@ -71,14 +71,14 @@ ThreeTwist.Direction = function( id, name, normal ){
   this.initial   = name.substr( 0, 1 ).toUpperCase();
   this.neighbors = [];
   this.opposite  = null;
-  
+
 };
 
 ThreeTwist.Direction.prototype.setRelationships = function( up, right, down, left, opposite ){
 
   this.neighbors = [ up, right, down, left ];
   this.opposite  = opposite;
-  
+
 };
 
 ThreeTwist.Direction.getNameById = function( id ){
@@ -93,7 +93,7 @@ ThreeTwist.Direction.getNameById = function( id ){
     'back'
 
   ][ id ];
-  
+
 };
 
 ThreeTwist.Direction.getIdByName = function( name ){
@@ -108,7 +108,7 @@ ThreeTwist.Direction.getIdByName = function( name ){
     back : 5
 
   }[ name ];
-  
+
 };
 
 ThreeTwist.Direction.getDirectionById = function( id ){
@@ -123,7 +123,7 @@ ThreeTwist.Direction.getDirectionById = function( id ){
     ThreeTwist.Direction.BACK
 
   ][ id ];
-  
+
 };
 
 ThreeTwist.Direction.getDirectionByInitial = function( initial ){
@@ -138,7 +138,7 @@ ThreeTwist.Direction.getDirectionByInitial = function( initial ){
     B: ThreeTwist.Direction.BACK
 
   }[ initial.toUpperCase() ];
-  
+
 };
 
 ThreeTwist.Direction.getDirectionByName = function( name ){
@@ -153,7 +153,7 @@ ThreeTwist.Direction.getDirectionByName = function( name ){
     back : ThreeTwist.Direction.BACK
 
   }[ name.toLowerCase() ];
-  
+
 };
 
 ThreeTwist.Direction.getDirectionByNormal = function(){
@@ -189,18 +189,18 @@ ThreeTwist.Direction.prototype.getRotation = function( vector, from, steps ){
   if( from === undefined ) {
     from = this.neighbors[ 0 ];
   }
-  
+
   if( from === this || from === this.opposite ) {
     return null;
   }
-  
+
   steps = steps === undefined ? 1 : steps.modulo( 4 );
   for( var i = 0; i < 5; i ++ ){
 
     if( this.neighbors[ i ] === from ) {
       break;
     }
-    
+
   }
   return this.neighbors[ i.add( steps * vector ).modulo( 4 )];
 };
@@ -208,13 +208,13 @@ ThreeTwist.Direction.prototype.getRotation = function( vector, from, steps ){
 ThreeTwist.Direction.prototype.getClockwise = function( from, steps ){
 
   return this.getRotation( +1, from, steps );
-  
+
 };
 
 ThreeTwist.Direction.prototype.getAnticlockwise = function( from, steps ){
 
   return this.getRotation( -1, from, steps );
-  
+
 };
 
 
@@ -226,31 +226,31 @@ ThreeTwist.Direction.prototype.getAnticlockwise = function( from, steps ){
 ThreeTwist.Direction.prototype.getDirection = function( direction, up ){
 
   return this.getRotation( 1, up, direction.id - 1 );
-  
+
 };
 
 ThreeTwist.Direction.prototype.getUp = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.UP, up );
-  
+
 };
 
 ThreeTwist.Direction.prototype.getRight = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.RIGHT, up );
-  
+
 };
 
 ThreeTwist.Direction.prototype.getDown = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.DOWN, up );
-  
+
 };
 
 ThreeTwist.Direction.prototype.getLeft = function( up ){
 
   return this.getDirection( ThreeTwist.Direction.LEFT, up );
-  
+
 };
 
 
@@ -259,7 +259,7 @@ ThreeTwist.Direction.prototype.getLeft = function( up ){
 ThreeTwist.Direction.prototype.getOpposite = function(){
 
   return this.opposite;
-  
+
 };
 
 
@@ -267,18 +267,35 @@ ThreeTwist.Direction.prototype.getOpposite = function(){
 //  anywhere in any scope without big long variables names full of dots and
 //  stuff. Sure, ES5 doesn't really have constants but the all-caps alerts you
 //  to the fact that them thar variables ought not to be messed with.
-ThreeTwist.Direction.FRONT = new ThreeTwist.Direction( 0, 'front', new THREE.Vector3(  0,  0,  1 ));
-ThreeTwist.Direction.UP    = new ThreeTwist.Direction( 1, 'up'   , new THREE.Vector3(  0,  1,  0 ));
-ThreeTwist.Direction.RIGHT = new ThreeTwist.Direction( 2, 'right', new THREE.Vector3(  1,  0,  0 ));
-ThreeTwist.Direction.DOWN  = new ThreeTwist.Direction( 3, 'down' , new THREE.Vector3(  0, -1,  0 ));
-ThreeTwist.Direction.LEFT  = new ThreeTwist.Direction( 4, 'left' , new THREE.Vector3( -1,  0,  0 ));
-ThreeTwist.Direction.BACK  = new ThreeTwist.Direction( 5, 'back' , new THREE.Vector3(  0,  0, -1 ));
+ThreeTwist.Direction.FRONT =
+  new ThreeTwist.Direction( 0, 'front', new THREE.Vector3(  0,  0,  1 ));
+ThreeTwist.Direction.UP =
+  new ThreeTwist.Direction( 1, 'up'   , new THREE.Vector3(  0,  1,  0 ));
+ThreeTwist.Direction.RIGHT =
+  new ThreeTwist.Direction( 2, 'right', new THREE.Vector3(  1,  0,  0 ));
+ThreeTwist.Direction.DOWN =
+  new ThreeTwist.Direction( 3, 'down' , new THREE.Vector3(  0, -1,  0 ));
+ThreeTwist.Direction.LEFT =
+  new ThreeTwist.Direction( 4, 'left' , new THREE.Vector3( -1,  0,  0 ));
+ThreeTwist.Direction.BACK =
+  new ThreeTwist.Direction( 5, 'back' , new THREE.Vector3(  0,  0, -1 ));
 
 //  Now that they all exist we can
 //  establish their relationships to one another.
-ThreeTwist.Direction.FRONT.setRelationships( ThreeTwist.Direction.UP,    ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.DOWN,  ThreeTwist.Direction.LEFT,  ThreeTwist.Direction.BACK  );
-ThreeTwist.Direction.UP.setRelationships(    ThreeTwist.Direction.BACK,  ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.FRONT, ThreeTwist.Direction.LEFT,  ThreeTwist.Direction.DOWN  );
-ThreeTwist.Direction.RIGHT.setRelationships( ThreeTwist.Direction.UP,    ThreeTwist.Direction.BACK,  ThreeTwist.Direction.DOWN,  ThreeTwist.Direction.FRONT, ThreeTwist.Direction.LEFT  );
-ThreeTwist.Direction.DOWN.setRelationships(  ThreeTwist.Direction.FRONT, ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.BACK,  ThreeTwist.Direction.LEFT,  ThreeTwist.Direction.UP    );
-ThreeTwist.Direction.LEFT.setRelationships(  ThreeTwist.Direction.UP,    ThreeTwist.Direction.FRONT, ThreeTwist.Direction.DOWN,  ThreeTwist.Direction.BACK,  ThreeTwist.Direction.RIGHT );
-ThreeTwist.Direction.BACK.setRelationships(  ThreeTwist.Direction.UP,    ThreeTwist.Direction.LEFT,  ThreeTwist.Direction.DOWN,  ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.FRONT );
+ThreeTwist.Direction.FRONT.setRelationships( ThreeTwist.Direction.UP, ThreeTwist.Direction.RIGHT,
+  ThreeTwist.Direction.DOWN, ThreeTwist.Direction.LEFT, ThreeTwist.Direction.BACK );
+
+ThreeTwist.Direction.UP.setRelationships( ThreeTwist.Direction.BACK, ThreeTwist.Direction.RIGHT,
+  ThreeTwist.Direction.FRONT, ThreeTwist.Direction.LEFT, ThreeTwist.Direction.DOWN );
+
+ThreeTwist.Direction.RIGHT.setRelationships( ThreeTwist.Direction.UP, ThreeTwist.Direction.BACK,
+  ThreeTwist.Direction.DOWN, ThreeTwist.Direction.FRONT, ThreeTwist.Direction.LEFT );
+
+ThreeTwist.Direction.DOWN.setRelationships( ThreeTwist.Direction.FRONT, ThreeTwist.Direction.RIGHT,
+  ThreeTwist.Direction.BACK, ThreeTwist.Direction.LEFT, ThreeTwist.Direction.UP );
+
+ThreeTwist.Direction.LEFT.setRelationships( ThreeTwist.Direction.UP, ThreeTwist.Direction.FRONT,
+  ThreeTwist.Direction.DOWN, ThreeTwist.Direction.BACK, ThreeTwist.Direction.RIGHT );
+
+ThreeTwist.Direction.BACK.setRelationships( ThreeTwist.Direction.UP, ThreeTwist.Direction.LEFT,
+  ThreeTwist.Direction.DOWN, ThreeTwist.Direction.RIGHT, ThreeTwist.Direction.FRONT );
