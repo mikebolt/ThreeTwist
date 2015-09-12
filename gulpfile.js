@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var treegulp = require('treegulp');
 
 // for multiple tasks
 var rename = require('gulp-rename');
@@ -10,9 +11,6 @@ var concat = require('gulp-concat');
 
 // for the jsdoc-generate task
 var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
-
-// for the jslint task
-var jslint = require('gulp-jslint');
 
 // for the jshint task
 var jshint = require('gulp-jshint');
@@ -79,27 +77,25 @@ var tests = './tests/*.js'; // For now all the tests just sit in the tests direc
 var projectName = 'ThreeTwist';
 
 // It's important not to modify any of the original source files in any of these tasks.
-var tasks = {
-  'copy-stylesheets': function() {
+treegulp('default',
+  treegulp('copy-stylesheets', function() {
     return gulp.src('./src/styles/*.css')
       .pipe(gulp.dest('./build/styles'));
-  },
-  
-  'concat': function() {
-    return gulp.src(allSources)
-      .pipe(concat(projectName + '.js'))
-      .pipe(gulp.dest('./build'));
-  },
-  
-  'minify': function() {
-    return gulp.src(allSources)
-      .pipe(concat(projectName + '.min.js'))
-      .pipe(uglify())
-      .pipe(gulp.dest('./build'));
-  },
-  
-  'jsdoc-generate': function() {
-    return gulp.src(sources)
+  }),
+  treegulp('minify',
+    treegulp('concat', function() {
+      return gulp.src(allSources)
+        .pipe(concat(projectName + '.js'))
+        .pipe(gulp.dest('./build'));
+    }),
+    function() {
+      return gulp.src('./build/' + projectName + '.js')
+        .pipe(uglify())
+        .pipe(rename(projectName + '.min.js'))
+        .pipe(gulp.dest('./build'));
+    }),
+  treegulp('jsdoc-generate', function() {
+    gulp.src(sources)
       .pipe(gulpJsdoc2md())
       .on('error', function(err) {
         gutil.log(gutil.colors.red('jsdoc2md failed'), err.message);
@@ -108,27 +104,21 @@ var tasks = {
         path.extname = '.md';
       }))
       .pipe(gulp.dest('./docs'));
-  },
-  
-  'jshint': function() {
+  }),
+  treegulp('jshint', function() {
     return gulp.src(sources)
       .pipe(jshint())
       .pipe(jshint.reporter('jshint-stylish'));
-  },
-
-  'checkstyle': function() {
+  }),
+  treegulp('checkstyle', function() {
     return gulp.src(sources)
-      .pipe(jscs({
-        configPath: './.jscsrc'
-      }));
-  },
-  
-  'source-metrics': function() {
+      .pipe(jscs({configPath: './.jscsrc'}));
+  }),
+  treegulp('source-metrics', function() {
     return gulp.src(sources)
       .pipe(sloc());
-  },
-  
-  'test': function() {
+  }),
+  treegulp('test', function() {
     return gulp.src(tests)
       .pipe(mocha({
         ui: 'bdd',
@@ -136,16 +126,5 @@ var tasks = {
         timeout: '15000', // 15 seconds
         bail: 'false',
       }));
-  }
-};
-
-var taskNames = Object.getOwnPropertyNames(tasks);
-
-// Register all the tasks with gulp
-taskNames.forEach(function(taskName) {
-  gulp.task(taskName, tasks[taskName]);
-});
-
-/* Register the default task with gulp.
-   The default task just runs all the other tasks, in no particular order. */
-gulp.task('default', taskNames);
+  })
+);
