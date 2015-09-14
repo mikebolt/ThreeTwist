@@ -24,6 +24,9 @@ var sloc = require('gulp-sloc');
 // for the test task
 var mocha = require('gulp-mocha');
 
+// for the validate task
+var jsValidate = require('gulp-jsvalidate');
+
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
 
@@ -126,5 +129,9 @@ treegulp('default',
         timeout: '15000', // 15 seconds
         bail: 'false',
       }));
+  }),
+  treegulp('validate', function() {
+    return gulp.src(sources)
+      .pipe(jsValidate());
   })
 );
