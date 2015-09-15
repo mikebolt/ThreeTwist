@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/mikebolt/ThreeTwist#readme",
   "devDependencies": {
+    "JSONStream": "^1.0.4",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
+    "gulp-esprima": "^0.1.0",
     "gulp-jscs": "^2.0.0",
     "gulp-jsdoc-to-markdown": "^1.1.1",
     "gulp-jshint": "^1.11.2",

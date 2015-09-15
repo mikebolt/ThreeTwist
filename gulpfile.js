@@ -27,6 +27,10 @@ var mocha = require('gulp-mocha');
 // for the validate task
 var jsValidate = require('gulp-jsvalidate');
 
+// for the list-functions task
+var JSONStream = require('JSONStream');
+var esprima = require('gulp-esprima');
+
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
 
@@ -133,5 +137,10 @@ treegulp('default',
   treegulp('validate', function() {
     return gulp.src(sources)
       .pipe(jsValidate());
+  }),
+  treegulp('list-functions', function() {
+    return gulp.src(sources)
+      .pipe(esprima())
+      .pipe(gulp.dest('ast'));
   })
 );
