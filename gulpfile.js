@@ -28,7 +28,7 @@ var mocha = require('gulp-mocha');
 var jsValidate = require('gulp-jsvalidate');
 
 // for the list-functions task
-var JSONStream = require('JSONStream');
+var JSONEditor = require('gulp-json-editor');
 var esprima = require('gulp-esprima');
 
 /* The current directory in this script is the same as the base directory
@@ -141,6 +141,46 @@ treegulp('default',
   treegulp('list-functions', function() {
     return gulp.src(sources)
       .pipe(esprima())
-      .pipe(gulp.dest('ast'));
+      
+      // Return a list of functions in the AST.
+      // A function is an object that has a "type" property of either
+      // "FunctionExpression" or "FunctionDeclaration".
+      // TODO: if anonymous function is directly assigned, return the name
+      // of the identifier it it assigned to.
+      .pipe(JSONEditor(function listFunctions(json) {
+        var findings = [];
+        
+        if (Array.isArray(json)) {
+          // If it's an array, search through each element.
+          for (var i = 0; i < json.length; ++i) {
+            findings = findings.concat(listFunctions(json[i]));
+          }
+        }
+        else if (typeof json === 'object' && json !== null) {
+          // Check if the current object is a function.
+          // If so, add it to the findings list.
+          console.log('The type is an object');
+          if (json.type === 'FunctionExpression' ||
+              json.type === 'FunctionDeclaration') {
+            if (json.id === null) {
+              findings.push(null);
+            }
+            else if (typeof json.id === 'object' &&
+                     json.id.type === 'Identifier') {
+              findings.push(json.id.name);
+            }
+          }
+          
+          // Recurse on anything that might have a function in it.
+          var keys = Object.keys(json);
+          console.log("keys is...", keys);
+          for (var i = 0; i < keys.length; ++i) {
+            findings = findings.concat(listFunctions(json[keys[i]]));
+          }
+        }
+        
+        return findings;
+      }))
+      .pipe(gulp.dest('functions'));
   })
 );
