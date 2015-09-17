@@ -82,6 +82,10 @@ ThreeTwist.Cube = function( parameters ){
   this.mouseControlsEnabled = parameters.mouseControlsEnabled === undefined ? true :
     parameters.mouseControlsEnabled;
 
+  // The order must be a nonnegative integer.
+  this.order = typeof parameters.order === 'number' &&
+    parameters.order >= 0 ? parameters.order|0 : 3;
+
   var renderFactory = parameters.renderer || ThreeTwist.renderers.CSS3D;
 
   //  Some important booleans.
