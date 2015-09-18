@@ -2,6 +2,8 @@
 
   CUBES
 
+  TODO: change up this comment to reflect the new numbering scheme.
+  
   A Cube is composed of 27 Cubelets (3x3x3 grid) numbered 0 through 26.
   Cubelets are numbered beginning from the top-left-forward corner of the
   Cube and proceeding left to right, top to bottom, forward to back:
@@ -85,6 +87,9 @@ ThreeTwist.Cube = function( parameters ){
   // The order must be a nonnegative integer.
   this.order = typeof parameters.order === 'number' &&
     parameters.order >= 0 ? parameters.order|0 : 3;
+  
+  // The colors parameter maps directions to colors.
+  this.colors = parameters.colors === undefined ? [W, O, B, R, G, Y] : parameters.colors;
 
   var renderFactory = parameters.renderer || ThreeTwist.renderers.CSS3D;
 
@@ -174,7 +179,8 @@ ThreeTwist.Cube = function( parameters ){
   //  that's 3 x 3 = 9 Cubelets.
   //  But then behind the Front slice we also have a Standing slice (9) and Back slice (9),
   //  so that's going to be 27 Cubelets in total to create a Cube.
-  // TODO: This should be done programmatically.
+ 
+/*
   this.cubelets = [];
 
   [
@@ -198,7 +204,56 @@ ThreeTwist.Cube = function( parameters ){
     this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
 
   }.bind( this ));
+*/
 
+  // Create all the cubelets. In order to construct a cubelet, we need to know which of its
+  // faces are visible.
+  
+  this.cubelets = [];
+  
+  var cubeletId = 0; // We're not using the same numbering scheme.
+  
+  for (var xIndex = 0; xIndex < this.order; ++xIndex) {
+    for (var yIndex = 0; yIndex < this.order; ++yIndex) {
+      for (var zIndex = 0; zIndex < this.order; ++zIndex) {
+        // Figure out in which directions this cubelet has a visible sticker.
+        
+        // Right --> +X
+        // Up    --> +Y
+        // Front --> +Z
+        
+        // Left  --> -X
+        // Down  --> -Y
+        // Back  --> -Z
+        
+        var visibleDirections = new Array();
+        
+        if (xIndex === this.order - 1) {
+          visibleDirections.push(ThreeTwist.Direction.Right);
+        }
+        if (yIndex === this.order - 1) {
+          visibleDirections.push(ThreeTwist.Direction.Up);
+        }
+        if (zIndex === this.order - 1) {
+          visibleDirections.push(ThreeTwist.Direction.Front);
+        }
+        
+        if (xIndex === 0) {
+          visibleDirections.push(ThreeTwist.Direction.Left);
+        }
+        if (yIndex === 0) {
+          visibleDirections.push(ThreeTwist.Direction.Down);
+        }
+        if (zIndex === 0) {
+          visibleDirections.push(ThreeTwist.Direction.Back);
+        }
+        
+        this.cubelets.push(this, cubeletId, visibleDirections);
+        ++cubeletId;
+      }
+    }
+  }
+  
   //  Mapping the Cube creates all the convenience shortcuts
   //  that we will need later. (Demonstrated immediately below!)
 
@@ -325,7 +380,9 @@ ThreeTwist.Cube = function( parameters ){
   this.front.neighbour = this.standing;
 
   //  Faces .... special kind of Slice!
+  // TODO: make faces lists of slices
 
+  // FURDLB
   this.faces = [ this.front, this.up, this.right, this.down, this.left, this.back ];
 
   this.slices = [ this.left, this.middle, this.right,

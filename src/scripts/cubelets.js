@@ -46,7 +46,7 @@
 */
 
 
-ThreeTwist.Cubelet = function( cube, id, colors ){
+ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
 
   THREE.Object3D.call( this );
 
@@ -62,6 +62,8 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  when we derive positions and rotations for the Cubelet faces.
 
   this.id = id || 0;
+  
+  this.visibleDirections = visibleDirections;
 
   //  Our Cubelet's address is its current location on the Cube.
   //  When the Cubelet is initialized its ID and address are the same.
@@ -99,9 +101,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  Here's our overhead for that:
 
   var extrovertedFaces = 0;
-  if( colors === undefined ) {
-    colors = [ W, O,  ,  , G ];
-  }
   this.faces = [];
 
   //  Now let's map one color per side based on colors[].
@@ -109,14 +108,17 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  We need to loop through the colors[] Array "manually"
   //  because Array.forEach() would skip the undefined entries.
 
-  for( var i = 0; i < 6; i ++ ){
+  for( var i = 0; i < ThreeTwist.Direction.numDirections; i++ ){
 
     //  Before we create our face's THREE object
     //  we need to know where it should be positioned and rotated.
     // (This is based on our above positions and rotations map.)
 
-    var
-    color  = colors[ i ] || ThreeTwist.COLORLESS;
+    var visible = visibleDirections.indexOf(ThreeTwist.Direction.getDirectionById(i)) !== -1;
+    var color = cube.colors[ i ];
+    if (!visible) {
+      color = ThreeTwist.COLORLESS;
+    }
 
     //  Each face is an object and keeps track of its original ID number
     // (which is important because its address will change with each rotation)
@@ -147,9 +149,9 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     //  If this face has no color sticker then it must be interior to the Cube.
     //  That means in a normal state (no twisting happening) it is entirely hidden.
 
-    this.faces[ i ].isIntrovert = color === ThreeTwist.COLORLESS;
+    this.faces[ i ].isIntrovert = !visible;
 
-    if( color !== ThreeTwist.COLORLESS ){
+    if( visible ){
 
       //  EXTROVERTED FACES.
       //  But if this face does have a color then we need to

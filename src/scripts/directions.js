@@ -81,6 +81,9 @@ ThreeTwist.Direction.prototype.setRelationships = function( up, right, down, lef
 
 };
 
+// Constants are Cool!
+ThreeTwist.Direction.numDirections = 6;
+
 ThreeTwist.Direction.getNameById = function( id ){
 
   return [
