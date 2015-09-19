@@ -93,7 +93,7 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
   this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
   this.updateMatrix();
 
-  // // Add the cublet to the cube object
+  // Add the cubelet to the cube object
   this.cube.object3D.add( this );
 
   //  We're about to loop through our colors[] Array
@@ -178,14 +178,7 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
   //  and counted the number of extroverted sides
   //  we can determine what 'type' of Cubelet this is.
 
-  this.type = [
-
-    'core',
-    'center',
-    'edge',
-    'corner'
-
-  ][ extrovertedFaces ];
+  this.type = ThreeTwist.Cubelet.types[extrovertedFaces];
 
   //  Convience accessors for the Cubelet's faces.
   //  What color is the left face? this.left() !!
@@ -388,3 +381,14 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
   }
 
 });
+
+// Make a cubelet type array that can be indexed by number of extroverted facelets.
+ThreeTwist.Cubelet.types = [
+  'inner',
+  'center',
+  'edge',
+  'corner',
+  , // There are no order 4 cubelets
+  , // or order 5 cubelets,
+  'unitary', // but there may be one order 6 cubelet.
+];

@@ -258,6 +258,8 @@ ThreeTwist.Cube = function( parameters ){
   //  that we will need later. (Demonstrated immediately below!)
 
   //  A Rubik's Cube is composed of 27 cubelets arranged 3 x 3 x 3.
+  //  > A canonical cubic twisty puzzle of order N has N^3 cubelets.
+  //  > Of these N^3 cubelets, 6*(N-2)^2+12*(N-2)+8 are visible for N >= 2.
   //  We need a map that relates these 27 locations to the 27 cubelets
   //  such that we can ask questions like:
   //  What colors are on the Front face of the cube? Etc.
@@ -265,29 +267,35 @@ ThreeTwist.Cube = function( parameters ){
   //  Groups are simple collections of Cubelets.
   //  Their position and rotation is irrelevant.
 
-  this.core    = new ThreeTwist.Group();
-  this.centers = new ThreeTwist.Group();
-  this.edges   = new ThreeTwist.Group();
-  this.corners = new ThreeTwist.Group();
-  this.crosses = new ThreeTwist.Group();
+  this.core        = new ThreeTwist.Group(); // Literally the very center cubelet, if one exists. TODO
+  this.introverts  = new ThreeTwist.Group(); // All cubelets without exposed facelets.
+  this.coreCenters = new ThreeTwist.Group(); // Any cubelets at the very center of their face. TODO
+  this.centers     = new ThreeTwist.Group(); // Any cubelets with only one exposed face.
+  this.edges       = new ThreeTwist.Group(); // Any cubelets with exactly two exposed faces.
+  this.corners     = new ThreeTwist.Group(); // All cubelets with exactly three exposed faces.
+  this.crosses     = new ThreeTwist.Group(); // TODO: this should be a list of groups.
+  this.unitary     = new ThreeTwist.Group(); // Any cubelet with exactly six exposed faces (N=1).
+  
   this.cubelets.forEach( function( cubelet ){
-
-    if( cubelet.type === 'core'   ) {
-      this.core.add( cubelet );
+    if( cubelet.type === ThreeTwist.Cubelet.types[0] ) {
+      this.introverts.add( cubelet );
     }
-    if( cubelet.type === 'center' ) {
+    if( cubelet.type === ThreeTwist.Cubelet.types[1] ) {
       this.centers.add( cubelet );
     }
-    if( cubelet.type === 'edge'   ) {
+    if( cubelet.type === ThreeTwist.Cubelet.types[2] ) {
       this.edges.add( cubelet );
     }
-    if( cubelet.type === 'corner' ) {
+    if( cubelet.type === ThreeTwist.Cubelet.types[3] ) {
       this.corners.add( cubelet );
     }
-    if( cubelet.type === 'center' || cubelet.type === 'edge') {
+    if (cubelet.type === ThreeTwist.Cubelet.types[6]) {
+      this.unitary.add(cubelet);
+    }
+    if( cubelet.type === ThreeTwist.Cubelet.types[1] ||
+        cubelet.type === ThreeTwist.Cubelet.types[2] ) {
       this.crosses.add( cubelet );
     }
-
   }.bind( this ));
 
   //  Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
