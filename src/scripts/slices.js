@@ -138,6 +138,7 @@ ThreeTwist.Slice = function( indices, cube ){
   //  Given a subset of cubelets, an axis to rotate on and an angle,
   //  it will shift the location of all cubelets that need changing.
 
+  // TODO: this needs updatin'
   this.rotateGroupMappingOnAxis = (function(){
 
     //   Here we pre-define a few properties.
@@ -166,8 +167,7 @@ ThreeTwist.Slice = function( indices, cube ){
       //  Get The rotation as a matrix
       rotation.makeRotationAxis( this.axis, angle * -1 );
 
-      var i = indices.length,
-          cubelet;
+      var i = indices.length, cubelet;
 
       while( i-- > 0 ){
 
