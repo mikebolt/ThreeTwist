@@ -20,12 +20,14 @@ ThreeTwist.Twist = function( command, degrees ){
 
 };
 
+// TODO: why not initialize with a Slice?
+// Why does a Twist need to be mutable?
 ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
   //  What group of Cubelets do we intend to twist?
 
-  var group = {
-
+  // TODO: make a "describe" function or something
+  /*var group = {
     X: 'Cube on X',
     L: 'Left face',
     M: 'Middle slice',
@@ -40,8 +42,7 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     F: 'Front face',
     S: 'Standing slice',
     B: 'Back face'
-
-  }[ command.toUpperCase() ];
+  }[ command.toUpperCase() ];*/
 
   //  If we've received a valid twist group to operate on
   //  then we can proceed. Otherwise return false!
@@ -64,9 +65,8 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     //  Now let's note the absolute direction of the rotation
     //  as both a number and in English.
 
-    var
-    vector =  0,
-    wise   = 'unwise';
+    var vector =  0,
+        wise   = 'unwise';
 
     if( command === command.toUpperCase() ){
 
@@ -86,11 +86,11 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     //  The constructor will return it of course.
 
     this.command   = command; //  Twist command;
-    this.group     = group;   //  Description in English;
+    //this.group     = group;   //  Description in English;
     this.degrees   = degrees; //  Relative degrees (undefined is ok!);
     this.vector    = vector;  //  Absolute degree polarity;
     this.wise      = wise;    //  Absolute clock direction in English;
-    this.isShuffle   = false;
+    this.isShuffle = false;
 
     //  Best to leave this as a function rather than a property.
     //  I mean... imagine call this constructor if it tried to call itself!
@@ -116,7 +116,7 @@ ThreeTwist.Twist.prototype.equals = function( twist ){
 ThreeTwist.Twist.prototype.copy = function( twist ){
 
   this.command   = twist.command; //  Twist command;
-  this.group     = twist.group;   //  Description in English;
+  //this.group     = twist.group;   //  Description in English;
   this.degrees   = twist.degrees; //  Relative degrees (undefined is ok!);
   this.vector    = twist.vector;  //  Absolute degree polarity;
   this.wise      = twist.wise;    //  Absolute clock direction in English;
@@ -126,12 +126,18 @@ ThreeTwist.Twist.prototype.copy = function( twist ){
 
 };
 
+// It seems like the point of this function is to allow virtually anything to be added
+// to the twist queue and to try desperately to convert it into a ThreeTwist.Twist.
+// Why not just force all the elements in the twist queue to be ThreeTwist.Twists,
+// and then provide some functions that add twists to the queue given characters
+// or strings or whatever to mimic the behavior of this function? Then the caller
+// will (have to) actually know what they are doing and this validation function
+// will become much more simple.
+// - MC
 ThreeTwist.Twist.validate = function(){
 
-  var
-  elements = Array.prototype.slice.call( arguments ),
-  element, i, lookAhead,
-  pattern, matches, match, m, head, foot;
+  var elements = Array.prototype.slice.call( arguments ),
+    element, i, lookAhead, pattern, matches, match, m, head, foot;
 
   for( i = 0; i < elements.length; i ++ ){
 

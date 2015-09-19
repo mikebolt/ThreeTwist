@@ -728,10 +728,8 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         // Also, since everything's changed, we might as well tell everyone.
         this.dispatchEvent( new CustomEvent( 'onTwistComplete', { detail: {
-
           slice : slice,
           twist : twist
-
         }}));
       }
 
@@ -741,10 +739,8 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
         this.finalShuffle = null;
 
         this.dispatchEvent( new CustomEvent( 'onShuffleComplete', { detail: {
-
           slice : slice,
           twist : twist
-
         }}));
 
       }
@@ -756,12 +752,14 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   //  We can read and write text to the Cube.
   //  This is handled by Folds which are composed of two Faces.
+  // TODO: get folds working again
   getText: function( fold ){
-
+    return "ASDF LOL";
+    
+    /*
     if( fold === undefined ){
 
       return [
-
         this.folds[ 0 ].getText(),
         this.folds[ 1 ].getText(),
         this.folds[ 2 ].getText()
@@ -771,9 +769,10 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
       return this.folds[ fold ].getText();
     }
+    */
   },
   setText: function( text, fold ){
-
+    /*
     if( fold === undefined ){
 
       this.folds[ 0 ].setText( text );
@@ -784,6 +783,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
       this.folds[ fold ].setText( text );
     }
+    */
   },
 
   setSize: function ( width, height ){
@@ -797,6 +797,9 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   //  Shuffle methods.
 
+  // TODO: this would be better implemented using either a set of allowed
+  // slices to rotate or a set of allowed moves or algorithms to perform.
+  
   //  Preserve the logo position and rotation.
   PRESERVE_LOGO: 'RrLlUuDdSsBb',
 
@@ -886,17 +889,20 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
             var twist = queue.dequeue();
 
+            // Only count moves that actually change the puzzle's state.
             if( twist.command.toLowerCase() !== 'x' &&
                 twist.command.toLowerCase() !== 'y' &&
                 twist.command.toLowerCase() !== 'z' &&
-                twist.degrees !== 0  ) {
+                twist.degrees % 360 !== 0  ) {
               this.moveCounter += this.undoing ? -1 : 1;
             }
 
             //  If the twist we're about to execute does not actually
             //  change any slices, ie, we're rotating back to 0,
             //  then we don't need to remember it.
-            if( twist.degrees === 0 || twist.isShuffle ) {
+            // Also, don't remember the shuffle moves, because then
+            // one could cheat by just undoing them.
+            if( twist.degrees % 360 === 0 || twist.isShuffle ) {
 
               queue.purge( twist );
 
