@@ -141,8 +141,8 @@ ThreeTwist.Slice = function( indices, cube ){
   this.rotateGroupMappingOnAxis = (function(){
 
     //   Here we pre-define a few properties.
-    //  We'll reuse the, so it's best to define them up front
-    //  to avoid allocating new memeory at runtime
+    //  We'll reuse them, so it's best to define them up front
+    //  to avoid allocating new memory at runtime.
 
     var absAxis = new THREE.Vector3(),
       max   = new THREE.Vector3( 1.0, 1.0, 1.0 ),
@@ -267,13 +267,32 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //  If a face we'll know what direction it faces
     //  and what the color of the face *should* be.
 
-    for( var i = 0; i < 6; i ++ ){
-
-      if( this.origin.faces[ i ].color && this.origin.faces[ i ].color !== ThreeTwist.COLORLESS ){
-
-        this.color = this.origin.faces[ i ].color;
-        this.face = ThreeTwist.Direction.getNameById( i );
-        break;
+    // Actually, do this by counting up the visible directions and picking
+    // the direction with the highest count if it is higher than the others.
+    
+    // In the future, maybe just initialize the Slice as a face?
+    // This can be done easily in the Cube constructor.
+    
+    // On a 5x5x5 cube, we expect there to be 5 * 5 = 25 facelets on a face slice.
+    var expectedNumFaceletsPerFace = this.cube.order * this.cube.order;
+    
+    // Create an array of zeros for tallying the directions.
+    var direction;
+    var numFaceletsInDirection = [];
+    for (direction = 0; direction < ThreeTwist.Direction.numDirections; ++direction) {
+      numFaceletsInDirection[direction] = 0;
+    }
+    
+    this.cubelets.forEach(function(cubelet) {
+      cubelet.visibleDirections.forEach(function(visibleDirection) {
+        ++numFaceletsInDirection[visibleDirection.id];
+      });
+    });
+    
+    for (direction = 0; direction < ThreeTwist.Direction.numDirections; ++direction) {
+      if (numFaceletsInDirection[direction] === expectedNumFaceletsPerFace) {
+        this.color = this.cube.colors[direction];
+        this.face = ThreeTwist.Direction.getNameById(direction);
       }
     }
 
@@ -281,6 +300,10 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //  For example, the Right Slice (R) would rotate on the axis pointing to the right
     //  represented by the axis ( 1, 0, 0 ). Similarly the Equator Slice (E) would rotate
     //  on the axis pointing straight up ( 0, 1, 0 ).
+    
+    // This will work fine for all orders except 0 and 1, as long as
+    // the corners are defined properly.
+    // Again, this should probably be part of the initialization of a Slice.
 
     if( this.axis === undefined || this.axis.lengthSq() === 0 ){
 
@@ -289,10 +312,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         pointC = this.northWest.position.clone();
 
       this.axis = new THREE.Vector3().crossVectors(
-
         pointB.sub( pointA ),
         pointC.sub( pointA )
-
       ).normalize();
 
       this.axis.rotation = 0;

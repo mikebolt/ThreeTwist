@@ -229,26 +229,26 @@ ThreeTwist.Cube = function( parameters ){
         var visibleDirections = new Array();
         
         if (xIndex === this.order - 1) {
-          visibleDirections.push(ThreeTwist.Direction.Right);
+          visibleDirections.push(ThreeTwist.Direction.RIGHT);
         }
         if (yIndex === this.order - 1) {
-          visibleDirections.push(ThreeTwist.Direction.Up);
+          visibleDirections.push(ThreeTwist.Direction.UP);
         }
         if (zIndex === this.order - 1) {
-          visibleDirections.push(ThreeTwist.Direction.Front);
+          visibleDirections.push(ThreeTwist.Direction.FRONT);
         }
         
         if (xIndex === 0) {
-          visibleDirections.push(ThreeTwist.Direction.Left);
+          visibleDirections.push(ThreeTwist.Direction.LEFT);
         }
         if (yIndex === 0) {
-          visibleDirections.push(ThreeTwist.Direction.Down);
+          visibleDirections.push(ThreeTwist.Direction.DOWN);
         }
         if (zIndex === 0) {
-          visibleDirections.push(ThreeTwist.Direction.Back);
+          visibleDirections.push(ThreeTwist.Direction.BACK);
         }
         
-        this.cubelets.push(this, cubeletId, visibleDirections);
+        this.cubelets.push(new ThreeTwist.Cubelet(this, cubeletId, visibleDirections));
         ++cubeletId;
       }
     }
