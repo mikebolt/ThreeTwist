@@ -193,8 +193,12 @@ ThreeTwist.Slice = function( indices, cube ){
 
         //  The cublet array is in a funny order,
         //  so invert some of the axes of from our new position.
+        
+        // - Actually, no. Don't do that.
+        /*
         point.y = 2 - point.y;
         point.z = 2 - point.z;
+        */
 
         //  Use the X,Y,Z to get a 3D index.
         var address = point.z * 9 + point.y * 3 + point.x;
@@ -208,7 +212,7 @@ ThreeTwist.Slice = function( indices, cube ){
       }
 
       //   Remapping the location of the cubelets is all well and good,
-      //  but we also need to reorientate each cubelets face so cubelet.front
+      //  but we also need to reorient each cubelet's face so that cubelet.front
       //  is always pointing to the front.
 
       // Get the slices rotation
@@ -394,6 +398,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //  And finally for the hell of it let's try diagonals via
     //  Blazon notation:
 
+    // TODO: do this programatically. Or just get rid of it :)
+    
+    /*
     this.dexter = new ThreeTwist.Group(//  From top-left to bottom-right.
       this.northWest,
       this.origin,
@@ -404,6 +411,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.origin,
       this.southWest
     );
+    */
 
     return this;
 
@@ -421,12 +429,10 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
       this.invertedAxis.copy( this.axis ).negate();
 
-      if( partialRotation  ){
+      if( partialRotation ){
         if( this.neighbour ){
-
           this.showIntroverts( this.axis, true );
           this.neighbour.showIntroverts( this.invertedAxis, true );
-
         }else{
           this.cube.showIntroverts( this.axis, true );
           this.cube.showIntroverts( this.invertedAxis, true );
@@ -434,10 +440,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       }
       else{
         if( this.neighbour ){
-
           this.hideIntroverts( null, true );
           this.neighbour.hideIntroverts( null, true );
-
         }else{
           this.cube.hideIntroverts( null, true );
         }
@@ -475,6 +479,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   //  Given a Cubelet in this Slice,
   //  what is its compass location?
 
+  // TODO: "compass location" isn't very well defined for big cubes.
+  // Maybe just remove this function.
   getLocation: function( cubelet ){
 
     // TODO: this could be written as a map lookup
@@ -509,6 +515,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     return false;
   },
 
+  // TODO: rename this function to more accurately represent what it calculates.
   isSolved: function( face ){
 
     if( face ){

@@ -27,9 +27,8 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
   add: function(){
 
-    var
-    cubeletsToAdd = Array.prototype.slice.call( arguments ),
-    that = this;
+    var cubeletsToAdd = Array.prototype.slice.call( arguments ),
+      that = this;
 
     cubeletsToAdd.forEach( function( cubelet ){
 

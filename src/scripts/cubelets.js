@@ -84,7 +84,7 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
   //  We only need this momentarily to create our Object3D so
   //  there's no need to attach these properties to our Cubelet object.
 
-  var epsilon = 0.1,
+  var epsilon = 0.1, // Epsilon is the gap size. TODO: causing problems?
   x = this.addressX * ( this.size + epsilon ),
   y = this.addressY * ( this.size + epsilon ),
   z = this.addressZ * ( this.size + epsilon );
@@ -114,7 +114,8 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
     //  we need to know where it should be positioned and rotated.
     // (This is based on our above positions and rotations map.)
 
-    var visible = visibleDirections.indexOf(ThreeTwist.Direction.getDirectionById(i)) !== -1;
+    var direction = ThreeTwist.Direction.getDirectionById(i);
+    var visible = visibleDirections.indexOf(direction) !== -1;
     var color = cube.colors[ i ];
     if (!visible) {
       color = ThreeTwist.COLORLESS;
@@ -133,17 +134,9 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
     //  This is particularly useful for Striegel's solver
     //  which requires an UP normal.
 
-    this.faces[ i ].normal = ThreeTwist.Direction.getNameById( i );
-
-    //  FACE CONTAINER.
-    //  This face of our Cubelet needs a DOM element for all the
-    //  related DOM elements to be attached to.
-
-    //  WIREFRAME.
-
-    //  CUBELET ID.
-    //  For debugging we want the ability to display this Cubelet's ID number
-    //  with an underline (to make numbers like 6 and 9 legible upside-down).
+    // TODO: investigate the side effects of changing this
+    this.faces[i].solvedDirection = direction;
+    // OLD: this.faces[ i ].normal = direction.name;
 
     //  INTROVERTED FACES.
     //  If this face has no color sticker then it must be interior to the Cube.
@@ -163,13 +156,6 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
       //  Core, Center, Edge, or Corner.
 
       extrovertedFaces ++;
-
-      //  STICKER.
-      //  You know, the color part that makes the Cube
-      //  the most frustrating toy ever.
-
-      //  TEXT.
-      //  One character per face, mostly for our branding.
 
     }
   }
@@ -204,10 +190,9 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
     this.front.color && this.front.color.name === 'white' && this.type === 'center';
 
   //  We need to know if we're "engaged" on an axis
-  //  which at first seems indentical to isTweening,
+  //  which at first seems identical to isTweening,
   //  until you consider partial rotations.
 
-  this.isTweening = true;
   this.isEngagedX = false;
   this.isEngagedY = false;
   this.isEngagedZ = false;
@@ -238,22 +223,21 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   //  Aside from initialization this function will be called
   //  by the Cube during remapping.
-  //  The raw address is an integer from 0 through 26
+  //  The raw address is an integer from 0 through N^3 - 1
   //  mapped to the Cube in the same fashion as this.id.
-  //  The X, Y, and Z components each range from -1 through +1
-  //  where (0, 0, 0) is the Cube's core.
+  //  The X, Y, and Z components each range from 0 through N - 1 inclusive.
 
   setAddress: function( address ){
 
     this.address  = address || 0;
-    this.addressX = address.modulo( 3 ).subtract( 1 );
-    this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1;
-    this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1;
+    this.addressX = Math.floor(address / (this.cube.order * this.cube.order));
+    this.addressY = Math.floor(address % (this.cube.order * this.cube.order) / this.cube.order);
+    this.addressZ = address % this.cube.order;
 
   },
 
   //  Does this Cubelet contain a certain color?
-  //  If so, return a String decribing what face that color is on.
+  //  If so, return a String describing what face that color is on.
   //  Otherwise return false.
 
   hasColor: function( color ){
@@ -261,17 +245,15 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     var i, face, faceColorRGB,
       colorRGB = _.hexToRgb( color.hex );
 
-    for( i = 0; i < 6; i ++ ){
+    for( i = 0; i < ThreeTwist.Direction.numDirections; i ++ ){
 
       faceColorRGB = _.hexToRgb( this.faces[ i ].color.hex );
 
       if( faceColorRGB.r === colorRGB.r &&
           faceColorRGB.g === colorRGB.g &&
           faceColorRGB.b === colorRGB.b ){
-
         face = i;
         break;
-
       }
     }
     if( face !== undefined ){

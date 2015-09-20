@@ -450,7 +450,7 @@ ThreeTwist.Cube = function( parameters ){
   // so the cube doesn't look broken. This happens every time a slice is rotated.
   // Rotating Certain slices, such as the group slices never show internal faces.
 
-  // TODO: I have a suspicion that these are never used anywhere.
+  // This property is read in slices.js in the setRotation method.
   this.slicesDictionary.x.ableToHideInternalFaces = false;
   this.slicesDictionary.y.ableToHideInternalFaces = false;
   this.slicesDictionary.z.ableToHideInternalFaces = false;
@@ -669,7 +669,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     if( this.verbosity >= 0.8 ){
 
       console.log(
-
         'Executing a twist command to rotate the '+
          twist.group +' '+ twist.wise +' by',
          twist.degrees, 'degrees.'
