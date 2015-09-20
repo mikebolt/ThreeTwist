@@ -12,17 +12,17 @@
 
 */
 
-ThreeTwist.Twist = function( command, degrees ){
+ThreeTwist.Twist = function( slice, degrees ){
 
-  if( command ) {
-    this.set( command, degrees );
+  if( slice ) {
+    this.set( slice, degrees );
   }
 
 };
 
 // TODO: why not initialize with a Slice?
 // Why does a Twist need to be mutable?
-ThreeTwist.Twist.prototype.set = function( command, degrees ){
+ThreeTwist.Twist.prototype.set = function( slice, degrees ){
 
   //  What group of Cubelets do we intend to twist?
 
@@ -44,9 +44,13 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     B: 'Back face'
   }[ command.toUpperCase() ];*/
 
+  degreees = degrees || 90; // Just assume a 90 degree clockwise turn.
+  
   //  If we've received a valid twist group to operate on
   //  then we can proceed. Otherwise return false!
 
+  var group = 'Not Sure';
+  
   if( group !== undefined ){
 
     //  If our degrees of rotation are negative
@@ -56,36 +60,35 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     //  Remember, it's ok to have degrees === undefined
     //  which will peg to the nearest degrees % 90 === 0.
 
+    /*
     if( degrees !== undefined && degrees < 0 ){
 
       command = command.invert();
       degrees = degrees.absolute();
     }
+    */
 
     //  Now let's note the absolute direction of the rotation
     //  as both a number and in English.
 
     var vector =  0,
-        wise   = 'unwise';
+        wise = 'unwise';
 
-    if( command === command.toUpperCase() ){
-
+    if( degrees > 0 ){
       vector =  1;
-      wise   = 'clockwise';
-
+      wise = 'clockwise';
     }
-    else if( command === command.toLowerCase() ){
-
+    else if( degrees < 0 ){
       vector = -1;
-      wise   = 'anticlockwise';
-
+      wise = 'anticlockwise';
     }
 
     //  Finally we're ready to package up all the relevant information
     //  about this particular twist.
     //  The constructor will return it of course.
 
-    this.command   = command; //  Twist command;
+    this.slice = slice;
+    //this.command   = command; //  Twist command;
     //this.group     = group;   //  Description in English;
     this.degrees   = degrees; //  Relative degrees (undefined is ok!);
     this.vector    = vector;  //  Absolute degree polarity;
@@ -109,13 +112,16 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
 ThreeTwist.Twist.prototype.equals = function( twist ){
 
-  return this.command === twist.command && this.degrees === twist.degrees;
+  // TODO: maybe use semantic equality of slices?
+  return this.slice === twist.slice && this.degrees === twist.degrees;
+  //return this.command === twist.command && this.degrees === twist.degrees;
 
 };
 
 ThreeTwist.Twist.prototype.copy = function( twist ){
 
-  this.command   = twist.command; //  Twist command;
+  this.slice = twist.slice;
+  //this.command   = twist.command; //  Twist command;
   //this.group     = twist.group;   //  Description in English;
   this.degrees   = twist.degrees; //  Relative degrees (undefined is ok!);
   this.vector    = twist.vector;  //  Absolute degree polarity;
@@ -142,12 +148,15 @@ ThreeTwist.Twist.validate = function(){
   for( i = 0; i < elements.length; i ++ ){
 
     element = elements[ i ];
+    
+    /*
     if( i + 1 < elements.length ) {
       lookAhead = elements[ i + 1 ];
     }
     else {
       lookAhead = undefined;
     }
+    */
 
     if( element instanceof ThreeTwist.Twist ){
 
@@ -157,7 +166,11 @@ ThreeTwist.Twist.validate = function(){
       //  AWESOME. Nothing to do here.
 
     }
-    else if( typeof element === 'string' ){
+    else {
+      console.warn("You must only place ThreeTwist.Twists into the twist queue.");
+      elements.splice(1, i); // REJECTED
+      --i;
+    }/*if( typeof element === 'string' ){
 
       if( element.length === 1 ){
 
@@ -236,7 +249,7 @@ ThreeTwist.Twist.validate = function(){
       elements.splice( i, 1 );
       i --;//  Send it through the loop again to avoid duplicating logic.;
 
-    }
+    }*/
 
   }
 

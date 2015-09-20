@@ -56,7 +56,7 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
   this.cube = cube;
 
   //  Our Cubelet's ID is its unique number on the Cube.
-  //  Each Cube has Cubletes numbered 0 through 26.
+  //  Each Cube has Cubelets numbered 0 through N^3 - 1.
   //  Even if we're debugging (and not attached to an actual Cube)
   //  we need an ID number for later below
   //  when we derive positions and rotations for the Cubelet faces.
@@ -72,22 +72,22 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
 
   this.setAddress( this.id );
 
-  //  We're going to build Cubelets that are 140 pixels square.
+  //  We're going to build cubes that are (a total of 360) pixels square.
   //  Yup. This size is hardwired in Cube.
   //  It is also hard-wired into the CSS, but we can't simply
   //  grab the style.getBoundingClientRect() value because
   //  that's a 2D measurement -- doesn't account for pos and rot.
 
-  this.size = cube.cubeletSize || 140;
+  this.size = cube.cubeletSize || 120 * 3.0 / this.cube.order;
 
   //  Now we can find our Cubelet's X, Y, and Z position in space.
   //  We only need this momentarily to create our Object3D so
   //  there's no need to attach these properties to our Cubelet object.
 
   var epsilon = 0.1, // Epsilon is the gap size. TODO: causing problems?
-  x = this.addressX * ( this.size + epsilon ),
-  y = this.addressY * ( this.size + epsilon ),
-  z = this.addressZ * ( this.size + epsilon );
+  x = (this.addressX - (this.cube.order - 1) / 2) * ( this.size + epsilon ),
+  y = (this.addressY - (this.cube.order - 1) / 2) * ( this.size + epsilon ),
+  z = (this.addressZ - (this.cube.order - 1) / 2) * ( this.size + epsilon );
 
   this.position.set( x, y, z );
   this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
@@ -278,10 +278,9 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   hasColors: function(){
 
-    var
-    cubelet = this,
-    result  = true,
-    colors  = Array.prototype.slice.call( arguments );
+    var cubelet = this,
+        result  = true,
+        colors  = Array.prototype.slice.call( arguments );
 
     colors.forEach( function( color ){
 

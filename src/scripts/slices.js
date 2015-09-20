@@ -98,9 +98,9 @@
 */
 
 
-ThreeTwist.Slice = function( indices, cube ){
+ThreeTwist.Slice = function( indices, cube, axis ){
 
-  this.axis = new THREE.Vector3();
+  this.axis = axis;
   this.invertedAxis = new THREE.Vector3();
   this.matrix = new THREE.Matrix4();
   this.axis.rotation = 0;
@@ -146,10 +146,10 @@ ThreeTwist.Slice = function( indices, cube ){
     //  to avoid allocating new memory at runtime.
 
     var absAxis = new THREE.Vector3(),
-      max   = new THREE.Vector3( 1.0, 1.0, 1.0 ),
-      point   = new THREE.Vector3(),
-      origin   = new THREE.Vector3(),
-      rotation= new THREE.Matrix4(),
+      max = new THREE.Vector3( 1.0, 1.0, 1.0 ),
+      point = new THREE.Vector3(),
+      origin = new THREE.Vector3(),
+      rotation = new THREE.Matrix4(),
       faceArray;
 
     return function ( angle ){
@@ -164,7 +164,7 @@ ThreeTwist.Slice = function( indices, cube ){
 
       var cubletsCopy = cube.cubelets.slice();
 
-      //  Get The rotation as a matrix
+      //  Get the rotation as a matrix
       rotation.makeRotationAxis( this.axis, angle * -1 );
 
       var i = indices.length, cubelet;
@@ -174,13 +174,13 @@ ThreeTwist.Slice = function( indices, cube ){
         // For every cubelet ...
         cubelet = cube.cubelets[ indices[ i ]];
 
-        //  Get it's position and save it for later ...
+        //  Get its position and save it for later ...
         point.set( cubelet.addressX, cubelet.addressY, cubelet.addressZ );
         origin.copy( point );
 
         //  Then rotate it about our axis.
         point.multiply( absAxis )
-           .applyMatrix4( rotation );
+          .applyMatrix4( rotation );
 
         //  Flatten out any floating point rounding errors ...
         point.x = Math.round( point.x );
@@ -191,7 +191,7 @@ ThreeTwist.Slice = function( indices, cube ){
         point.add( origin.multiply( this.axis ));
         point.add( max );
 
-        //  The cublet array is in a funny order,
+        //  The cubelet array is in a funny order,
         //  so invert some of the axes of from our new position.
         
         // - Actually, no. Don't do that.
@@ -201,7 +201,8 @@ ThreeTwist.Slice = function( indices, cube ){
         */
 
         //  Use the X,Y,Z to get a 3D index.
-        var address = point.z * 9 + point.y * 3 + point.x;
+        // TODO: make a function for this.
+        var address = (point.x * cube.order + point.y) * cube.order + point.z;
         cube.cubelets[cubelet.address] = cubletsCopy[address];
 
       }
@@ -215,7 +216,7 @@ ThreeTwist.Slice = function( indices, cube ){
       //  but we also need to reorient each cubelet's face so that cubelet.front
       //  is always pointing to the front.
 
-      // Get the slices rotation
+      // Get the slice's rotation
       rotation.makeRotationAxis( this.axis, angle );
 
       // For each cubelet..
@@ -274,8 +275,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     // Actually, do this by counting up the visible directions and picking
     // the direction with the highest count if it is higher than the others.
     
-    // In the future, maybe just initialize the Slice as a face?
+    // TODO: In the future, maybe just initialize the Slice as a face?
     // This can be done easily in the Cube constructor.
+    // or simplify by using the known axis
     
     // On a 5x5x5 cube, we expect there to be 5 * 5 = 25 facelets on a face slice.
     var expectedNumFaceletsPerFace = this.cube.order * this.cube.order;
@@ -298,30 +300,6 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
         this.color = this.cube.colors[direction];
         this.face = ThreeTwist.Direction.getNameById(direction);
       }
-    }
-
-    //   We also need to calculate what axis this slice rotates on.
-    //  For example, the Right Slice (R) would rotate on the axis pointing to the right
-    //  represented by the axis ( 1, 0, 0 ). Similarly the Equator Slice (E) would rotate
-    //  on the axis pointing straight up ( 0, 1, 0 ).
-    
-    // This will work fine for all orders except 0 and 1, as long as
-    // the corners are defined properly.
-    // Again, this should probably be part of the initialization of a Slice.
-
-    if( this.axis === undefined || this.axis.lengthSq() === 0 ){
-
-      var pointA = this.northEast.position.clone(),
-        pointB = this.southWest.position.clone(),
-        pointC = this.northWest.position.clone();
-
-      this.axis = new THREE.Vector3().crossVectors(
-        pointB.sub( pointA ),
-        pointC.sub( pointA )
-      ).normalize();
-
-      this.axis.rotation = 0;
-
     }
 
     //  Addressing orthogonal strips of Cubelets is more easily done by
