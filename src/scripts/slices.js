@@ -98,9 +98,9 @@
 */
 
 
-ThreeTwist.Slice = function( indices, cube ){
+ThreeTwist.Slice = function( indices, cube, axis ){
 
-  this.axis = new THREE.Vector3();
+  this.axis = axis;
   this.invertedAxis = new THREE.Vector3();
   this.matrix = new THREE.Matrix4();
   this.axis.rotation = 0;
@@ -138,17 +138,18 @@ ThreeTwist.Slice = function( indices, cube ){
   //  Given a subset of cubelets, an axis to rotate on and an angle,
   //  it will shift the location of all cubelets that need changing.
 
+  // TODO: this needs updatin'
   this.rotateGroupMappingOnAxis = (function(){
 
     //   Here we pre-define a few properties.
-    //  We'll reuse the, so it's best to define them up front
-    //  to avoid allocating new memeory at runtime
+    //  We'll reuse them, so it's best to define them up front
+    //  to avoid allocating new memory at runtime.
 
     var absAxis = new THREE.Vector3(),
-      max   = new THREE.Vector3( 1.0, 1.0, 1.0 ),
-      point   = new THREE.Vector3(),
-      origin   = new THREE.Vector3(),
-      rotation= new THREE.Matrix4(),
+      max = new THREE.Vector3( 1.0, 1.0, 1.0 ),
+      point = new THREE.Vector3(),
+      origin = new THREE.Vector3(),
+      rotation = new THREE.Matrix4(),
       faceArray;
 
     return function ( angle ){
@@ -163,24 +164,23 @@ ThreeTwist.Slice = function( indices, cube ){
 
       var cubletsCopy = cube.cubelets.slice();
 
-      //  Get The rotation as a matrix
+      //  Get the rotation as a matrix
       rotation.makeRotationAxis( this.axis, angle * -1 );
 
-      var i = indices.length,
-          cubelet;
+      var i = indices.length, cubelet;
 
       while( i-- > 0 ){
 
         // For every cubelet ...
         cubelet = cube.cubelets[ indices[ i ]];
 
-        //  Get it's position and save it for later ...
+        //  Get its position and save it for later ...
         point.set( cubelet.addressX, cubelet.addressY, cubelet.addressZ );
         origin.copy( point );
 
         //  Then rotate it about our axis.
         point.multiply( absAxis )
-           .applyMatrix4( rotation );
+          .applyMatrix4( rotation );
 
         //  Flatten out any floating point rounding errors ...
         point.x = Math.round( point.x );
@@ -191,13 +191,18 @@ ThreeTwist.Slice = function( indices, cube ){
         point.add( origin.multiply( this.axis ));
         point.add( max );
 
-        //  The cublet array is in a funny order,
+        //  The cubelet array is in a funny order,
         //  so invert some of the axes of from our new position.
+        
+        // - Actually, no. Don't do that.
+        /*
         point.y = 2 - point.y;
         point.z = 2 - point.z;
+        */
 
         //  Use the X,Y,Z to get a 3D index.
-        var address = point.z * 9 + point.y * 3 + point.x;
+        // TODO: make a function for this.
+        var address = (point.x * cube.order + point.y) * cube.order + point.z;
         cube.cubelets[cubelet.address] = cubletsCopy[address];
 
       }
@@ -208,10 +213,10 @@ ThreeTwist.Slice = function( indices, cube ){
       }
 
       //   Remapping the location of the cubelets is all well and good,
-      //  but we also need to reorientate each cubelets face so cubelet.front
+      //  but we also need to reorient each cubelet's face so that cubelet.front
       //  is always pointing to the front.
 
-      // Get the slices rotation
+      // Get the slice's rotation
       rotation.makeRotationAxis( this.axis, angle );
 
       // For each cubelet..
@@ -267,36 +272,34 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //  If a face we'll know what direction it faces
     //  and what the color of the face *should* be.
 
-    for( var i = 0; i < 6; i ++ ){
-
-      if( this.origin.faces[ i ].color && this.origin.faces[ i ].color !== ThreeTwist.COLORLESS ){
-
-        this.color = this.origin.faces[ i ].color;
-        this.face = ThreeTwist.Direction.getNameById( i );
-        break;
-      }
+    // Actually, do this by counting up the visible directions and picking
+    // the direction with the highest count if it is higher than the others.
+    
+    // TODO: In the future, maybe just initialize the Slice as a face?
+    // This can be done easily in the Cube constructor.
+    // or simplify by using the known axis
+    
+    // On a 5x5x5 cube, we expect there to be 5 * 5 = 25 facelets on a face slice.
+    var expectedNumFaceletsPerFace = this.cube.order * this.cube.order;
+    
+    // Create an array of zeros for tallying the directions.
+    var direction;
+    var numFaceletsInDirection = [];
+    for (direction = 0; direction < ThreeTwist.Direction.numDirections; ++direction) {
+      numFaceletsInDirection[direction] = 0;
     }
-
-    //   We also need to calculate what axis this slice rotates on.
-    //  For example, the Right Slice (R) would rotate on the axis pointing to the right
-    //  represented by the axis ( 1, 0, 0 ). Similarly the Equator Slice (E) would rotate
-    //  on the axis pointing straight up ( 0, 1, 0 ).
-
-    if( this.axis === undefined || this.axis.lengthSq() === 0 ){
-
-      var pointA = this.northEast.position.clone(),
-        pointB = this.southWest.position.clone(),
-        pointC = this.northWest.position.clone();
-
-      this.axis = new THREE.Vector3().crossVectors(
-
-        pointB.sub( pointA ),
-        pointC.sub( pointA )
-
-      ).normalize();
-
-      this.axis.rotation = 0;
-
+    
+    this.cubelets.forEach(function(cubelet) {
+      cubelet.visibleDirections.forEach(function(visibleDirection) {
+        ++numFaceletsInDirection[visibleDirection.id];
+      });
+    });
+    
+    for (direction = 0; direction < ThreeTwist.Direction.numDirections; ++direction) {
+      if (numFaceletsInDirection[direction] === expectedNumFaceletsPerFace) {
+        this.color = this.cube.colors[direction];
+        this.face = ThreeTwist.Direction.getNameById(direction);
+      }
     }
 
     //  Addressing orthogonal strips of Cubelets is more easily done by
@@ -373,6 +376,9 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     //  And finally for the hell of it let's try diagonals via
     //  Blazon notation:
 
+    // TODO: do this programatically. Or just get rid of it :)
+    
+    /*
     this.dexter = new ThreeTwist.Group(//  From top-left to bottom-right.
       this.northWest,
       this.origin,
@@ -383,6 +389,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       this.origin,
       this.southWest
     );
+    */
 
     return this;
 
@@ -400,12 +407,10 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
 
       this.invertedAxis.copy( this.axis ).negate();
 
-      if( partialRotation  ){
+      if( partialRotation ){
         if( this.neighbour ){
-
           this.showIntroverts( this.axis, true );
           this.neighbour.showIntroverts( this.invertedAxis, true );
-
         }else{
           this.cube.showIntroverts( this.axis, true );
           this.cube.showIntroverts( this.invertedAxis, true );
@@ -413,10 +418,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
       }
       else{
         if( this.neighbour ){
-
           this.hideIntroverts( null, true );
           this.neighbour.hideIntroverts( null, true );
-
         }else{
           this.cube.hideIntroverts( null, true );
         }
@@ -454,6 +457,8 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
   //  Given a Cubelet in this Slice,
   //  what is its compass location?
 
+  // TODO: "compass location" isn't very well defined for big cubes.
+  // Maybe just remove this function.
   getLocation: function( cubelet ){
 
     // TODO: this could be written as a map lookup
@@ -488,6 +493,7 @@ ThreeTwist.extend( ThreeTwist.Slice.prototype, {
     return false;
   },
 
+  // TODO: rename this function to more accurately represent what it calculates.
   isSolved: function( face ){
 
     if( face ){

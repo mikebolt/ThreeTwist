@@ -1,3 +1,5 @@
+// TODO: these should be static functions accepting the string as an argument.
+
 ThreeTwist.extend( String.prototype, {
 
   capitalize : function(){

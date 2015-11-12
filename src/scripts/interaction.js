@@ -272,7 +272,8 @@ ThreeTwist.Interaction = (function(){
         }
 
         //  Now we can get the direction of rotation and the associated command.
-        var command =  slice.name[0].toUpperCase();
+        var currentFaceDirection = ThreeTwist.Direction.getDirectionByNormal(slice.axis);
+        var command = currentFaceDirection.initial;
 
         //  We then find the nearest rotation to snap to and calculate how long the rotation
         //  should take based on the distance between our current rotation and the target rotation.
@@ -292,7 +293,7 @@ ThreeTwist.Interaction = (function(){
         //  If this is a partial rotation that results in the same configuration of cubelets,
         //  then it doesn't really count as a move, and we don't need to add it to the history.
 
-        cube.twist( new ThreeTwist.Twist( command, targetAngle.radiansToDegrees() ));
+        cube.twist( new ThreeTwist.Twist( slice, targetAngle.radiansToDegrees() ));
 
       }
 

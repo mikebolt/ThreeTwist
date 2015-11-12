@@ -27,9 +27,8 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
   add: function(){
 
-    var
-    cubeletsToAdd = Array.prototype.slice.call( arguments ),
-    that = this;
+    var cubeletsToAdd = Array.prototype.slice.call( arguments ),
+      that = this;
 
     cubeletsToAdd.forEach( function( cubelet ){
 
@@ -162,6 +161,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     return results;
   },
 
+  // TODO: this is counterintuitive, and not what I consider "solved".
+  // Maybe rename this to 'isSolvedRelativeToFace' and make a better method.
+  // This method is basically copied in slices.js for some reason.
   isSolved: function( face ){
 
     if( face ){

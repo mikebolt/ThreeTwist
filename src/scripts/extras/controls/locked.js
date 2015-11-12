@@ -114,7 +114,9 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       var velocity, angle;
 
       // We have a group, but we need an associated command expressed as a single character.
+      // - No we don't.
 
+      /*
       if     ( group === cube.slicesDictionary.x ) {
         command = 'x';
       }
@@ -124,6 +126,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       else if( group === cube.slicesDictionary.z ) {
         command = 'z';
       }
+      */
 
       // Find the nearest 'complete' rotation
       angle = -Math.round( group.rotation / Math.PI * 2.0 ) * Math.PI * 0.5;
@@ -139,7 +142,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       if( velocity > 0.8 ){
 
         // If we are performing a 'z' twist, we should invert the rotation calculation
-        if( command === 'z' ) {
+        if( group === cube.slicesDictionary.z ) {
           absDirection.negate();
         }
 
@@ -150,7 +153,7 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
       }
 
       // Now that we have defined a twist, add it to the stack
-      cube.twist( new ThreeTwist.Twist( command, angle.radiansToDegrees() ));
+      cube.twist( new ThreeTwist.Twist( group, angle.radiansToDegrees() ));
 
     }else{
 
@@ -183,7 +186,8 @@ ThreeTwist.Locked = function ( cube, camera, domElement ) {
         command = command.toUpperCase();
       }
 
-      cube.twist( command );
+      // TODO: I may have broken this.
+      cube.twist( new ThreeTwist.Twist(group, 90));
     }
 
     group = null;

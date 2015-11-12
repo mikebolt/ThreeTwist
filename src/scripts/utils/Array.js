@@ -1,3 +1,5 @@
+// TODO: these should be static functions accepting the array as an argument.
+
 ThreeTwist.extend( Array.prototype, {
 
   distanceTo : function( target ){

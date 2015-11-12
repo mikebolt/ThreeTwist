@@ -1,3 +1,5 @@
+// This handles rotating the whole puzzle.
+
 ThreeTwist.Controls = (function(){
 
   //Enum of states
@@ -39,6 +41,7 @@ ThreeTwist.Controls = (function(){
       x *= dpr;
       y *= dpr;
 
+      // TODO: what are these magic numbers?
       return vector.set(
         ( x - view.width - view.left ) * 0.001,
         ( view.height + view.top - y ) * 0.001
@@ -75,7 +78,7 @@ ThreeTwist.Controls = (function(){
         //  Determine how far we've moved. This to determine how much to rotate by
         length = direction.length();
 
-        //  Then we can rotate the cube based on how far the drag occured
+        //  Then we can rotate the cube based on how far the drag occurred
         object.object3D.rotateOnAxis( axis, -length * api.rotationSpeed );
 
         //  Reset our internal state

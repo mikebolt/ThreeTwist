@@ -1,5 +1,5 @@
 //  This is a basic css renderer that uses a modified version of the three.js CSS3DRenderer.
-//  Having the renderer is a seperate file allows us to abstract all the visual components
+//  Having the renderer in a seperate file allows us to abstract all the visual components
 //  of the cube in a simple, straightforward way.
 
 //  THREE.JS HACK
@@ -14,20 +14,23 @@ var SceneType = THREE.Scene;
 THREE.Scene = SceneType || function(){};
 
 ThreeTwist.renderers = ThreeTwist.renderers || {};
-ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
+ThreeTwist.renderers.CSS3D = function( cube ){
 
+  var cubelets = cube.cubelets; // This used to be passed in.
+  
   // SCENE + RENDERER
   var renderer = new THREE.CSS3DRenderer(),
     scene = new THREE.Object3D();
   renderer.scene = scene;
 
   // Add the cube 3D object to the scene
-  scene.add( cube.autoRotateObj3D );
+  scene.add( cube.autoRotateObj3D ); // This holds the actual cube Object3D.
   scene.add( cube.camera );
 
   //  FACE LABELS
+  // These are the annoying floaty words that we hide with CSS
   var faceLabel;
-  cube.faces.forEach( function( face ){
+  cube.outermostFaces.forEach( function( face ){
 
     faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
 
@@ -40,11 +43,11 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
   });
 
-  cube.right.label.rotation.y = Math.PI *  0.5;
-  cube.left.label.rotation.y   = Math.PI * -0.5;
-  cube.back.label.rotation.y   = Math.PI;
-  cube.up.label.rotation.x   = Math.PI * -0.5;
-  cube.down.label.rotation.x   = Math.PI *  0.5;
+  cube.right.label.rotation.y = Math.PI * 0.5;
+  cube.left.label.rotation.y = Math.PI * -0.5;
+  cube.back.label.rotation.y = Math.PI;
+  cube.up.label.rotation.x = Math.PI * -0.5;
+  cube.down.label.rotation.x = Math.PI *  0.5;
 
   function showItem( item ){
     item.style.display = 'block';
@@ -82,6 +85,8 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
   //  First we add some functionality to the ThreeTwist.Cubelet specific to css,
   //  things like setOpacity, and showStickers directly affects css styles.
+  
+  // TODO: move this somewhere outside this constructor
   ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.CSS3DCubelet.methods );
 
   //   Then we use the CSS3DCubelet function to create all the dom elements.
@@ -90,6 +95,8 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
   // RENDER LOOP
   function render(){
 
+    // Don't do anything unless this cube's container is attached to the DOM.
+    // TODO: There is probably a better way to check if it's really attached.
     if( cube.domElement.parentNode ){
 
       var parentWidth = cube.domElement.parentNode.clientWidth,
@@ -97,9 +104,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
       if( cube.domElement.parentNode && ( cube.domElement.clientWidth !== parentWidth ||
           cube.domElement.clientHeight !== parentHeight )){
-
         cube.setSize( parentWidth, parentHeight );
-
       }
 
       renderer.render( scene, cube.camera );
@@ -116,7 +121,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
     THREE.Scene = SceneType;
   }
 
-  // All renderers must return an object containing a domElement and an setSize method,
+  // All renderers must return an object containing a domElement and a setSize method,
   // in most instances this is the renderer object itself.
 
   return renderer;
@@ -125,6 +130,8 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
 
 ThreeTwist.renderers.CSS3DCubelet = (function(){
+
+  // TODO: why the closure? Maybe there used to be private variables here?
 
   return function( cubelet ){
 
@@ -138,15 +145,14 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
     var faceSpacing = cubelet.size / 2;
 
+    // F U R D L B
     var transformMap = [
-
       "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )",
       "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
       "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )"
-
     ];
 
     var axisMap = [
@@ -212,10 +218,8 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       //  That means in a normal state (no twisting happening) it is entirely hidden.
 
       if( face.isIntrovert ){
-
         face.element.classList.add( 'faceIntroverted' );
         face.element.appendChild( document.createElement( 'div' ));
-
       }
 
       //  EXTROVERTED FACES.
@@ -238,9 +242,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
         //  If this happens to be our logo-bearing Cubelet
         //  we had better attach the logo to it!
         if( cubelet.isStickerCubelet ){
-
           stickerElement.classList.add( 'stickerLogo' );
-
         }
 
         //  TEXT.
