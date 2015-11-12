@@ -1,6 +1,5 @@
 /*
 
-
   COLORS
 
   Here's a little bootstrapping to create our Color constants.
@@ -14,15 +13,7 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
-
 
 
 ThreeTwist.Color = function( name, initial, hex, styleF, styleB ){
@@ -32,7 +23,7 @@ ThreeTwist.Color = function( name, initial, hex, styleF, styleB ){
   this.hex     = hex;
   this.styleF  = styleF;
   this.styleB  = styleB;
-}
+};
 
 
 //  Global constants to describe sticker colors.
@@ -43,7 +34,7 @@ var W,
   R,
   G,
   Y,
-  COLOURLESS;
+  COLORLESS;
 
 W = ThreeTwist.WHITE = new ThreeTwist.Color(
 
@@ -52,7 +43,7 @@ W = ThreeTwist.WHITE = new ThreeTwist.Color(
   '#FFF',
   'font-weight: bold; color: #888',
   'background-color: #F3F3F3; color: rgba( 0, 0, 0, 0.5 )'
-),
+);
 O = ThreeTwist.ORANGE = new ThreeTwist.Color(
 
   'orange',
@@ -60,7 +51,7 @@ O = ThreeTwist.ORANGE = new ThreeTwist.Color(
   '#F60',
   'font-weight: bold; color: #F60',
   'background-color: #F60; color: rgba( 255, 255, 255, 0.9 )'
-),
+);
 B = ThreeTwist.BLUE = new ThreeTwist.Color(
 
   'blue',
@@ -68,7 +59,7 @@ B = ThreeTwist.BLUE = new ThreeTwist.Color(
   '#00D',
   'font-weight: bold; color: #00D',
   'background-color: #00D; color: rgba( 255, 255, 255, 0.9 )'
-),
+);
 R = ThreeTwist.RED = new ThreeTwist.Color(
 
   'red',
@@ -76,7 +67,7 @@ R = ThreeTwist.RED = new ThreeTwist.Color(
   '#F00',
   'font-weight: bold; color: #F00',
   'background-color: #F00; color: rgba( 255, 255, 255, 0.9 )'
-),
+);
 G = ThreeTwist.GREEN = new ThreeTwist.Color(
 
   'green',
@@ -84,7 +75,7 @@ G = ThreeTwist.GREEN = new ThreeTwist.Color(
   '#0A0',
   'font-weight: bold; color: #0A0',
   'background-color: #0A0; color: rgba( 255, 255, 255, 0.9 )'
-),
+);
 Y = ThreeTwist.YELLOW = new ThreeTwist.Color(
 
   'yellow',
@@ -92,12 +83,12 @@ Y = ThreeTwist.YELLOW = new ThreeTwist.Color(
   '#FE0',
   'font-weight: bold; color: #ED0',
   'background-color: #FE0; color: rgba( 0, 0, 0, 0.5 )'
-),
-ThreeTwist.COLORLESS = new ThreeTwist.Color(
+);
+COLORLESS = ThreeTwist.COLORLESS = new ThreeTwist.Color(
 
   'NA',
   'X',
   '#DDD',
   'color: #EEE',
   'color: #DDD'
-)
+);

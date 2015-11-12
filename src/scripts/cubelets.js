@@ -1,6 +1,5 @@
 /*
 
-
   CUBELETS
 
   Faces are mapped in a clockwise spiral from Front to Back:
@@ -30,7 +29,6 @@
     this.faces[ 4 ] === this.left
     this.faces[ 5 ] === this.back
 
-
   Each Cubelet has an Index which is assigned during Cube creation
   and an Address which changes as the Cubelet changes location.
   Additionally an AddressX, AddressY, and AddressZ are calculated
@@ -40,33 +38,22 @@
 
     this.inspect()
 
-
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Cubelet = function( cube, id, colors ){
 
-
   THREE.Object3D.call( this );
-
 
   //  Our Cube can directly address its Cubelet children,
   //  only fair the Cubelet can address their parent Cube!
 
   this.cube = cube;
-
 
   //  Our Cubelet's ID is its unique number on the Cube.
   //  Each Cube has Cubletes numbered 0 through 26.
@@ -76,14 +63,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.id = id || 0;
 
-
   //  Our Cubelet's address is its current location on the Cube.
   //  When the Cubelet is initialized its ID and address are the same.
   //  This method will also set the X, Y, and Z components of the
   //  Cubelet's address on the Cube.
 
   this.setAddress( this.id );
-
 
   //  We're going to build Cubelets that are 140 pixels square.
   //  Yup. This size is hardwired in Cube.
@@ -92,7 +77,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   //  that's a 2D measurement -- doesn't account for pos and rot.
 
   this.size = cube.cubeletSize || 140;
-
 
   //  Now we can find our Cubelet's X, Y, and Z position in space.
   //  We only need this momentarily to create our Object3D so
@@ -107,33 +91,18 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   this.matrixSlice = new THREE.Matrix4().makeTranslation( x, y, z );
   this.updateMatrix();
 
-
-
   // // Add the cublet to the cube object
   this.cube.object3D.add( this );
-
-
-
-  // var domElement = document.createElement( 'div' );
-  // domElement.classList.add( 'cubelet' );
-  // domElement.classList.add( 'cubeletId-'+ this.id );
-  // this.css3DObject = new THREE.CSS3DObject( domElement );
-
-
-  // this.css3DObject.name = 'css3DObject-' + this.id;
-  // this.add( this.css3DObject );
-
-
-
 
   //  We're about to loop through our colors[] Array
   //  to build the six faces of our Cubelet.
   //  Here's our overhead for that:
 
   var extrovertedFaces = 0;
-  if( colors === undefined ) colors = [ W, O,  ,  , G, ];
+  if( colors === undefined ) {
+    colors = [ W, O,  ,  , G ];
+  }
   this.faces = [];
-
 
   //  Now let's map one color per side based on colors[].
   //  Undefined values are allowed (and anticipated).
@@ -142,14 +111,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   for( var i = 0; i < 6; i ++ ){
 
-
     //  Before we create our face's THREE object
     //  we need to know where it should be positioned and rotated.
     // (This is based on our above positions and rotations map.)
 
     var
     color  = colors[ i ] || ThreeTwist.COLORLESS;
-
 
     //  Each face is an object and keeps track of its original ID number
     // (which is important because its address will change with each rotation)
@@ -159,7 +126,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     this.faces[ i ].id = i;
     this.faces[ i ].color = color;
 
-
     //  We're going to keep track of what face was what at the moment of initialization,
     //  mostly for solving purposes.
     //  This is particularly useful for Striegel's solver
@@ -167,60 +133,28 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
     this.faces[ i ].normal = ThreeTwist.Direction.getNameById( i );
 
+    //  FACE CONTAINER.
+    //  This face of our Cubelet needs a DOM element for all the
+    //  related DOM elements to be attached to.
 
-  //   //  FACE CONTAINER.
-  //   //  This face of our Cubelet needs a DOM element for all the
-  //   //  related DOM elements to be attached to.
+    //  WIREFRAME.
 
-  //   var faceElement = document.createElement( 'div' );
-  //   faceElement.classList.add( 'face' );
-  //   faceElement.classList.add( 'face'+ ThreeTwist.Direction.getNameById( i ).capitalize() );
-  //   this.css3DObject.element.appendChild( faceElement );
-  //   this.faces[i].element = faceElement;
-
-
-
-  //   //  WIREFRAME.
-
-  //   var wireframeElement = document.createElement( 'div' );
-  //   wireframeElement.classList.add( 'wireframe' );
-  //   faceElement.appendChild( wireframeElement );
-
-
-  //   //  CUBELET ID.
-  //   //  For debugging we want the ability to display this Cubelet's ID number
-  //   //  with an underline (to make numbers like 6 and 9 legible upside-down).
-
-  //   var idElement = document.createElement( 'div' );
-  //   idElement.classList.add( 'id' );
-  //   faceElement.appendChild( idElement );
-
-  //   var underlineElement = document.createElement( 'span' );
-  //   underlineElement.classList.add( 'underline' );
-  //   underlineElement.innerText = this.id;
-  //   idElement.appendChild( underlineElement );
-
+    //  CUBELET ID.
+    //  For debugging we want the ability to display this Cubelet's ID number
+    //  with an underline (to make numbers like 6 and 9 legible upside-down).
 
     //  INTROVERTED FACES.
     //  If this face has no color sticker then it must be interior to the Cube.
     //  That means in a normal state (no twisting happening) it is entirely hidden.
 
-  this.faces[ i ].isIntrovert = color === ThreeTwist.COLORLESS;
+    this.faces[ i ].isIntrovert = color === ThreeTwist.COLORLESS;
 
-    if( color === ThreeTwist.COLORLESS ){
+    if( color !== ThreeTwist.COLORLESS ){
 
-  //     faceElement.classList.add( 'faceIntroverted' );
-
-    }
-
-
-    //  EXTROVERTED FACES.
-    //  But if this face does have a color then we need to
-    //  create a sticker with that color
-    //  and also allow text to be placed on it.
-
-    else {
-
+      //  EXTROVERTED FACES.
+      //  But if this face does have a color then we need to
+      //  create a sticker with that color
+      //  and also allow text to be placed on it.
 
       //  We're going to use the number of exposed sides
       //  to determine below what 'type' of Cubelet this is:
@@ -228,32 +162,15 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
       extrovertedFaces ++;
 
+      //  STICKER.
+      //  You know, the color part that makes the Cube
+      //  the most frustrating toy ever.
 
-  //     faceElement.classList.add( 'faceExtroverted' );
-
-
-  //     //  STICKER.
-  //     //  You know, the color part that makes the Cube
-  //     //  the most frustrating toy ever.
-
-  //     var stickerElement = document.createElement( 'div' );
-  //     stickerElement.classList.add( 'sticker' );
-  //     stickerElement.classList.add( color.name );
-  //     faceElement.appendChild( stickerElement );
-
-
-  //     //  TEXT.
-  //     //  One character per face, mostly for our branding.
-
-  //     var textElement = document.createElement( 'div' );
-  //     textElement.classList.add( 'text' );
-  //     textElement.innerText = i;
-  //     this.faces[ i ].text = textElement;
-  //     faceElement.appendChild( textElement );
+      //  TEXT.
+      //  One character per face, mostly for our branding.
 
     }
   }
-
 
   //  Now that we've run through our colors[] Array
   //  and counted the number of extroverted sides
@@ -266,52 +183,30 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
     'edge',
     'corner'
 
-  ][ extrovertedFaces ]
-
-
+  ][ extrovertedFaces ];
 
   //  Convience accessors for the Cubelet's faces.
   //  What color is the left face? this.left() !!
 
-  this.front    = this.faces[ 0 ]
-    this.up     = this.faces[ 1 ]
-    this.right  = this.faces[ 2 ]
-    this.down   = this.faces[ 3 ]
-    this.left   = this.faces[ 4 ]
-    this.back   = this.faces[ 5 ]
-    this.colors =
-
-      ( this.faces[ 0 ].color ? this.faces[ 0 ].color.initial : '-' ) +
-      ( this.faces[ 1 ].color ? this.faces[ 1 ].color.initial : '-' ) +
-      ( this.faces[ 2 ].color ? this.faces[ 2 ].color.initial : '-' ) +
-      ( this.faces[ 3 ].color ? this.faces[ 3 ].color.initial : '-' ) +
-      ( this.faces[ 4 ].color ? this.faces[ 4 ].color.initial : '-' ) +
-      ( this.faces[ 5 ].color ? this.faces[ 5 ].color.initial : '-' );
-
-
-
-
-  // this.front.element.style.transform =  "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.up.element.style.transform =     "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.right.element.style.transform =   "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-  // this.down.element.style.transform =   "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
-  // this.left.element.style.transform =   "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-  // this.back.element.style.transform =   "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-
-  // this.front.element.style.OTransform = this.front.element.style.MozTransform =   this.front.element.style.WebkitTransform   = this.front.element.style.transform;
-  // this.up.element.style.OTransform   = this.up.element.style.MozTransform =     this.up.element.style.WebkitTransform     = this.up.element.style.transform;
-  // this.right.element.style.OTransform = this.right.element.style.MozTransform =  this.right.element.style.WebkitTransform   = this.right.element.style.transform;
-  // this.down.element.style.OTransform   = this.down.element.style.MozTransform =   this.down.element.style.WebkitTransform   = this.down.element.style.transform;
-  // this.left.element.style.OTransform   = this.left.element.style.MozTransform =   this.left.element.style.WebkitTransform   = this.left.element.style.transform;
-  // this.back.element.style.OTransform   = this.back.element.style.MozTransform =   this.back.element.style.WebkitTransform   = this.back.element.style.transform;
-
+  this.front  = this.faces[ 0 ];
+  this.up     = this.faces[ 1 ];
+  this.right  = this.faces[ 2 ];
+  this.down   = this.faces[ 3 ];
+  this.left   = this.faces[ 4 ];
+  this.back   = this.faces[ 5 ];
+  this.colors =
+    ( this.faces[ 0 ].color ? this.faces[ 0 ].color.initial : '-' ) +
+    ( this.faces[ 1 ].color ? this.faces[ 1 ].color.initial : '-' ) +
+    ( this.faces[ 2 ].color ? this.faces[ 2 ].color.initial : '-' ) +
+    ( this.faces[ 3 ].color ? this.faces[ 3 ].color.initial : '-' ) +
+    ( this.faces[ 4 ].color ? this.faces[ 4 ].color.initial : '-' ) +
+    ( this.faces[ 5 ].color ? this.faces[ 5 ].color.initial : '-' );
 
   //  If this happens to be our logo-bearing Cubelet
   //  we had better attach the logo to it!
 
-  this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center'
-
-
+  this.isStickerCubelet =
+    this.front.color && this.front.color.name === 'white' && this.type === 'center';
 
   //  We need to know if we're "engaged" on an axis
   //  which at first seems indentical to isTweening,
@@ -322,18 +217,8 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
   this.isEngagedY = false;
   this.isEngagedZ = false;
 
-
-  // //  These will perform their actions, of course,
-  // //  but also setup their own boolean toggles.
-
-  // this.show();
-  // this.showIntroverts();
-  // this.showPlastics();
-  // this.showStickers();
-  // this.hideIds();
-  // this.hideTexts();
-  // this.hideWireframes();
-
+  //  These will perform their actions, of course,
+  //  but also setup their own boolean toggles.
 
   //  During a rotation animation this Cubelet marks itself as
   //  this.isTweening = true.
@@ -341,16 +226,12 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 
   this.isTweening = false;
 
-
   //  Some fun tweenable properties.
 
   this.opacity = 1;
   this.radius  = 0;
-}
 
-
-
-
+};
 
 
 //  Let's add some functionality to Cubelet's prototype
@@ -359,7 +240,6 @@ ThreeTwist.Cubelet = function( cube, id, colors ){
 ThreeTwist.Cubelet.prototype = Object.create( THREE.Object3D.prototype );
 
 ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
-
 
   //  Aside from initialization this function will be called
   //  by the Cube during remapping.
@@ -370,12 +250,12 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
   setAddress: function( address ){
 
-    this.address  = address || 0
-    this.addressX = address.modulo( 3 ).subtract( 1 )
-    this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1
-    this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1
-  },
+    this.address  = address || 0;
+    this.addressX = address.modulo( 3 ).subtract( 1 );
+    this.addressY = address.modulo( 9 ).divide( 3 ).roundDown().subtract( 1 ) * -1;
+    this.addressZ = address.divide( 9 ).roundDown().subtract( 1 ) * -1;
 
+  },
 
   //  Does this Cubelet contain a certain color?
   //  If so, return a String decribing what face that color is on.
@@ -390,28 +270,31 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
       faceColorRGB = _.hexToRgb( this.faces[ i ].color.hex );
 
-      if( faceColorRGB.r === colorRGB.r && faceColorRGB.g === colorRGB.g && faceColorRGB.b === colorRGB.b ){
+      if( faceColorRGB.r === colorRGB.r &&
+          faceColorRGB.g === colorRGB.g &&
+          faceColorRGB.b === colorRGB.b ){
 
         face = i;
-        break
+        break;
+
       }
     }
     if( face !== undefined ){
 
       return [
-
         'front',
         'up',
         'right',
         'down',
         'left',
         'back'
-
       ][ face ];
-    }
-    else return false;
-  },
 
+    }
+    else {
+      return false;
+    }
+  },
 
   //  Similar to above, but accepts an arbitrary number of colors.
   //  This function implies AND rather than OR, XOR, etc.
@@ -421,22 +304,20 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
     var
     cubelet = this,
     result  = true,
-    colors  = Array.prototype.slice.call( arguments )
+    colors  = Array.prototype.slice.call( arguments );
 
     colors.forEach( function( color ){
 
-      result = result && !!cubelet.hasColor( color )
-    })
-    return result
+      result = result && !!cubelet.hasColor( color );
+    });
+    return result;
   },
-
 
   getRadius: function(){
 
-    return this.radius
+    return this.radius;
   },
   setRadius: function( radius, onComplete ){
-
 
     //  @@
     //  It's a shame that we can't do this whilst tweening
@@ -450,29 +331,29 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
 
     if( this.isTweening === false ){
 
-      radius = radius || 0
-      if( this.radius === undefined ) this.radius = 0
-      if( this.radius !== radius ){
+      radius = radius || 0;
+      if( this.radius === undefined ) {
+        this.radius = 0;
+      }
 
+      if( this.radius !== radius ){
 
         //  Here's some extra cuteness to make the tween's duration
         //  proportional to the distance traveled.
-
-        // var tweenDuration = ( this.radius - radius ).absolute().scale( 0, 100, 0, 1000 )
 
         this.isTweening = true;
 
         var tweenDuration = ( this.radius - radius ).absolute(),
           obj = {radius:this.radius};
 
-
-
         new TWEEN.Tween( obj )
         .to( { radius: radius }, tweenDuration )
         .easing( TWEEN.Easing.Quartic.Out )
         .onUpdate( function(){
 
-          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 )
+          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2,
+                             this.addressY.multiply( this.size + obj.radius  ) + 0.2,
+                             this.addressZ.multiply( this.size + obj.radius  ) + 0.2 );
           this.updateMatrix();
           this.matrixSlice.copy( this.matrix );
 
@@ -481,20 +362,27 @@ ThreeTwist.extend( ThreeTwist.Cubelet.prototype, {
         }.bind( this ))
         .onComplete( function(){
 
-          this.isTweening = false
+          this.isTweening = false;
 
-          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2, this.addressY.multiply( this.size + obj.radius  ) + 0.2, this.addressZ.multiply( this.size + obj.radius  ) + 0.2 )
+          this.position.set( this.addressX.multiply( this.size + obj.radius  ) + 0.2,
+                             this.addressY.multiply( this.size + obj.radius  ) + 0.2,
+                             this.addressZ.multiply( this.size + obj.radius  ) + 0.2 );
           this.updateMatrix();
           this.matrixSlice.copy( this.matrix );
 
           this.radius = obj.radius;
 
-          if( onComplete instanceof Function ) onComplete()
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
 
         }.bind( this ))
         .start( this.cube.time );
 
       }
+
     }
+
   }
-})
+
+});

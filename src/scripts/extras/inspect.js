@@ -14,7 +14,7 @@ ThreeTwist.Cube.prototype.inspect = function( compact, side ){
   this.down.inspect(  compact, side );
   this.left.inspect(  compact, side );
   this.back.inspect(  compact, side );
-}
+};
 
 //  Full inspection of the Cublet's faces
 //  using the convenience accessors from above.
@@ -23,13 +23,11 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
 
   if( face !== undefined ){
 
-
     //  Just a particular face's color -- called by Slice's inspector.
 
-    return this[ face ].color || '!'
+    return this[ face ].color || '!';
   }
   else {
-
 
     //  Full on ASCII-art inspection mode -- with console colors!
 
@@ -38,23 +36,30 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
     id      = this.id,
     address = this.address,
     type    = this.type,
-    color   = this.cube.color,
     LEFT    = 0,
     CENTER  = 1,
     getColorName = function( face, justification, minimumLength ){
 
-      var colorName = that[ face ].color.name.toUpperCase()
+      var colorName = that[ face ].color.name.toUpperCase();
 
       if( justification !== undefined && minimumLength !== undefined ){
 
-        if( justification === CENTER ) colorName = colorName.justifyCenter( minimumLength )
-        else if( justification === LEFT ) colorName = colorName.justifyLeft( minimumLength )
+        if( justification === CENTER ) {
+          colorName = colorName.justifyCenter( minimumLength );
+        }
+        else if( justification === LEFT ) {
+          colorName = colorName.justifyLeft( minimumLength );
+        }
       }
-      return colorName
-    }
+      return colorName;
+    };
 
-    if( id < 10 ) id = '0' + id
-    if( address < 10 ) address = '0' + address
+    if( id < 10 ) {
+      id = '0' + id;
+    }
+    if( address < 10 ) {
+      address = '0' + address;
+    }
     console.log(
 
       '\n    ID         '+ id +
@@ -83,7 +88,8 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
       '\n          /%c'+ getColorName( 'up', CENTER, 11 ) +'%c/  |'+
       '\n  %cleft%c    -----------   %cright%c'+
       '\n   %c4%c     |           |   %c2%c'+
-      '\n%c'+ getColorName( 'left', CENTER, 8 ) +'%c |   %cfront%c   |  %c'+ getColorName( 'right' ) +'%c'+
+      '\n%c'+ getColorName( 'left', CENTER, 8 ) +'%c |   %cfront%c   |  %c'+
+        getColorName( 'right' ) +'%c'+
       '\n         |     %c0%c     |  /'+
       '\n         |%c'+ getColorName( 'front', CENTER, 11 ) +'%c| /'+
       '\n         |           |/'+
@@ -117,9 +123,9 @@ ThreeTwist.Cubelet.prototype.inspect = function( face ){
       this.down.color.styleF,  '',
       this.down.color.styleF,  '',
       this.down.color.styleF,  ''
-    )
+    );
   }
-}
+};
 
 ThreeTwist.Group.prototype.inspect = function( face ){
 
@@ -128,7 +134,7 @@ ThreeTwist.Group.prototype.inspect = function( face ){
     cubelet.inspect( face );
   });
   return this;
-}
+};
 
 ThreeTwist.Slice.prototype.inspect = function( compact, side ){
 
@@ -141,11 +147,19 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
 
   if( side === undefined ){
 
-      if( this.face !== undefined ) side = this.face;
-    else side = 'front';
+    if( this.face !== undefined ) {
+      side = this.face;
+    }
+    else {
+      side = 'front';
+    }
   }
-  if( side instanceof ThreeTwist.Direction ) side = side.name;
-  if( side !== this.face ) sideLabel = side + 's';
+  if( side instanceof ThreeTwist.Direction ) {
+    side = side.name;
+  }
+  if( side !== this.face ) {
+    sideLabel = side + 's';
+  }
   if( compact ){
 
     console.log(
@@ -197,7 +211,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.northEast ) +' %c '+
         '\n          %c           %c %c           %c %c           %c '+
 
-
         '\n\n          %c           %c %c           %c %c           %c '+
         '\n          %c    west   %c '+
         '%c   origin  %c '+
@@ -212,7 +225,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.east ) +' %c '+
         '\n          %c           %c %c           %c %c           %c '+
 
-
         '\n\n          %c           %c %c           %c %c           %c '+
         '\n          %c southWest %c '+
         '%c   south   %c '+
@@ -226,7 +238,6 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         '%c '+ getColorName( this.south ) +' %c '+
         '%c '+ getColorName( this.southEast ) +' %c '+
         '\n          %c           %c %c           %c %c           %c\n',
-
 
         this.northWest[ side ].color.styleB, '',
         this.north[     side ].color.styleB, '',
@@ -277,4 +288,4 @@ ThreeTwist.Slice.prototype.inspect = function( compact, side ){
         this.southEast[ side ].color.styleB, ''
     );
   }
-}
+};

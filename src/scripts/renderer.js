@@ -1,9 +1,6 @@
-
-
 //  This is a basic css renderer that uses a modified version of the three.js CSS3DRenderer.
 //  Having the renderer is a seperate file allows us to abstract all the visual components
 //  of the cube in a simple, straightforward way.
-
 
 //  THREE.JS HACK
 
@@ -16,30 +13,21 @@
 var SceneType = THREE.Scene;
 THREE.Scene = SceneType || function(){};
 
-
 ThreeTwist.renderers = ThreeTwist.renderers || {};
 ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
-
   // SCENE + RENDERER
-
   var renderer = new THREE.CSS3DRenderer(),
     scene = new THREE.Object3D();
   renderer.scene = scene;
 
-
   // Add the cube 3D object to the scene
-
   scene.add( cube.autoRotateObj3D );
   scene.add( cube.camera );
 
-
-
-
   //  FACE LABELS
-
-  var faceLabel, axis = new THREE.Vector3();
-  cube.faces.forEach( function( face, i ){
+  var faceLabel;
+  cube.faces.forEach( function( face ){
 
     faceLabel = cube[face.face].label = new THREE.CSS3DObject( document.createElement( 'div' ) );
 
@@ -50,14 +38,13 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
     faceLabel.element.innerHTML = face.face.toUpperCase();
     cube.object3D.add( faceLabel );
 
-  })
+  });
 
   cube.right.label.rotation.y = Math.PI *  0.5;
   cube.left.label.rotation.y   = Math.PI * -0.5;
   cube.back.label.rotation.y   = Math.PI;
   cube.up.label.rotation.x   = Math.PI * -0.5;
   cube.down.label.rotation.x   = Math.PI *  0.5;
-
 
   function showItem( item ){
     item.style.display = 'block';
@@ -70,7 +57,6 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
     return Array.prototype.slice.call( renderer.domElement.querySelectorAll( '.faceLabel' ));
   }
 
-
   cube.showFaceLabels = function(){
 
     getFaceLabelElements().forEach( showItem );
@@ -78,8 +64,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
     return this;
 
-  }
-
+  };
 
   cube.hideFaceLabels = function(){
 
@@ -87,9 +72,7 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
     this.showingFaceLabels = false;
 
     return this;
-  }
-
-
+  };
 
 
   //  CSS CUBELETS
@@ -99,19 +82,12 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
   //  First we add some functionality to the ThreeTwist.Cubelet specific to css,
   //  things like setOpacity, and showStickers directly affects css styles.
-
   ThreeTwist.extend( ThreeTwist.Cubelet.prototype, ThreeTwist.renderers.CSS3DCubelet.methods );
 
-
   //   Then we use the CSS3DCubelet function to create all the dom elements.
-
   cubelets.forEach( ThreeTwist.renderers.CSS3DCubelet );
 
-
-
-
   // RENDER LOOP
-
   function render(){
 
     if( cube.domElement.parentNode ){
@@ -119,11 +95,10 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
       var parentWidth = cube.domElement.parentNode.clientWidth,
         parentHeight = cube.domElement.parentNode.clientHeight;
 
-      if( cube.domElement.parentNode &&
-        ( cube.domElement.clientWidth  !== parentWidth ||
-        cube.domElement.clientHeight !== parentHeight )){
+      if( cube.domElement.parentNode && ( cube.domElement.clientWidth !== parentWidth ||
+          cube.domElement.clientHeight !== parentHeight )){
 
-          cube.setSize( parentWidth, parentHeight );
+        cube.setSize( parentWidth, parentHeight );
 
       }
 
@@ -134,43 +109,34 @@ ThreeTwist.renderers.CSS3D = function( cubelets, cube ){
 
   }
 
-
   requestAnimationFrame( render );
 
-
   // We'll need to set the scene object back to it's original type
-  if( SceneType ) THREE.Scene = SceneType;
-
-
+  if( SceneType ) {
+    THREE.Scene = SceneType;
+  }
 
   // All renderers must return an object containing a domElement and an setSize method,
   // in most instances this is the renderer object itself.
 
   return renderer;
 
-
-}
-
-
+};
 
 
 ThreeTwist.renderers.CSS3DCubelet = (function(){
 
-
   return function( cubelet ){
-
 
     var domElement = document.createElement( 'div' );
     domElement.classList.add( 'cubelet' );
     domElement.classList.add( 'cubeletId-'+ cubelet.id );
     cubelet.css3DObject = new THREE.CSS3DObject( domElement );
 
-
     cubelet.css3DObject.name = 'css3DObject-' + cubelet.id;
     cubelet.add( cubelet.css3DObject );
 
-
-    var faceSpacing = ( cubelet.size / 2 );
+    var faceSpacing = cubelet.size / 2;
 
     var transformMap = [
 
@@ -179,9 +145,9 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
       "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )",
       "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
-      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
+      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )"
 
-    ]
+    ];
 
     var axisMap = [
       'axisZ',
@@ -189,10 +155,8 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       'axisX',
       'axisY',
       'axisX',
-      'axisZ',
-    ]
-
-
+      'axisZ'
+    ];
 
     //  CUBELET FACES
 
@@ -202,7 +166,6 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
     cubelet.faces.forEach( function( face ) {
 
-
       //  FACE CONTAINER.
       //  This face of our Cubelet needs a DOM element for all the
       //  related DOM elements to be attached to.
@@ -210,17 +173,15 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       face.element = document.createElement( 'div' );
       face.element.classList.add( 'face' );
       face.element.classList.add( axisMap[ face.id ]);
-      face.element.classList.add( 'face'+ ThreeTwist.Direction.getNameById( face.id ).capitalize() );
+      face.element.classList.add( 'face' +
+        ThreeTwist.Direction.getNameById( face.id ).capitalize() );
       cubelet.css3DObject.element.appendChild( face.element );
-
 
       //  WIREFRAME.
 
       var wireframeElement = document.createElement( 'div' );
       wireframeElement.classList.add( 'wireframe' );
       face.element.appendChild( wireframeElement );
-
-
 
       //  CUBELET ID.
       //  For debugging we want the ability to display this Cubelet's ID number
@@ -235,17 +196,16 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       underlineElement.innerText = cubelet.id;
       idElement.appendChild( underlineElement );
 
-
-
       // Each face has a different orientation represented by a CSS 3D transform.
       // Here we select and apply the correct one.
 
       var cssTransform = transformMap[ face.id ],
         style = face.element.style;
 
-      style.OTransform = style.MozTransform = style.WebkitTransform = style.transform = cssTransform;
-
-
+      style.OTransform = cssTransform;
+      style.MozTransform = cssTransform;
+      style.WebkitTransform = cssTransform;
+      style.transform = cssTransform;
 
       //  INTROVERTED FACES.
       //  If this face has no color sticker then it must be interior to the Cube.
@@ -258,7 +218,6 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
       }
 
-
       //  EXTROVERTED FACES.
       //  But if this face does have a color then we need to
       //  create a sticker with that color
@@ -266,35 +225,26 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
       else {
 
-
         face.element.classList.add( 'faceExtroverted' );
-
-
 
         //  STICKER.
         //  You know, the color part that makes the Cube
         //  the most frustrating toy ever.
-
         var stickerElement = document.createElement( 'div' );
         stickerElement.classList.add( 'sticker' );
         stickerElement.classList.add( face.color.name );
         face.element.appendChild( stickerElement );
 
-
-
         //  If this happens to be our logo-bearing Cubelet
         //  we had better attach the logo to it!
-
         if( cubelet.isStickerCubelet ){
 
-          stickerElement.classList.add( 'stickerLogo' )
+          stickerElement.classList.add( 'stickerLogo' );
+
         }
-
-
 
         //  TEXT.
         //  One character per face, mostly for our branding.
-
         var textElement = document.createElement( 'div' );
         textElement.classList.add( 'text' );
         textElement.innerText = face.id;
@@ -303,14 +253,10 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
       }
 
-    })
-
-
-
+    });
 
     //  These will perform their actions, of course,
     //  but also setup their own boolean toggles.
-
     cubelet.show();
     cubelet.showIntroverts();
     cubelet.showPlastics();
@@ -319,16 +265,14 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
     cubelet.hideTexts();
     cubelet.hideWireframes();
 
-  }
+  };
 
 }());
-
 
 //   The method object contains functionality specific to the CSS3D renderer that we add
 //  to the ThreeTwist.Cubelet prototype
 
 ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
-
 
   function showItem( item ){
     item.style.display = 'block';
@@ -338,26 +282,26 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
     item.style.display = 'none';
   }
 
-
   return {
 
     //  Visual switches.
     getFaceElements: function ( selector ){
 
       var selectorString = selector || '';
-      return Array.prototype.slice.call( this.css3DObject.element.querySelectorAll( '.face' + selectorString ));
+      return Array.prototype.slice.call(
+        this.css3DObject.element.querySelectorAll( '.face' + selectorString ));
 
     },
 
     show: function(){
 
       showItem( this.css3DObject.element );
-      this.showing = true
+      this.showing = true;
     },
     hide: function(){
 
       hideItem( this.css3DObject.element );
-      this.showing = false
+      this.showing = false;
     },
     showExtroverts: function(){
 
@@ -382,13 +326,17 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         if( onlyAxis ){
           inv.getInverse( this.matrix );
           axis.copy( onlyAxis ).transformDirection( inv );
-          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' :
+                 ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
         }
 
-        this.getFaceElements( '.faceIntroverted' + ( onlyAxis !== undefined ? only : "" )).forEach( showItem );
-        if( !soft ) this.showingIntroverts = true;
+        this.getFaceElements( '.faceIntroverted' +
+          ( onlyAxis !== undefined ? only : "" )).forEach( showItem );
+        if( !soft ) {
+          this.showingIntroverts = true;
+        }
 
-      }
+      };
     }(),
     hideIntroverts: function(){
 
@@ -403,13 +351,17 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         if( onlyAxis ){
           inv.getInverse( this.matrix );
           axis.copy( onlyAxis ).transformDirection( inv );
-          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' : ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
+          only = ( Math.abs( Math.round( axis.x )) === 1 ) ? '.axisX' :
+                 ( Math.round( Math.abs( axis.y )) === 1 ) ? '.axisY' : '.axisZ';
         }
 
-        this.getFaceElements( '.faceIntroverted' + ( onlyAxis !== undefined ? only : "" )).forEach( hideItem );
-        if( !soft ) this.showingIntroverts = false;
+        this.getFaceElements( '.faceIntroverted' +
+          ( onlyAxis !== undefined ? only : "" )).forEach( hideItem );
+        if( !soft ) {
+          this.showingIntroverts = false;
+        }
 
-      }
+      };
     }(),
 
     showPlastics: function(){
@@ -468,17 +420,22 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
     },
     getOpacity: function(){
 
-      return this.opacity
+      return this.opacity;
     },
     setOpacity: function( opacityTarget, onComplete ){
 
-      if( this.opacityTween ) this.opacityTween.stop()
-      if( opacityTarget === undefined ) opacityTarget = 1
+      if( this.opacityTween ) {
+        this.opacityTween.stop();
+      }
+
+      if( opacityTarget === undefined ) {
+        opacityTarget = 1;
+      }
+
       if( opacityTarget !== this.opacity ){
 
-        var
-        that = this,
-        tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 )
+        var that = this,
+          tweenDuration = ( opacityTarget - this.opacity ).absolute().scale( 0, 1, 0, 1000 * 0.2 );
 
         this.opacityTween = new TWEEN.Tween({ opacity: this.opacity })
         .to({
@@ -490,29 +447,34 @@ ThreeTwist.renderers.CSS3DCubelet.methods = (function(){
         .onUpdate( function(){
 
           that.css3DObject.element.style.opacity =  this.opacity;
-          that.opacity = this.opacity//opacityTarget
+          that.opacity = this.opacity;
         })
         .onComplete( function(){
 
-          if( onComplete instanceof Function ) onComplete()
+          if( onComplete instanceof Function ) {
+            onComplete();
+          }
         })
-        .start()
+        .start();
 
       }
     },
-    getStickersOpacity: function( value ){
+    getStickersOpacity: function(){
 
       return parseFloat( this.getFaceElements( ' .sticker' )[0].style.opacity );
     },
     setStickersOpacity: function( value ){
 
-      if( value === undefined ) value = 0.2;
+      if( value === undefined ) {
+        value = 0.2;
+      }
+
       var valueStr = value;
       this.getFaceElements( ' .sticker' ).forEach( function( sticker ){
         sticker.style.opacity = valueStr.toString();
       });
     }
 
-  }
+  };
 
-}())
+}());

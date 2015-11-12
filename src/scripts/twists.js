@@ -1,7 +1,5 @@
 /*
 
-
-
   TWISTS
 
   Why have twist validation code in multiple places when we can create a
@@ -12,25 +10,17 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
-
 
 ThreeTwist.Twist = function( command, degrees ){
 
-  if( command ) this.set( command, degrees )
+  if( command ) {
+    this.set( command, degrees );
+  }
 
-}
-
+};
 
 ThreeTwist.Twist.prototype.set = function( command, degrees ){
-
 
   //  What group of Cubelets do we intend to twist?
 
@@ -53,12 +43,10 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
   }[ command.toUpperCase() ];
 
-
   //  If we've received a valid twist group to operate on
   //  then we can proceed. Otherwise return false!
 
   if( group !== undefined ){
-
 
     //  If our degrees of rotation are negative
     //  then we need to invert the twist direction
@@ -67,12 +55,11 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     //  Remember, it's ok to have degrees === undefined
     //  which will peg to the nearest degrees % 90 === 0.
 
-    if( degrees != undefined && degrees < 0 ){
+    if( degrees !== undefined && degrees < 0 ){
 
       command = command.invert();
       degrees = degrees.absolute();
     }
-
 
     //  Now let's note the absolute direction of the rotation
     //  as both a number and in English.
@@ -85,14 +72,14 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
 
       vector =  1;
       wise   = 'clockwise';
+
     }
     else if( command === command.toLowerCase() ){
 
       vector = -1;
       wise   = 'anticlockwise';
+
     }
-
-
 
     //  Finally we're ready to package up all the relevant information
     //  about this particular twist.
@@ -105,25 +92,26 @@ ThreeTwist.Twist.prototype.set = function( command, degrees ){
     this.wise      = wise;    //  Absolute clock direction in English;
     this.isShuffle   = false;
 
-
     //  Best to leave this as a function rather than a property.
     //  I mean... imagine call this constructor if it tried to call itself!
     //  Infinite loopage mess.
 
     this.getInverse = function(){
-
       return new ThreeTwist.Twist( command.invert(), degrees );
     };
-  }
-  else return false;
-}
 
+  }
+  else {
+    return false;
+  }
+
+};
 
 ThreeTwist.Twist.prototype.equals = function( twist ){
 
-  return ( this.command === twist.command && this.degrees === twist.degrees );
+  return this.command === twist.command && this.degrees === twist.degrees;
 
-}
+};
 
 ThreeTwist.Twist.prototype.copy = function( twist ){
 
@@ -136,8 +124,7 @@ ThreeTwist.Twist.prototype.copy = function( twist ){
 
   return this;
 
-}
-
+};
 
 ThreeTwist.Twist.validate = function(){
 
@@ -149,22 +136,24 @@ ThreeTwist.Twist.validate = function(){
   for( i = 0; i < elements.length; i ++ ){
 
     element = elements[ i ];
-    if( i + 1 < elements.length ) lookAhead = elements[ i + 1 ];
-    else lookAhead = undefined;
-
+    if( i + 1 < elements.length ) {
+      lookAhead = elements[ i + 1 ];
+    }
+    else {
+      lookAhead = undefined;
+    }
 
     if( element instanceof ThreeTwist.Twist ){
-
 
       //  Example usage:
       //  cube.twist( new ThreeTwist.Twist( 'U' ))
       //  cube.twist( new ThreeTwist.Twist( 'U', -17 ))
       //  AWESOME. Nothing to do here.
+
     }
     else if( typeof element === 'string' ){
 
       if( element.length === 1 ){
-
 
         //  Example usage:
         //  cube.twist( 'U' )
@@ -172,13 +161,15 @@ ThreeTwist.Twist.validate = function(){
 
         if( typeof lookAhead === 'number' ){
 
-           elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
+          elements[ i ] = new ThreeTwist.Twist( element, lookAhead );
+
         }
-        else elements[ i ] = new ThreeTwist.Twist( element );
+        else {
+          elements[ i ] = new ThreeTwist.Twist( element );
+        }
 
       }
       else if( element.length > 1 ){
-
 
         //  Example usage:
         //  cube.twist( 'UdrLf' )
@@ -189,32 +180,38 @@ ThreeTwist.Twist.validate = function(){
         for( m = 0; m < matches.length; m ++ ){
 
           match = matches[ m ];
-          if( _.isNumeric( match )) matches[ m ] = +match;
+          if( _.isNumeric( match )) {
+            matches[ m ] = +match;
+          }
           else {
 
             head    = matches.slice( 0, m );
             foot    = matches.slice( m + 1 );
             match   = match.split( '' );
             matches = head.concat( match, foot );
+
           }
+
         }
+
         head = elements.slice( 0, i );
         foot = elements.slice( i + 1 );
         elements = head.concat( matches, foot );
-        i --//  Send it through the loop again to avoid duplicating logic.
+        i --;//  Send it through the loop again to avoid duplicating logic.
+
       }
+
     }
     else if( element instanceof ThreeTwist.Direction ){
-
 
       //  Example usage:
       //  cube.twist( ThreeTwist.Direction.FRONT )
 
       elements[ i ] = element.initial;
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
     else if( element instanceof Array ){
-
 
       //  Example usage:
       //  cube.twist([ ? ])
@@ -222,20 +219,21 @@ ThreeTwist.Twist.validate = function(){
       head = elements.slice( 0, i );
       foot = elements.slice( i + 1 );
       elements = head.concat( element, foot );
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
     else {
-
 
       //  Whatever this element is, we don't recognize it.
       //  (Could be a Number that we're discarding on purpose.)
 
       elements.splice( i, 1 );
-      i --//  Send it through the loop again to avoid duplicating logic.;
+      i --;//  Send it through the loop again to avoid duplicating logic.;
+
     }
+
   }
+
   return elements;
+
 };
-
-
-

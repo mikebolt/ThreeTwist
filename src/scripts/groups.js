@@ -1,6 +1,5 @@
 /*
 
-
   GROUPS
 
    ThreeTwist.Groups are collections of an arbitrary number of Cubelets.
@@ -12,14 +11,7 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
-
 */
-
-
-
-
-
-
 
 
 ThreeTwist.Group = function(){
@@ -27,13 +19,11 @@ ThreeTwist.Group = function(){
   this.cubelets = [];
 
   this.add( Array.prototype.slice.call( arguments ));
-}
-
+};
 
 ThreeTwist.extend( ThreeTwist.Group.prototype, THREE.EventDispatcher.prototype );
 
 ThreeTwist.extend( ThreeTwist.Group.prototype, {
-
 
   add: function(){
 
@@ -43,15 +33,23 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     cubeletsToAdd.forEach( function( cubelet ){
 
-      if( cubelet instanceof ThreeTwist.Group ) cubelet = cubelet.cubelets;
-      if( cubelet instanceof Array ) that.add.apply( that, cubelet );
-      else that.cubelets.push( cubelet );
+      if( cubelet instanceof ThreeTwist.Group ) {
+        cubelet = cubelet.cubelets;
+      }
+      if( cubelet instanceof Array ) {
+        that.add.apply( that, cubelet );
+      }
+      else {
+        that.cubelets.push( cubelet );
+      }
     });
     return this;
   },
   remove: function( cubeletToRemove ){
 
-    if( cubeletToRemove instanceof ThreeTwist.Group ) cubeletToRemove = cubeletToRemove.cubelets;
+    if( cubeletToRemove instanceof ThreeTwist.Group ) {
+      cubeletToRemove = cubeletToRemove.cubelets;
+    }
     if( cubeletToRemove instanceof Array ){
 
       var that = this;
@@ -61,17 +59,15 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       });
     }
 
-    var i = this.cubelets.length
+    var i = this.cubelets.length;
     while( i-- > 0 ){
 
-      if( this.cubelets[ i ] === cubeletToRemove )
+      if( this.cubelets[ i ] === cubeletToRemove ) {
         this.cubelets.splice( i, 1 );
+      }
     }
     return this;
   },
-
-
-
 
   //  Boolean checker.
   //  Are any Cubelets in this group tweening?
@@ -107,9 +103,6 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
     return this.isEngagedX() + this.isEngagedY() + this.isEngagedZ();
   },
 
-
-
-
   //  Search functions.
   //  What Cubelets in this ThreeTwist.Group have a particular color?
   //  How about all of these three colors?
@@ -122,7 +115,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet[ property ] === value ) results.add( cubelet );
+      if( cubelet[ property ] === value ) {
+        results.add( cubelet );
+      }
     });
 
     return results;
@@ -146,7 +141,9 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet.hasColor( color )) results.add( cubelet );
+      if( cubelet.hasColor( color )) {
+        results.add( cubelet );
+      }
     });
     return results;
   },
@@ -158,14 +155,12 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
     this.cubelets.forEach( function( cubelet ){
 
-      if( cubelet.hasColors.apply( cubelet, colors )) results.add( cubelet );
+      if( cubelet.hasColors.apply( cubelet, colors )) {
+        results.add( cubelet );
+      }
     });
     return results;
   },
-
-
-  //  cube.slices.front.isSolved( 'front' )
-  //  cube.slices.front.up.isSolved( 'up' )
 
   isSolved: function( face ){
 
@@ -174,7 +169,10 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
       var faceColors = {},
         numberOfColors = 0;
 
-      if( face instanceof ThreeTwist.Direction ) face = face.name;
+      if( face instanceof ThreeTwist.Direction ) {
+        face = face.name;
+      }
+
       this.cubelets.forEach( function( cubelet ){
 
         var color = cubelet[ face ].color.name;
@@ -183,18 +181,19 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
           faceColors[ color ] = 1;
           numberOfColors ++;
         }
-        else faceColors[ color ] ++;
-      })
+        else {
+          faceColors[ color ] ++;
+        }
+      });
       return numberOfColors === 1 ? true : false;
     }
     else {
 
-      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified when using ThreeTwist.Group.isSolved().' )
-      return false
+      console.warn( 'A face [String or ThreeTwist.Controls] argument must be specified ' +
+        'when using ThreeTwist.Group.isSolved().' );
+      return false;
     }
   },
-
-
 
 
   //  Visual switches.
@@ -203,114 +202,107 @@ ThreeTwist.extend( ThreeTwist.Group.prototype, {
 
   show: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.show() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.show(); });
+    return this;
   },
   hide: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hide() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hide(); });
+    return this;
   },
   showPlastics: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showPlastics(); });
+    return this;
   },
   hidePlastics: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hidePlastics(); });
+    return this;
   },
   showExtroverts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showExtroverts(); });
+    return this;
   },
   hideExtroverts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideExtroverts(); });
+    return this;
   },
   showIntroverts: function( only, soft ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIntroverts( only, soft ); });
+    return this;
   },
   hideIntroverts: function( only, soft ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIntroverts( only, soft ); });
+    return this;
   },
   showStickers: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showStickers(); });
+    return this;
   },
   hideStickers: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideStickers(); });
+    return this;
   },
   showWireframes: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showWireframes(); });
+    return this;
   },
   hideWireframes: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideWireframes(); });
+    return this;
   },
   showIds: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showIds() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showIds(); });
+    return this;
   },
   hideIds: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideIds(); });
+    return this;
   },
   showTexts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.showTexts(); });
+    return this;
   },
   hideTexts: function(){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts() })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.hideTexts(); });
+    return this;
   },
-
-
-
-
   getOpacity: function(){
 
-    var avg = 0
+    var avg = 0;
 
-    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity() })
-    return avg / this.cubelets.length
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getOpacity(); });
+    return avg / this.cubelets.length;
   },
   setOpacity: function( opacity, onComplete ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.setOpacity( opacity, onComplete ); });
+    return this;
   },
   getRadius: function(){
 
-    var avg = 0
+    var avg = 0;
 
-    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius() })
-    return avg / this.cubelets.length
+    this.cubelets.forEach( function( cubelet ){ avg += cubelet.getRadius(); });
+    return avg / this.cubelets.length;
   },
   setRadius: function( radius, onComplete ){
 
-    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ) })
-    return this
+    this.cubelets.forEach( function( cubelet ){ cubelet.setRadius( radius, onComplete ); });
+    return this;
   }
 
-
-
-
-})
+});

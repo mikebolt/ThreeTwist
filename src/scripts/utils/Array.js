@@ -1,19 +1,21 @@
 ThreeTwist.extend( Array.prototype, {
 
-
   distanceTo : function( target ){
 
     var i, sum = 0;
 
-    if( arguments.length > 0 )
+    if( arguments.length > 0 ) {
       target = Array.prototype.slice.call( arguments );
+    }
     if( this.length === target.length ){
-
-      for( i = 0; i < this.length; i ++ )
+      for( i = 0; i < this.length; i ++ ) {
         sum += Math.pow( target[i] - this[i], 2 );
+      }
       return Math.pow( sum, 0.5 );
     }
-    else return null;
+    else {
+      return null;
+    }
   },
   first : function(){
 
@@ -43,14 +45,13 @@ ThreeTwist.extend( Array.prototype, {
 
     return this[ Math.floor( Math.random() * this.length )];
   },
-  //  Ran into trouble here with Three.js. Will investigate....
-  /*remove: function( from, to ){
+  remove: function( from, to ){
+    // TODO: Ran into trouble here with Three.js. Will investigate....
+    var rest = this.slice(( to || from ) + 1 || this.length );
 
-    var rest = this.slice(( to || from ) + 1 || this.length )
-
-    this.length = from < 0 ? this.length + from : from
-    return this.push.apply( this, rest )
-  },*/
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply( this, rest );
+  },
   shuffle : function(){
 
     var
@@ -60,7 +61,10 @@ ThreeTwist.extend( Array.prototype, {
     tempi,
     tempj;
 
-    if( i == 0 ) return false;
+    if( i === 0 ) {
+      return false;
+    }
+
     while( -- i ){
 
       j = Math.floor( Math.random() * ( i + 1 ));
@@ -81,10 +85,12 @@ ThreeTwist.extend( Array.prototype, {
 
     for( i = 0; i < this.length; i ++ ){
 
-      if( this[ i ] instanceof Array )
+      if( this[ i ] instanceof Array ) {
         html += this[ i ].toHtml();
-      else
+      }
+      else {
         html += '<li>' + this[ i ] + '</li>';
+      }
     }
     html += '</ul>';
     return html;
@@ -98,13 +104,14 @@ ThreeTwist.extend( Array.prototype, {
     text = '';
     for( i = 0; i < this.length; i ++ ){
 
-      if( this[ i ] instanceof Array )
+      if( this[ i ] instanceof Array ) {
         text += indent + this[ i ].toText( depth + 1 );
-      else
+      }
+      else {
         text += indent + this[ i ];
+      }
     }
     return text;
   }
-
 
 });
