@@ -146,7 +146,8 @@ ThreeTwist.Slice = function( indices, cube, axis ){
     //  to avoid allocating new memory at runtime.
 
     var absAxis = new THREE.Vector3(),
-      max = new THREE.Vector3( 1.0, 1.0, 1.0 ),
+      max = new THREE.Vector3( cube.order - 1, cube.order - 1, cube.order - 1 ),
+      core = max.multiply( 0.5 ),
       point = new THREE.Vector3(),
       origin = new THREE.Vector3(),
       rotation = new THREE.Matrix4(),
@@ -178,6 +179,9 @@ ThreeTwist.Slice = function( indices, cube, axis ){
         point.set( cubelet.addressX, cubelet.addressY, cubelet.addressZ );
         origin.copy( point );
 
+	// Center the cube at the origin.
+	point.add(core.negate());
+
         //  Then rotate it about our axis.
         point.multiply( absAxis )
           .applyMatrix4( rotation );
@@ -186,10 +190,6 @@ ThreeTwist.Slice = function( indices, cube, axis ){
         point.x = Math.round( point.x );
         point.y = Math.round( point.y );
         point.z = Math.round( point.z );
-
-        //  rotate, and perform a mask-like operation.
-        point.add( origin.multiply( this.axis ));
-        point.add( max );
 
         //  The cubelet array is in a funny order,
         //  so invert some of the axes of from our new position.
