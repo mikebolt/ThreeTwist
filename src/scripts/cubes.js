@@ -848,7 +848,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         //  If the Cube is "ready"
         //  and not a single cubelet is currently tweening
-        //  regardless of it's resting state (engagement;
+        //  regardless of its resting state (engagement;
         //  meaning it could in theory not be tweening but
         //  has come to rest at where rotation % 90 !== 0.
 
