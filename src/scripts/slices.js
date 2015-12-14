@@ -162,7 +162,7 @@ ThreeTwist.Slice = function( indices, cube, axis ){
       absAxis.copy( max );
       absAxis.sub( this.axis );
 
-      var cubletsCopy = cube.cubelets.slice();
+      var cubeletsCopy = cube.cubelets.slice();
 
       //  Get the rotation as a matrix
       rotation.makeRotationAxis( this.axis, angle * -1 );
@@ -203,7 +203,7 @@ ThreeTwist.Slice = function( indices, cube, axis ){
         //  Use the X,Y,Z to get a 3D index.
         // TODO: make a function for this.
         var address = (point.x * cube.order + point.y) * cube.order + point.z;
-        cube.cubelets[cubelet.address] = cubletsCopy[address];
+        cube.cubelets[cubelet.address] = cubeletsCopy[address];
 
       }
 
