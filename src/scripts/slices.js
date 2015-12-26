@@ -183,27 +183,20 @@ ThreeTwist.Slice = function( indices, cube, axis ){
 	point.add(core.negate());
 
         //  Then rotate it about our axis.
-        point.multiply( absAxis )
-          .applyMatrix4( rotation );
+        point.multiply( absAxis ).applyMatrix4( rotation );
 
         //  Flatten out any floating point rounding errors ...
+	// TODO: probably a problem for even-ordered cubes!
         point.x = Math.round( point.x );
         point.y = Math.round( point.y );
         point.z = Math.round( point.z );
 
-        //  The cubelet array is in a funny order,
-        //  so invert some of the axes of from our new position.
-        
-        // - Actually, no. Don't do that.
-        /*
-        point.y = 2 - point.y;
-        point.z = 2 - point.z;
-        */
-
         //  Use the X,Y,Z to get a 3D index.
         // TODO: make a function for this.
         var address = (point.x * cube.order + point.y) * cube.order + point.z;
-        cube.cubelets[cubelet.address] = cubeletsCopy[address];
+	cube.cubelets[address] = cubeletsCopy[cubelet.address];
+// Old way was probably backward
+//        cube.cubelets[cubelet.address] = cubeletsCopy[address];
 
       }
 
@@ -227,21 +220,22 @@ ThreeTwist.Slice = function( indices, cube, axis ){
         //  iterate over its faces.
         cubelet.faces.forEach( function( face ){
 
-          //  Get it's normal vector
-          point.copy( ThreeTwist.Direction.getDirectionByName( face.normal ).normal );
+          //  Get its normal vector
+	  point.copy( face.currentDirection.normal );
 
           //  Rotate it
           point.applyMatrix4( rotation );
-          // console.log( face.normal, ThreeTwist.Controls.getDirectionByNormal( point ).name );
 
           // and find the index of the new direction and add it to the new array
-          faceArray[ ThreeTwist.Direction.getDirectionByNormal( point ).id ] = face;
-          face.normal = ThreeTwist.Direction.getDirectionByNormal( point ).name;
+	  var destinationNormal = ThreeTwist.Direction.getDirectionByNormal( point );
+          faceArray[ destinationNormal.id ] = face;
+	  face.currentDirection = destinationNormal;
 
         });
 
         // Remap all the face shortcuts
-        cubelet.faces  = faceArray.slice();
+//        cubelet.faces  = faceArray.slice();
+        cubelet.faces = faceArray; // No point in copying the array here, right?
         cubelet.front  = cubelet.faces[ 0 ];
         cubelet.up     = cubelet.faces[ 1 ];
         cubelet.right  = cubelet.faces[ 2 ];

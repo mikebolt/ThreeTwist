@@ -15,8 +15,10 @@ var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
 // for the jshint task
 var jshint = require('gulp-jshint');
 
+/*
 // for the jscs task
 var jscs = require('gulp-jscs');
+*/
 
 // for the source-metrics task
 var sloc = require('gulp-sloc');
@@ -83,6 +85,13 @@ var tests = './tests/*.js'; // For now all the tests just sit in the tests direc
 
 var projectName = 'ThreeTwist';
 
+gulp.add('concat', function() {
+  return gulp.src(allSources)
+    .pipe(concat(projectName + '.js'))
+    .pipe(gulp.dest('./build'));
+});
+
+/*
 // It's important not to modify any of the original source files in any of these tasks.
 treegulp('default',
   treegulp('copy-stylesheets', function() {
@@ -184,3 +193,4 @@ treegulp('default',
       .pipe(gulp.dest('functions'));
   })
 );
+*/

@@ -133,10 +133,11 @@ ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
     //  mostly for solving purposes.
     //  This is particularly useful for Striegel's solver
     //  which requires an UP normal.
-
-    // TODO: investigate the side effects of changing this
-    this.faces[i].solvedDirection = direction;
-    // OLD: this.faces[ i ].normal = direction.name;
+    // The idea is that we should keep track of each face's original
+    // direction when it is in the solved state, and also keep track of the
+    // direction that the face is currently facing.
+    this.faces[ i ].solvedDirection = direction;
+    this.faces[ i ].currentDirection = direction;
 
     //  INTROVERTED FACES.
     //  If this face has no color sticker then it must be interior to the Cube.

@@ -8,7 +8,7 @@
   </head>
   <body>
     <script>
-      var cube = new ThreeTwist.Cube();
+      var cube = new ThreeTwist.Cube({order: 5});
       var cubeContainer = document.createElement('div');
       cubeContainer.appendChild(cube.domElement);
       var body = document.getElementsByTagName('body')[0];
