@@ -103,6 +103,10 @@ ThreeTwist.Cube = function( parameters ){
 
   //  The amount of time we've been running
   this.time = 0;
+  
+  // The last time this cube ran. A value of undefined means that
+  // the cube will not assume it has ran before.
+  this.lastLoopTime = undefined;
 
   //   We'll keep an record of the number of moves we've made
   //   Useful for keeping scores.
@@ -438,7 +442,7 @@ ThreeTwist.Cube = function( parameters ){
   //  Get ready for major loop-age.
   //  Our Cube checks these booleans at 60fps.
   this.loop = this.loop.bind( this );
-  requestAnimationFrame( this.loop );
+  this.animationID = requestAnimationFrame( this.loop );
 
   //  The cube needs to respond to user interaction and react accordingly.
   //  We'll set up a few event below to listen for specific commands,
@@ -659,6 +663,8 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
     }.bind( this ))
     .start( this.time );
+    
+    console.log('twist started with startTime = ' + this.time + ', duration = ' + duration);
 
   },
 
@@ -721,18 +727,15 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
   loop: (function(){
 
-    var time = 0;
-
     return function(){
 
-      requestAnimationFrame( this.loop );
+      this.animationID = requestAnimationFrame( this.loop );
 
       //  Kick off the next animation frame
-
-      var localTime = ( typeof window !== 'undefined' && window.performance !== undefined &&
-        window.performance.now !== undefined ? window.performance.now() : Date.now() );
-      var frameDelta = localTime - ( time || localTime );
-      time = localTime;
+      
+      var localTime = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
+			var frameDelta = localTime - ( this.lastLoopTime || localTime );
+			this.lastLoopTime = localTime;
 
       if( !this.paused ){
 
@@ -825,5 +828,11 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
       }
     };
-  }())
+  }()),
+  
+  destroy: function() {
+    // Stop the animation loop so that it doesn't slow down the engine or keep calling TWEEN.update
+    cancelAnimationFrame(this.animationID);
+    // TODO: There might be other things that need to be cleaned up.
+  }
 });
