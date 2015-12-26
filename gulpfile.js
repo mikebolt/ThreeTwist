@@ -10,26 +10,26 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 
 // for the jsdoc-generate task
-var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
+//var gulpJsdoc2md = require('gulp-jsdoc-to-markdown');
 
 // for the jshint task
-var jshint = require('gulp-jshint');
+//var jshint = require('gulp-jshint');
 
 // for the jscs task
-var jscs = require('gulp-jscs');
+//var jscs = require('gulp-jscs');
 
 // for the source-metrics task
-var sloc = require('gulp-sloc');
+//var sloc = require('gulp-sloc');
 
 // for the test task
-var mocha = require('gulp-mocha');
+//var mocha = require('gulp-mocha');
 
 // for the validate task
-var jsValidate = require('gulp-jsvalidate');
+//var jsValidate = require('gulp-jsvalidate');
 
 // for the list-functions task
-var JSONEditor = require('gulp-json-editor');
-var esprima = require('gulp-esprima');
+//var JSONEditor = require('gulp-json-editor');
+//var esprima = require('gulp-esprima');
 
 /* The current directory in this script is the same as the base directory
    of this project, the one that contains the src folder. */
@@ -83,8 +83,16 @@ var tests = './tests/*.js'; // For now all the tests just sit in the tests direc
 
 var projectName = 'ThreeTwist';
 
+gulp.task('concat', function() {
+  return gulp.src(allSources)
+    .pipe(concat(projectName + '.js'))
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('default', ['concat']);
+
 // It's important not to modify any of the original source files in any of these tasks.
-treegulp('default',
+/*treegulp('default',
   treegulp('copy-stylesheets', function() {
     return gulp.src('./src/styles/*.css')
       .pipe(gulp.dest('./build/styles'));
@@ -184,3 +192,4 @@ treegulp('default',
       .pipe(gulp.dest('functions'));
   })
 );
+*/
