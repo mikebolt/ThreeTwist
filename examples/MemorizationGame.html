@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" lang="en"/>
+    <title>Algorithm Memorization Game</title>
+    <link rel="stylesheet" href="../build/styles/cube.css"/>
+    <script src="../build/ThreeTwist.js"></script>
+  </head>
+  
+  <div id="cubeContainer" style="width: 50%; height: 400px;">
+  </div>
+  
+  <div id="prompt">
+    Please enter the algorithm you would like to memorize:
+  </div>
+  
+  <div id="setupArea">
+    <input id="algorithmTextbox" type="text"/><br/>
+    <span>Memorization duration:</span><input id="memorizationDurationTextbox" type="text" value="2"/><span>(seconds)</span><br/>
+    <span>Between-rounds break duration:</span><input id="breakDurationTextbox" type="text" value="4"/><span>(seconds)</span><br/>
+    <input id="startButton" type="button" value="Start"/>
+  </div>
+  
+  <div id="restartArea" style="display: none">
+    <input id="restartButton" type="button" value="Restart"/>
+  </div>
+  
+  <body>
+    <script>
+      var cube;
+      
+      var cubeContainer = document.getElementById('cubeContainer');
+      var prompt = document.getElementById('prompt');
+      var setupArea = document.getElementById('setupArea');
+      var algorithmTextbox = document.getElementById('algorithmTextbox');
+      var memorizationDurationTextbox = document.getElementById('memorizationDurationTextbox');
+      var breakDurationTextbox = document.getElementById('breakDurationTextbox');
+      var startButton = document.getElementById('startButton');
+      var restartArea = document.getElementById('restartArea');
+      var restartButton = document.getElementById('restartButton');
+      
+      var memorizationDuration;
+      var breakDuration;
+      
+      startButton.onclick = startMemorization;
+      restartButton.onclick = restart;
+      resetCube();
+      
+      function resetCube() {
+        cubeContainer.innerHTML = 'Please wait a second while the cube loads.';
+        cube = new ThreeTwist.Cube();
+        clear(cubeContainer);
+        cubeContainer.appendChild(cube.domElement);
+      }
+      
+      function setPrompt(promptText) {
+        prompt.innerHTML = promptText;
+      }
+      
+      function clear(element) {
+        element.innerHTML = '';
+      }
+      
+      function hide(element) {
+        element.style.display = 'none';
+      }
+      
+      function show(element) {
+        element.style.display = '';
+      }
+      
+      // Returns a string representing a single twist/move.
+      function twistToString(twist) {
+        var suffix = '';
+        if (twist.degrees === 180) {
+          suffix = '2';
+        }
+        else if (twist.command === twist.command.toLowerCase()) {
+          if (twist.degrees === 90) {
+            suffix = "'";
+          }
+        }
+        else if (twist.command === twist.command.toUpperCase()) {
+          if (twist.degrees === -90) {
+            suffix = "'";
+          }
+        }
+        
+        return twist.command.toUpperCase() + suffix;
+      }
+      
+      function parseAlgorithm(algorithmString) {
+        var algorithm = algorithmString.split(' ');
+        moveArray = [];
+        for (var i = 0; i < algorithm.length; ++i) {
+          var command = algorithm[i].substring(0, 1);
+          var angle = 90;
+          if (algorithm[i].endsWith("2'") || algorithm[i].endsWith("'2")) {
+            angle = -180;
+          }
+          else if (algorithm[i].endsWith("'")) {
+            angle = -90;
+          }
+          else if (algorithm[i].endsWith('2')) {
+            angle = 180;
+          }
+          var twist = new ThreeTwist.Twist(command, angle);
+          if (twist) { // Invalid twists will be false
+            moveArray.push(twist);
+          }
+        }
+        
+        return moveArray;
+      }
+      
+      function inverseAlgorithm(moveArray) {
+        var inversed = [];
+        for (var i = moveArray.length - 1; i >= 0; --i) {
+          inversed.push(moveArray[i].getInverse());
+        }
+        return inversed;
+      }
+      
+      function performAlgorithmInstantly(algorithm) {
+        var oldDuration = cube.twistDuration;
+        cube.twistDuration = 0;
+        algorithm.forEach(function(twist) {
+          cube.immediateTwist(twist);
+        });
+        cube.twistDuration = oldDuration;
+      }
+      
+      function startMemorization() {
+        hide(setupArea);
+        setPrompt('Get ready to memorize.');
+        
+        algorithm = parseAlgorithm(algorithmTextbox.value);
+        inverse = inverseAlgorithm(algorithm);
+        
+        memorizationDuration = parseFloat(memorizationDurationTextbox.value, 10) * 1000;
+        if (isNaN(memorizationDuration)) {
+          memorizationDuration = 2000;
+        }
+        
+        breakDuration = parseFloat(breakDurationTextbox.value, 10) * 1000;
+        if (isNaN(breakDuration)) {
+          breakDuration = 4000;
+        }
+        
+        setTimeout(function() {
+          testMemorization(algorithm, inverse, 1);
+        }, breakDuration);
+      }
+      
+      // This is sort of a recursive function.
+      function testMemorization(algorithm, inverse, moveCount) {
+        console.log(moveCount);
+        
+        resetCube();
+        performAlgorithmInstantly(inverse);
+        
+        // Display the correct moves, up to moveCount, one at a time.
+        var moveIndex = 0;
+        showNextMove();
+        
+        function showNextMove() {
+          if (moveIndex >= moveCount) {
+            moveIndex = 0;
+            setPrompt('Now make the correct moves on the cube.');
+            cube.addEventListener('onTwistComplete', twistEnforcer, false);
+          }
+          else {
+            setPrompt(twistToString(algorithm[moveIndex]));
+            ++moveIndex;
+            setTimeout(showNextMove, memorizationDuration);
+          }
+        }
+        
+        function twistEnforcer(event) {
+          expectedTwist = algorithm[moveIndex];
+          if (event.detail.twist.equals(expectedTwist)) {
+            ++moveIndex;
+            if (moveIndex >= moveCount) {
+              cube.removeEventListener('onTwistComplete', twistEnforcer);
+              
+              if (moveCount >= algorithm.length) {
+                win();
+              }
+              else {
+                setPrompt('Good job. Now get ready to memorize one more move.');
+                
+                setTimeout(function() {
+                  testMemorization(algorithm, inverse, moveCount + 1);
+                }, breakDuration);
+              }
+            }
+          }
+          else {
+            fail();
+          }
+        }
+      }
+      
+      function win() {
+        setPrompt('You win!');
+        show(restartArea);
+      }
+      
+      function fail() {
+        setPrompt('Wrong!');
+        clear(cubeContainer);
+        show(restartArea);
+      }
+      
+      function restart() {
+        clear(prompt);
+        hide(restartArea);
+        show(setupArea);
+      }
+    </script>
+  </body>
+</html>
