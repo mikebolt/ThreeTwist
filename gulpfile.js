@@ -38,7 +38,7 @@ var concat = require('gulp-concat');
    in order, before the project sources. */
 var dependencies = [
   './src/scripts/vendor/threejs/build/three.js', // Use the whole thing for now
-  './src/scripts/vendor/tween.min.js', // TODO: add the new version
+  './src/scripts/vendor/Tween.js',
   './src/scripts/vendor/CSS3DRenderer.js'
 ];
    
