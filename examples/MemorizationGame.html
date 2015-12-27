@@ -14,7 +14,7 @@
   </h2>
   
   <div id="setupArea">
-    <span>Algorithm to memorize:</span><input id="algorithmTextbox" type="text"/><br/>
+    <span>Algorithm to memorize:</span><input id="algorithmTextbox" type="text" value="R U R' U R U2 R'"/><br/>
     <span>Memorization duration:</span><input id="memorizationDurationTextbox" type="text" value="2"/><span>(seconds)</span><br/>
     <span>Between-rounds break duration:</span><input id="breakDurationTextbox" type="text" value="4"/><span>(seconds)</span><br/>
     <input id="startButton" type="button" value="Start"/>
@@ -54,6 +54,16 @@
         cube = new ThreeTwist.Cube();
         clear(cubeContainer);
         cubeContainer.appendChild(cube.domElement);
+      }
+      
+      function enableInteraction() {
+        cube.mouseControlsEnabled = true;
+        document.addEventListener('keypress', cube.keypressListener);
+      }
+      
+      function disableInteraction() {
+        cube.mouseControlsEnabled = false;
+        document.removeEventListener('keypress', cube.keypressListener);
       }
       
       function setPrompt(promptText) {
@@ -151,6 +161,7 @@
         }
         
         resetCube();
+        disableInteraction();
         performAlgorithmInstantly(inverse);
         
         cube.twistDuration = memorizationDuration / 2;
@@ -163,13 +174,14 @@
       
       // This is sort of a recursive function.
       function testMemorization(algorithm, inverse, moveCount) {
-        console.log(moveCount);
         
         // Display the correct moves, up to moveCount, one at a time.
         var moveIndex = 0;
+        disableInteraction();
         showNextMove();
         
         function showNextMove() {
+          // If all the moves have been shown, start the test.
           if (moveIndex >= moveCount) {
             resetCube();
             performAlgorithmInstantly(inverse);
@@ -177,9 +189,10 @@
             moveIndex = 0;
             setPrompt('Now make the correct moves on the cube.');
             cube.twistDuration = defaultTwistDuration;
-            
+            enableInteraction();
             cube.addEventListener('onTwistComplete', twistEnforcer, false);
           }
+          // Otherwise, show the next move.
           else {
             setPrompt(twistToString(algorithm[moveIndex]));
             console.log('duration: ' + cube.twistDuration);
@@ -211,6 +224,7 @@
                 setPrompt('Good job. Now get ready to memorize one more move.');
                 
                 resetCube();
+                disableInteraction();
                 performAlgorithmInstantly(inverse);
                 
                 setTimeout(function() {
@@ -232,12 +246,12 @@
       
       function fail() {
         setPrompt('Wrong!');
-        clear(cubeContainer);
         show(restartArea);
       }
       
       function restart() {
         clear(prompt);
+        resetCube();
         hide(restartArea);
         show(setupArea);
       }

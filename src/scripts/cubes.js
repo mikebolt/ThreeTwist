@@ -448,20 +448,18 @@ ThreeTwist.Cube = function( parameters ){
   //  We'll set up a few event below to listen for specific commands,
 
   //  Enable key commands for our Cube.
-  document.addEventListener( 'keypress', function( event ){
+  this.keypressListener = function(event) {
     if( event.target.tagName.toLowerCase() !== 'input' &&
         event.target.tagName.toLowerCase() !== 'textarea' &&
         !this.mouseInteraction.active &&
         this.keyboardControlsEnabled ){
-
       var key = String.fromCharCode( event.which );
       if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) {
         this.twist( key );
       }
-
     }
-  }.bind( this ));
-
+  }.bind( this );
+  document.addEventListener( 'keypress', this.keypressListener);
 };
 
 ThreeTwist.Cube.prototype = Object.create( ThreeTwist.Group.prototype );
