@@ -43785,8 +43785,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
     }.bind( this ))
     .start( this.time );
-    
-    console.log('twist started with startTime = ' + this.time + ', duration = ' + duration);
 
   },
 
