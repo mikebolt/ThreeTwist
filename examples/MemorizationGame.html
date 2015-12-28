@@ -5,30 +5,63 @@
     <title>Algorithm Memorization Game</title>
     <link rel="stylesheet" href="../build/styles/cube.css"/>
     <script src="../build/ThreeTwist.js"></script>
+    <style>
+      .centered {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      
+      #cubeContainer {
+        width: 480px;
+        height: 480px;
+      }
+      
+      #moveDisplay {
+        font-family: sans-serif;
+        font-weight: bold;
+        height: 1em;
+        width: 600px;
+      }
+      
+      #prompt {
+        width: 800px;
+      }
+      
+      #setupArea {
+        width: 600px;
+      }
+      
+      #algorithmTextbox {
+        width: 300px;
+      }
+    </style>
   </head>
-  
-  <div id="cubeContainer" style="width: 50%; height: 400px;">
-  </div>
-  
-  <h2 id="prompt">
-  </h2>
-  
-  <div id="setupArea">
-    <span>Algorithm to memorize:</span><input id="algorithmTextbox" type="text" value="R U R' U R U2 R'"/><br/>
-    <span>Memorization duration:</span><input id="memorizationDurationTextbox" type="text" value="2"/><span>(seconds)</span><br/>
-    <span>Between-rounds break duration:</span><input id="breakDurationTextbox" type="text" value="4"/><span>(seconds)</span><br/>
-    <input id="startButton" type="button" value="Start"/>
-  </div>
-  
-  <div id="restartArea" style="display: none">
-    <input id="restartButton" type="button" value="Restart"/>
-  </div>
-  
   <body>
+    <div id="cubeContainer" style="width: 480px; height: 480px;" class="centered">
+    </div>
+    
+    <h1 id="moveDisplay" class="centered">
+    </h1><br/>
+    
+    <h2 id="prompt" class="centered">
+    </h2>
+    
+    <div id="setupArea" class="centered">
+      <span>Algorithm to memorize: </span><input id="algorithmTextbox" type="text" value="R U R' U R U2 R'"/><br/>
+      <span>Memorization duration: </span><input id="memorizationDurationTextbox" type="text" value="2"/><span> (seconds)</span><br/>
+      <span>Between-rounds break duration: </span><input id="breakDurationTextbox" type="text" value="4"/><span> (seconds)</span><br/>
+      <input id="startButton" type="button" value="Start"/>
+    </div>
+    
+    <div id="restartArea" style="display: none" class="centered">
+      <input id="restartButton" type="button" value="Restart"/>
+    </div>
     <script>
       var cube;
       
       var cubeContainer = document.getElementById('cubeContainer');
+      var moveDisplay = document.getElementById('moveDisplay');
       var prompt = document.getElementById('prompt');
       var setupArea = document.getElementById('setupArea');
       var algorithmTextbox = document.getElementById('algorithmTextbox');
@@ -207,11 +240,12 @@
       }
       
       function showMove(move) {
-        setPrompt(twistToString(move));
+        moveDisplay.innerHTML = twistToString(move);
         cube.immediateTwist(move);
       }
       
       function startTestPhase(algorithm, inverse, numMoves) {
+        clear(moveDisplay);
         resetCube();
         performAlgorithmInstantly(inverse);
         cube.twistDuration = defaultTwistDuration;
