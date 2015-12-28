@@ -42,7 +42,7 @@
       var breakDuration;
       var defaultTwistDuration = 500;
       
-      startButton.onclick = startMemorization;
+      startButton.onclick = startGame;
       restartButton.onclick = restart;
       resetCube();
       
@@ -126,6 +126,17 @@
         return moveArray;
       }
       
+      // A half turn (as opposed to a quarter turn) is a 180 degree turn.
+      function countHalfTurns(algorithm) {
+        var halfTurns = 0;
+        algorithm.forEach(function(move) {
+          if (move.degrees === 180 || move.degrees === -180) {
+            ++halfTurns;
+          }
+        });
+        return halfTurns;
+      }
+      
       function inverseAlgorithm(moveArray) {
         var inversed = [];
         for (var i = moveArray.length - 1; i >= 0; --i) {
@@ -143,7 +154,7 @@
         cube.twistDuration = oldDuration;
       }
       
-      function startMemorization() {
+      function startGame() {
         hide(setupArea);
         setPrompt('Get ready to memorize.');
         
@@ -162,76 +173,94 @@
         
         resetCube();
         disableInteraction();
-        performAlgorithmInstantly(inverse);
         
-        cube.twistDuration = memorizationDuration / 2;
+        // Setup the cube by playing the algorithm backwards, twice as fast as normal.
+        cube.twistDuration = defaultTwistDuration / 2;
+        cube.twist(inverse);
+        var numHalfTurns = countHalfTurns(inverse);
+        var scrambleWaitTime = 1000 + (inverse.length + numHalfTurns) * cube.twistDuration;
 
         setTimeout(function() {
-          
-          testMemorization(algorithm, inverse, 1);
-        }, breakDuration);
+          startMemorizationPhase(algorithm, inverse, 1);
+        }, scrambleWaitTime);
       }
       
-      // This is sort of a recursive function.
-      function testMemorization(algorithm, inverse, moveCount) {
-        
-        // Display the correct moves, up to moveCount, one at a time.
+      function startMemorizationPhase(algorithm, inverse, numMoves) {
         var moveIndex = 0;
+        resetCube()
         disableInteraction();
-        showNextMove();
+        performAlgorithmInstantly(inverse);
+        cube.twistDuration = memorizationDuration / 2;
         
-        function showNextMove() {
-          // If all the moves have been shown, start the test.
-          if (moveIndex >= moveCount) {
-            resetCube();
-            performAlgorithmInstantly(inverse);
-            
-            moveIndex = 0;
-            setPrompt('Now make the correct moves on the cube.');
-            cube.twistDuration = defaultTwistDuration;
-            enableInteraction();
-            cube.addEventListener('onTwistComplete', twistEnforcer, false);
+        var showNextMoves = function() {
+          if (moveIndex >= numMoves) {
+            startTestPhase(algorithm, inverse, numMoves);
           }
-          // Otherwise, show the next move.
           else {
-            setPrompt(twistToString(algorithm[moveIndex]));
-            console.log('duration: ' + cube.twistDuration);
-            cube.immediateTwist(algorithm[moveIndex]);
+            showMove(algorithm[moveIndex]);
             ++moveIndex;
-            setTimeout(showNextMove, memorizationDuration);
+            setTimeout(showNextMoves, memorizationDuration);
+          }
+        };
+        
+        showNextMoves();
+      }
+      
+      function showMove(move) {
+        setPrompt(twistToString(move));
+        cube.immediateTwist(move);
+      }
+      
+      function startTestPhase(algorithm, inverse, numMoves) {
+        resetCube();
+        performAlgorithmInstantly(inverse);
+        cube.twistDuration = defaultTwistDuration;
+        enableInteraction();
+        setPrompt('Now make the correct moves on the cube.');
+        
+        var moveIndex = 0;
+        cube.addEventListener('onTwistComplete', verifyMove, false);
+        
+        function registerSuccessfulMove() {
+          ++moveIndex;
+          if (moveIndex >= numMoves) {
+            finishRound();
           }
         }
         
-        function twistEnforcer(event) {
+        function finishRound() {
+          cube.removeEventListener('onTwistComplete', verifyMove);
+          
+          // If this was the last round, then the player has won.
+          if (numMoves >= algorithm.length) {
+            win();
+          }
+          // Otherwise, play the next round.
+          else {
+            setPrompt('Good job. Now get ready to memorize one more move.');
+                
+            resetCube();
+            disableInteraction();
+            performAlgorithmInstantly(inverse);
+            
+            setTimeout(function() {
+              startMemorizationPhase(algorithm, inverse, numMoves + 1);
+            }, breakDuration);
+          }
+        }
+        
+        function verifyMove(event) {
           // This loop will capture and ignore all the events dispatched by the cube when the
-          // inverse is performed.
+          // inverse algorithm is performed.
           for (var i = 0; i < inverse.length; ++i) {
             if (event.detail.twist === inverse[i]) {
               return;
             }
           }
         
-          expectedTwist = algorithm[moveIndex];
+          var expectedTwist = algorithm[moveIndex];
           if (event.detail.twist.equals(expectedTwist)) {
-            ++moveIndex;
-            if (moveIndex >= moveCount) {
-              cube.removeEventListener('onTwistComplete', twistEnforcer);
-              
-              if (moveCount >= algorithm.length) {
-                win();
-              }
-              else {
-                setPrompt('Good job. Now get ready to memorize one more move.');
-                
-                resetCube();
-                disableInteraction();
-                performAlgorithmInstantly(inverse);
-                
-                setTimeout(function() {
-                  testMemorization(algorithm, inverse, moveCount + 1);
-                }, breakDuration);
-              }
-            }
+            registerSuccessfulMove();
           }
           else {
             fail();
