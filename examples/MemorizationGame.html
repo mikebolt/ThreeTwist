@@ -219,6 +219,7 @@
         setPrompt('Now make the correct moves on the cube.');
         
         var moveIndex = 0;
+        var expectedTwist = undefined;
         cube.addEventListener('onTwistComplete', verifyMove, false);
         
         function registerSuccessfulMove() {
@@ -257,9 +258,32 @@
               return;
             }
           }
-        
-          var expectedTwist = algorithm[moveIndex];
-          if (event.detail.twist.equals(expectedTwist)) {
+          
+          var correctTwist = false;
+          // If expectedTwist is undefined at this point, it means that the current move is
+          // expected, but if the current move is a half turn, then a quarter turn of the same face
+          // is also allowed.
+          if (expectedTwist === undefined) {
+            expectedTwist = algorithm[moveIndex];
+            if (event.detail.twist.functionallyEquals(expectedTwist)) {
+              correctTwist = true;
+            }
+            // If the player only made a quarter turn when they should have made a half turn,
+            // then they must perform the exact same quarter turn again.
+            else if ((expectedTwist.degrees === 180 || expectedTwist.degrees === -180) &&
+                     event.detail.twist.command.toUpperCase() === expectedTwist.command.toUpperCase()) {
+              expectedTwist = event.detail.twist;
+              return;
+            }
+          }
+          // If expectedTwist is defined at this point, then that exact twist is expected, no exceptions.
+          else {
+            correctTwist = event.detail.twist.functionallyEquals(expectedTwist);
+          }
+          
+          expectedTwist = undefined;
+          
+          if (correctTwist) {
             registerSuccessfulMove();
           }
           else {

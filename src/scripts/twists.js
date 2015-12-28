@@ -113,6 +113,23 @@ ThreeTwist.Twist.prototype.equals = function( twist ){
 
 };
 
+ThreeTwist.Twist.prototype.functionallyEquals = function(twist) {
+  if (this.command.toUpperCase() !== twist.command.toUpperCase()) {
+    return false;
+  }
+  
+  if (this.degrees === 180 || this.degrees === -180) {
+    return twist.degrees === 180 || this.degrees === -180;
+  }
+  
+  if (this.command === twist.command) {
+    return this.degrees === twist.degrees;
+  }
+  else {
+    return this.degrees === -twist.degrees;
+  }
+};
+
 ThreeTwist.Twist.prototype.copy = function( twist ){
 
   this.command   = twist.command; //  Twist command;
