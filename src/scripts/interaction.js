@@ -282,13 +282,6 @@ ThreeTwist.Interaction = (function(){
           ( ( typeof window !== 'undefined' && window.performance !== undefined &&
           window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
 
-        if( velocityOfInteraction > 0.3 ){
-
-          targetAngle = Math.floor( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
-          targetAngle += cross.dot( direction.normalize() ) > 0 ? Math.PI * 0.5: 0;
-
-        }
-
         //  If this is a partial rotation that results in the same configuration of cubelets,
         //  then it doesn't really count as a move, and we don't need to add it to the history.
 
