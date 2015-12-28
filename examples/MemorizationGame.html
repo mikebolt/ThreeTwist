@@ -13,8 +13,8 @@
       }
       
       #cubeContainer {
-        width: 480px;
-        height: 480px;
+        width: 450px;
+        height: 450px;
       }
       
       #moveDisplay {
@@ -38,7 +38,7 @@
     </style>
   </head>
   <body>
-    <div id="cubeContainer" style="width: 480px; height: 480px;" class="centered">
+    <div id="cubeContainer" class="centered">
     </div>
     
     <h1 id="moveDisplay" class="centered">
@@ -51,6 +51,8 @@
       <span>Algorithm to memorize: </span><input id="algorithmTextbox" type="text" value="R U R' U R U2 R'"/><br/>
       <span>Memorization duration: </span><input id="memorizationDurationTextbox" type="text" value="2"/><span> (seconds)</span><br/>
       <span>Between-rounds break duration: </span><input id="breakDurationTextbox" type="text" value="4"/><span> (seconds)</span><br/>
+      <!-- TODO: make this a dropdown -->
+      <span>Moves per round: </span><input id="movesPerRoundTextbox" type="text" value="1"/>
       <input id="startButton" type="button" value="Start"/>
     </div>
     
@@ -67,6 +69,7 @@
       var algorithmTextbox = document.getElementById('algorithmTextbox');
       var memorizationDurationTextbox = document.getElementById('memorizationDurationTextbox');
       var breakDurationTextbox = document.getElementById('breakDurationTextbox');
+      var movesPerRoundTextbox = document.getElementById('movesPerRoundTextbox');
       var startButton = document.getElementById('startButton');
       var restartArea = document.getElementById('restartArea');
       var restartButton = document.getElementById('restartButton');
@@ -74,6 +77,8 @@
       var memorizationDuration;
       var breakDuration;
       var defaultTwistDuration = 500;
+      var demonstrationTwistDuration;
+      var movesPerRound;
       
       startButton.onclick = startGame;
       restartButton.onclick = restart;
@@ -204,6 +209,17 @@
           breakDuration = 4000;
         }
         
+        movesPerRound = parseInt(movesPerRoundTextbox.value, 10);
+        if (isNaN(movesPerRound) || movesPerRound < 1) {
+          movesPerRound = 1;
+        }
+        
+        if (movesPerRound > algorithm.length) {
+          movesPerRound = algorithm.length;
+        }
+        
+        demonstrationTwistDuration = (3 / 4) * memorizationDuration / movesPerRound;
+        
         resetCube();
         disableInteraction();
         
@@ -211,10 +227,10 @@
         cube.twistDuration = defaultTwistDuration / 2;
         cube.twist(inverse);
         var numHalfTurns = countHalfTurns(inverse);
-        var scrambleWaitTime = 1000 + (inverse.length + numHalfTurns) * cube.twistDuration;
+        var scrambleWaitTime = 1000 + inverse.length * cube.twistDuration;
 
         setTimeout(function() {
-          startMemorizationPhase(algorithm, inverse, 1);
+          startMemorizationPhase(algorithm, inverse, movesPerRound);
         }, scrambleWaitTime);
       }
       
@@ -223,15 +239,19 @@
         resetCube()
         disableInteraction();
         performAlgorithmInstantly(inverse);
-        cube.twistDuration = memorizationDuration / 2;
+        cube.twistDuration = demonstrationTwistDuration;
+        
+        if (numMoves > algorithm.length) {
+          numMoves = algorithm.length;
+        }
         
         var showNextMoves = function() {
           if (moveIndex >= numMoves) {
             startTestPhase(algorithm, inverse, numMoves);
           }
           else {
-            showMove(algorithm[moveIndex]);
-            ++moveIndex;
+            showMoves(algorithm.slice(moveIndex, moveIndex + movesPerRound));
+            moveIndex += movesPerRound;
             setTimeout(showNextMoves, memorizationDuration);
           }
         };
@@ -239,9 +259,16 @@
         showNextMoves();
       }
       
-      function showMove(move) {
-        moveDisplay.innerHTML = twistToString(move);
-        cube.immediateTwist(move);
+      function showMoves(moves) {
+        var moveText = '';
+        for (var i = 0; i < moves.length; ++i) {
+          moveText += twistToString(moves[i]);
+          if (i !== moves.length - 1) {
+            moveText += ' ';
+          }
+        }
+        moveDisplay.innerHTML = moveText;
+        cube.twist(moves);
       }
       
       function startTestPhase(algorithm, inverse, numMoves) {
@@ -272,14 +299,15 @@
           }
           // Otherwise, play the next round.
           else {
-            setPrompt('Good job. Now get ready to memorize one more move.');
+            setPrompt('Good job. Now get ready to memorize ' + 
+                      (movesPerRound > 1 ? 'more moves.' : 'one more move.'));
                 
             resetCube();
             disableInteraction();
             performAlgorithmInstantly(inverse);
             
             setTimeout(function() {
-              startMemorizationPhase(algorithm, inverse, numMoves + 1);
+              startMemorizationPhase(algorithm, inverse, numMoves + movesPerRound);
             }, breakDuration);
           }
         }
