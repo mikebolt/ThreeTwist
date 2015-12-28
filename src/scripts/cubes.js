@@ -588,8 +588,7 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
     var slice    = this.slicesDictionary[ twist.command.toLowerCase() ],
       rotation = ( twist.degrees === undefined ? 90 : twist.degrees ) * twist.vector,
       radians  = rotation.degreesToRadians(),
-      duration = Math.abs( radians - slice.getRotation() ) /
-        ( Math.PI * 0.5 ) * this.twistDuration;
+      duration = this.twistDuration;
 
     var l = slice.indices.length,
       cubelet;
