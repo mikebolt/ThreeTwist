@@ -5,6 +5,7 @@
     <title>Algorithm Memorization Game</title>
     <link rel="stylesheet" href="../build/styles/cube.css"/>
     <script src="../build/ThreeTwist.js"></script>
+    <script src="../src/scripts/vendor/parsimmon.js"></script>
     <style>
       .centered {
         margin-left: auto;
@@ -140,30 +141,6 @@
         return twist.command.toUpperCase() + suffix;
       }
       
-      function parseAlgorithm(algorithmString) {
-        var algorithm = algorithmString.split(' ');
-        moveArray = [];
-        for (var i = 0; i < algorithm.length; ++i) {
-          var command = algorithm[i].substring(0, 1);
-          var angle = 90;
-          if (algorithm[i].endsWith("2'") || algorithm[i].endsWith("'2")) {
-            angle = -180;
-          }
-          else if (algorithm[i].endsWith("'")) {
-            angle = -90;
-          }
-          else if (algorithm[i].endsWith('2')) {
-            angle = 180;
-          }
-          var twist = new ThreeTwist.Twist(command, angle);
-          if (twist) { // Invalid twists will be false
-            moveArray.push(twist);
-          }
-        }
-        
-        return moveArray;
-      }
-      
       // A half turn (as opposed to a quarter turn) is a 180 degree turn.
       function countHalfTurns(algorithm) {
         var halfTurns = 0;
@@ -173,14 +150,6 @@
           }
         });
         return halfTurns;
-      }
-      
-      function inverseAlgorithm(moveArray) {
-        var inversed = [];
-        for (var i = moveArray.length - 1; i >= 0; --i) {
-          inversed.push(moveArray[i].getInverse());
-        }
-        return inversed;
       }
       
       function performAlgorithmInstantly(algorithm) {
@@ -196,8 +165,9 @@
         hide(setupArea);
         setPrompt('Get ready to memorize.');
         
-        algorithm = parseAlgorithm(algorithmTextbox.value);
-        inverse = inverseAlgorithm(algorithm);
+        algorithm = ThreeTwist.Algorithm.parseAlgorithm(algorithmTextbox.value);//.getMoveArray();
+        inverse = algorithm.inverse().getMoveArray();
+        algorithm = algorithm.getMoveArray();
         
         memorizationDuration = parseFloat(memorizationDurationTextbox.value, 10) * 1000;
         if (isNaN(memorizationDuration)) {
