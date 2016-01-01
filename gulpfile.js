@@ -39,7 +39,8 @@ var concat = require('gulp-concat');
 var dependencies = [
   './src/scripts/vendor/threejs/build/three.js', // Use the whole thing for now
   './src/scripts/vendor/Tween.js',
-  './src/scripts/vendor/CSS3DRenderer.js'
+  './src/scripts/vendor/CSS3DRenderer.js',
+  './src/scripts/vendor/parsimmon.js'
 ];
    
 /* This is a list of all the required source files, 
@@ -67,6 +68,7 @@ var sources = [
   './src/scripts/solvers.js',
   './src/scripts/twists.js',
   './src/scripts/cubes.js', // cube.js needs to appear after groups.js
+  './src/scripts/algorithm.js',
   
   // Extras
   // Just include everything for now
