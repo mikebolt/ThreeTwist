@@ -10,19 +10,15 @@
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
 
+  @author Michael Casebolt
+
 */
 
-ThreeTwist.Twist = function( slice, degrees ){
-
-  if( slice ) {
-    this.set( slice, degrees );
-  }
-
-};
-
-// TODO: why not initialize with a Slice?
-// Why does a Twist need to be mutable?
-ThreeTwist.Twist.prototype.set = function( slice, degrees ){
+// The 'lenient' parameter, when true, allows the twist to affect other cubelets
+// as long as the cubelets in the slice are all rotated correctly. In effect
+// this means that lenient twists about an axis that is not the slice's own
+// axis will rotate the whole cube.
+ThreeTwist.Twist = function( slice, rotation, lenient ){
 
   //  What group of Cubelets do we intend to twist?
 
@@ -99,8 +95,8 @@ ThreeTwist.Twist.prototype.set = function( slice, degrees ){
     //  I mean... imagine call this constructor if it tried to call itself!
     //  Infinite loopage mess.
 
-    this.getInverse = function(){
-      return new ThreeTwist.Twist( command.invert(), degrees );
+    this.getInverse = function() {
+      return new ThreeTwist.Twist(slice, rotation.getInverse());
     };
 
   }

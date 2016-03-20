@@ -336,7 +336,7 @@ ThreeTwist.Cube = function( parameters ){
       }
     }
     
-    // TODO: pass slice the direction.
+    // TODO: pass slice the Direction instance, rather than the direction vector?
     return new ThreeTwist.Slice(cubeletIndices, this, axisDirection.normal);
   }).bind(this);
   
@@ -404,6 +404,7 @@ ThreeTwist.Cube = function( parameters ){
                 .concat(this.front)
                 .concat(this.back);
   
+  // I'm not sure what these lines of code do.
   if (this.middle) {
     this.slices.push(this.middle);
   }
@@ -534,7 +535,7 @@ ThreeTwist.Cube = function( parameters ){
   // way to get the cube to actually resize properly. I think this would
   // be better left in the hands of the users to resize dynamically as they wish.
 
-  this.setSize( 400, 200 );
+  //this.setSize( 400, 200 );
 
   //  Get ready for major loop-age.
   //  Our Cube checks these booleans at 60fps.

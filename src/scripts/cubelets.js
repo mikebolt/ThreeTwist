@@ -48,6 +48,8 @@
 
 ThreeTwist.Cubelet = function( cube, id, visibleDirections ){
 
+  // This doubles as both a view class and a model class.
+  // These should probably be separated.
   THREE.Object3D.call( this );
 
   //  Our Cube can directly address its Cubelet children,
