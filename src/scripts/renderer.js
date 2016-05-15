@@ -24,7 +24,7 @@ ThreeTwist.renderers.CSS3D = function( cube ){
   renderer.scene = scene;
 
   // Add the cube 3D object to the scene
-  scene.add( cube.autoRotateObj3D ); // This holds the actual cube Object3D.
+  scene.add( cube.rotationTransformer ); // This holds the actual cube Object3D.
   scene.add( cube.camera );
 
   function showItem( item ){
@@ -93,16 +93,17 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
 
     // This is just enough to push the cubelet faces outward,
     // so that they form a cube:
-    var faceSpacing = cubelet.size / 2;
+    var faceSpacing = 1 / 2;//cubelet.size / 2;
 
+    // F and B are backwards. Don't ask why.
     // F U R D L B
     var transformMap = [
-      "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
-      "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
-      "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )",
-      "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )",
-      "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )",
-      "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )"
+      "rotateX(  180deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )", // F
+      "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )", // U
+      "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )", // R
+      "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )", // D
+      "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )", // L
+      "rotateY(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )"  // B
     ];
 
     var axisMap = [
@@ -135,8 +136,18 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       // Each face has a different orientation represented by a CSS 3D transform.
       // Here we select and apply the correct one.
 
+      // TODO: let THREE.js handle this, as in, make each facelet an Object3D.
+      // That way the mirror scale will work correctly.
       var cssTransform = transformMap[ face.id ],
         style = face.element.style;
+      
+      // Get the right scale.
+      // We want the face elements to naturally be 1em x 1em, so that they render at
+      // a decent resolution, but they get scaled up by the scaleTransformer,
+      // so apply the inverse of that scale here.
+      var inverseScale = 1 / cubelet.cube.cubeletSize;
+      cssTransform += " scaleX(" + inverseScale + ") scaleY(" + inverseScale + 
+        ") scaleZ(" + inverseScale + ")";
       
       style.OTransform = cssTransform;
       style.MozTransform = cssTransform;
@@ -146,17 +157,16 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
       //  INTROVERTED FACES.
       //  If this face has no color sticker then it must be interior to the Cube.
       //  That means in a normal state (no twisting happening) it is entirely hidden.
-      /*if( face.isIntrovert ){
+      if( face.isIntrovert ){
         face.element.classList.add( 'faceIntroverted' );
-        face.element.appendChild( document.createElement( 'div' ));
-      }*/
+        //face.element.appendChild( document.createElement( 'div' ));
+      }
 
       //  EXTROVERTED FACES.
       //  But if this face does have a color then we need to
       //  create a sticker with that color
       //  and also allow text to be placed on it.
-      //else {
-      if (!face.isIntrovert) {
+      else {
         face.element.classList.add( 'faceExtroverted' );
 
         //  STICKER.
@@ -164,9 +174,7 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
         stickerElement.classList.add( 'sticker' );
         stickerElement.classList.add( face.color.name );
         face.element.appendChild( stickerElement );
-
       }
-
     });
 
     //  These will perform their actions, of course,
@@ -175,8 +183,8 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
     cubelet.showPlastics();
     cubelet.showStickers();
     
+    //cubelet.hideIntroverts();
   };
-
 }());
 
 //   The method object contains functionality specific to the CSS3D renderer that we add

@@ -7,50 +7,58 @@
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
+  @author Michael Casebolt : retrofitted for bigcubes
 
 */
 
+/*
+        _________         /""""""""""""/
+       /__/__/__/]     __/>>> SUP? <<</
+      /__/__/__/|] --==--,,,,,,,,,,,,/
+     /__/__/__/||]
+    [__|__|__]/|/        - mikebolt
+    [__|__|__]//
+    [__|__|__]/   
+*/
 
-ThreeTwist.Projector = (function(){
+ThreeTwist.Projector = (function() {
 
   //  The Cube Projector is a specialised class that detects mouse interaction.
   //  It's designed specifically for cubic geometry, in that it makes assumptions
   //  that cannot be applied to other 3D geometry. This makes the performance faster
   //  than other more generalised mouse picking techniques.
 
-  return function( cube, domElement ){
+  return function(cube, domElement) {
 
-    var api,
-      screen,
-      viewProjectionMatrix = new THREE.Matrix4(),
-      inverseMatrix = new THREE.Matrix4(),
-      mouse   = new THREE.Vector3(),
-      end   = new THREE.Vector3( 1, 1, 1 ),
-      normal   = new THREE.Vector3(),
-      ray   = new THREE.Ray(),
-      box   = new THREE.Box3(),
-      sphere  = new THREE.Sphere(),
-      projectionMatrixInverse = new THREE.Matrix4(),
-      unitCubeBoundingRadius = mouse.distanceTo( end );
+    var api;
+    var screen;
+    var viewProjectionMatrix = new THREE.Matrix4();
+    var inverseMatrix = new THREE.Matrix4();
+    var mouse = new THREE.Vector3();
+    var end = new THREE.Vector3(1, 1, 1);
+    var normal = new THREE.Vector3();
+    var ray = new THREE.Ray();
+    var box = new THREE.Box3();
+    
+    var projectionMatrixInverse = new THREE.Matrix4();
 
-    //  Configure the bounding spehere and Axis Aligned Bounding Box dimensions.
-    box.min.set( -cube.size*0.5, -cube.size*0.5, -cube.size*0.5 );
-    box.max.set(  cube.size*0.5,  cube.size*0.5,  cube.size*0.5 );
-    sphere.radius = unitCubeBoundingRadius * cube.size * 0.5;
+    //  Configure the Axis Aligned Bounding Box dimensions.
+    box.min.set(-0.5, -0.5, -0.5);
+    box.max.set(cube.order - 0.5, cube.order - 0.5, cube.order - 0.5);
 
     //  Utility function that unprojects 2D normalised screen coordinate to 3D.
     //  Taken from Three.js Projector class
 
-    function unprojectVector( vector, camera ) {
+    function unprojectVector(vector, camera) {
 
-      projectionMatrixInverse.getInverse( camera.projectionMatrix );
-      viewProjectionMatrix.multiplyMatrices( camera.matrixWorld, projectionMatrixInverse );
-      return vector.applyProjection( viewProjectionMatrix );
+      projectionMatrixInverse.getInverse(camera.projectionMatrix);
+      viewProjectionMatrix.multiplyMatrices(camera.matrixWorld, projectionMatrixInverse);
+      return vector.applyProjection(viewProjectionMatrix);
 
     }
 
     // Returns the bounding area of the element
-    function getBoundingClientRect( element ){
+    function getBoundingClientRect(element) {
 
       var bounds = element !== document ? element.getBoundingClientRect() : {
         left: 0,
@@ -59,7 +67,7 @@ ThreeTwist.Projector = (function(){
         height: window.innerHeight
       };
 
-      if( element !== document ){
+      if(element !== document) {
         var d = element.ownerDocument.documentElement;
         bounds.left += window.pageXOffset - d.clientLeft;
         bounds.top  += window.pageYOffset - d.clientTop;
@@ -71,33 +79,35 @@ ThreeTwist.Projector = (function(){
 
     /*
      *  Returns a THREE.Ray instance in cube space!
+     * (also sets the result on the ray property of this instance)
      */
-    function setRay( camera, mouseX, mouseY ){
+    function setRay(camera, mouseX, mouseY) {
 
       //  Get the bounding area
-      screen = getBoundingClientRect( domElement );
+      screen = getBoundingClientRect(domElement);
 
       //  Convert screen coords indo normalized device coordinate space
-      mouse.x = ( mouseX - screen.left ) / screen.width * 2 - 1;
-      mouse.y = ( mouseY - screen.top  ) / screen.height * -2 + 1;
+      mouse.x = (mouseX - screen.left) / screen.width * 2 - 1;
+      mouse.y = (mouseY - screen.top) / screen.height * -2 + 1;
       mouse.z = -1.0;
 
       // set two vectors with opposing z values
-      end.set( mouse.x, mouse.y, 1.0 );
+      end.set(mouse.x, mouse.y, 1.0);
 
       //  Unproject screen coordinates into 3D
-      unprojectVector( mouse, camera );
-      unprojectVector( end, camera );
+      unprojectVector(mouse, camera);
+      unprojectVector(end, camera);
 
       // find direction from vector to end
-      end.sub( mouse ).normalize();
+      end.sub(mouse).normalize();
 
       //  Configure the ray caster
-      ray.set( mouse, end );
+      ray.set(mouse, end);
 
       //  Apply the world inverse
-      inverseMatrix.getInverse( cube.matrixWorld );
-      ray.applyMatrix4( inverseMatrix );
+      // cube.centerTransformer is used because the 'box' is only correct in its coordinate system. // nix
+      inverseMatrix.getInverse(cube.object3D.matrixWorld);
+      ray.applyMatrix4(inverseMatrix);
 
       return ray;
 
@@ -107,18 +117,29 @@ ThreeTwist.Projector = (function(){
      *  Given an intersection point on the surface of the cube,
      *   this returns a vector indicating the normal of the face
      */
+    function getFaceNormalForIntersection(intersection) {
 
-    function getFaceNormalForIntersection ( intersection, optionalTarget ){
-
-      var target = optionalTarget || new THREE.Vector3();
-
-      target.copy( intersection )
-        .set( Math.round( target.x ), Math.round( target.y ), Math.round( target.z ))
-          .multiplyScalar( 2 / cube.size )
-          .set( target.x|0, target.y|0, target.z|0 );
-
-      return normal;
-
+    // Cubes have the property that a point on the face of a cube is always closest to that face's
+    // normal, when all normals are represented as points offset from the center of the cube.
+    
+      var closestSquareDistance = Infinity;
+      var closestNormal = null;
+      
+      var centeredIntersection = new THREE.Vector3().subVectors(intersection, cube.center);
+      //console.log("centeredIntersection = ", centeredIntersection);
+    
+      for (var directionId = 0; directionId < 6; directionId++) {
+        var direction = ThreeTwist.Direction.getDirectionById(directionId);
+        var normal = direction.normal;
+        var squareDistance = centeredIntersection.distanceToSquared(normal);
+        if (squareDistance < closestSquareDistance) {
+          closestSquareDistance = squareDistance;
+          closestNormal = normal;
+        }
+      }
+      
+      // Return a copy so that the caller can't mess up the normal vectors.
+      return new THREE.Vector3().copy(closestNormal);
     }
 
     /*
@@ -128,72 +149,39 @@ ThreeTwist.Projector = (function(){
      */
 
     api = {
-
-      getIntersection: function( camera, mouseX, mouseY,
-                                 optionalIntersectionTarget, optionalPlaneTarget ){
+      // Return true if the given mouse coordinate is on the cube, false otherwise.
+      // Also, optionally save the point of intersection and the containing plane.
+      getIntersection: function(camera, mouseX, mouseY,
+                                optionalIntersectionTarget, optionalPlaneTarget){
 
         var intersection = optionalIntersectionTarget || new THREE.Vector3();
-
-        //  If we haven't detected any mouse movement, then we've not made interacted!
-        if( mouseX === null || mouseY === null ) {
-          return null;
-        }
-
+        
         //  Shoot the camera ray into 3D
-        setRay( camera, mouseX, mouseY );
+        setRay(camera, mouseX, mouseY);
 
-        //  Check ray casting against the bounding sphere first as it's easier to compute,
-        //  if it passes, then check the Axis Aligned Bounding Box.
-        if( ray.isIntersectionSphere( sphere ) &&
-          ray.intersectBox( box, intersection ) !== null ){
-
-          if( optionalPlaneTarget ){
-            getFaceNormalForIntersection( intersection, normal );
-            optionalPlaneTarget.setFromNormalAndCoplanarPoint( normal, intersection );
+        //  Check ray casting against the Axis Aligned Bounding Box.
+        if (ray.intersectBox(box, intersection) !== null) {
+          if (optionalPlaneTarget) {
+            normal = getFaceNormalForIntersection(intersection); // saves result into 'normal'
+            optionalPlaneTarget.setFromNormalAndCoplanarPoint(normal, intersection);
           }
-
-          return intersection;
-
+          return true;
         }
 
-        return null;
-
+        return false;
       },
 
-      getIntersectionOnPlane: function( camera, mouseX, mouseY, plane, optionalTarget ){
-
+      getIntersectionOnPlane: function(camera, mouseX, mouseY, plane, optionalTarget) {
         //  If we haven't detected any mouse movement, then we've not interacted!
-        if( mouseX === null || mouseY === null ) {
+        if (mouseX === null || mouseY === null) {
           return null;
         }
 
         //  Shoot the camera ray into 3D
-        setRay( camera, mouseX, mouseY );
+        setRay(camera, mouseX, mouseY);
 
-        return ray.intersectPlane( plane, optionalTarget );
-
-      },
-
-      // Given
-      getCubeletAtIntersection : (function(){
-
-        var tmp = new THREE.Vector3();
-
-        return function( intersection ){
-
-          //  Translate the world coordinates to a 3D index of the intersected cubelets location.
-
-          tmp.copy( intersection ).add( box.max )
-            .multiplyScalar( 3 / cube.size )
-            .set( Math.min( tmp.x|0, 2 ), Math.min( 3 - tmp.y|0, 2 ), Math.min( 3 - tmp.z|0, 2 ));
-
-          //  Translate the 3D position to an array index
-          return cube.cubelets[ tmp.z * 9 + tmp.y * 3 + tmp.x ];
-
-        };
-
-      }())
-
+        return ray.intersectPlane(plane, optionalTarget);
+      }
     };
 
     return api;

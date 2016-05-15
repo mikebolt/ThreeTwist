@@ -10,12 +10,18 @@
     <style>
       html, body {
         height: 100%;
+        padding: 0px;
+      }
+      
+      body {
+        background-color: #222
       }
     </style>
     <script>
-      var cube = new ThreeTwist.Cube({order: 5});
+      var cube = new ThreeTwist.Cube({order: 4});
       var cubeContainer = document.createElement('div');
       cubeContainer.appendChild(cube.domElement);
+      cubeContainer.style.height = '100%';
       var body = document.getElementsByTagName('body')[0];
       body.appendChild(cubeContainer);
     </script>
