@@ -206,19 +206,26 @@ ThreeTwist.extend(ThreeTwist.Cube.prototype, {
     var thisCube = this;
     algorithmMoves.forEach(function(move) {
       
-      if (move.startLayer === undefined && move.endLayer === undefined) {
-        if (move.layer === undefined) {
-          move.startLayer = 1;
-          move.endLayer = 1;
-        }
-        else {
-          move.startLayer = move.layer;
-          move.endLayer = move.layer;
-          delete move.layer;
+      // alg.js doesn't always add the start and end layer, so they have to be inferred.
+      if (move.layer === undefined) {
+        move.startLayer = 1;
+        if (move.endLayer === undefined) {
+          // The default layer is usually 1, unless it's a 'w' move, in which case
+          // the default layers should be 1 and 2.
+          if (move.base.substring(1, 2).toLowerCase() === 'w') {
+            move.endLayer = 2;
+          }
+          else {
+            move.endLayer = 1;
+          }
         }
       }
+      else {
+        move.startLayer = move.layer;
+        move.endLayer = move.layer;
+      }
       
-      move.base = move.base.toLowerCase();
+      move.base = move.base.substring(0, 1).toLowerCase();
       
       thisCube.twist(move);
     });
