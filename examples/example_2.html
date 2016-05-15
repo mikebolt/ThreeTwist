@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" lang="en"/>
+    <title>ThreeTwist example</title>
+    <link rel="stylesheet" href="../build/styles/cube.css"/>
+    <script src="../build/ThreeTwist.js"></script>
+  </head>
+  <body>
+    <style>
+      html, body {
+        height: 100%;
+        padding: 0px;
+      }
+      
+      body {
+        background-color: #222
+      }
+    </style>
+    <script>
+      var cube = new ThreeTwist.Cube({order: 2});
+      var cubeContainer = document.createElement('div');
+      cubeContainer.appendChild(cube.domElement);
+      cubeContainer.style.height = '100%';
+      var body = document.getElementsByTagName('body')[0];
+      body.appendChild(cubeContainer);
+    </script>
+  </body>
+</html>

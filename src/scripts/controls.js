@@ -19,13 +19,13 @@ ThreeTwist.Controls = (function(){
 
   }
 
-  return function ( object, camera, domElement ) {
+  return function(object, camera, domElement, cube) {
 
     var state      = STATE.NONE,
       direction     = new THREE.Vector2(),
       mouse      = new THREE.Vector2(),
       lastPosition = new THREE.Vector2(),
-      projector = new ThreeTwist.Projector( object, domElement ),
+      projector = new ThreeTwist.Projector(cube, domElement),
       api = {
         enabled: true,
         domElement: domElement,
@@ -33,7 +33,7 @@ ThreeTwist.Controls = (function(){
         damping: 0.25
       };
 
-    var getMouseProjectionOnBall = function( x, y, vector ){
+    var getMouseProjectionOnBall = function(x, y, vector){
 
       var view = getBoundingClientRect( api.domElement );
 
@@ -79,7 +79,7 @@ ThreeTwist.Controls = (function(){
         length = direction.length();
 
         //  Then we can rotate the cube based on how far the drag occurred
-        object.object3D.rotateOnAxis( axis, -length * api.rotationSpeed );
+        object.rotateOnAxis( axis, -length * api.rotationSpeed );
 
         //  Reset our internal state
         if( state === STATE.ROTATE ) {
@@ -111,7 +111,10 @@ ThreeTwist.Controls = (function(){
         return;
       }
 
-      if( projector.getIntersection( camera, event.pageX, event.pageY ) === null ){
+      intersected = projector.getIntersection(camera, event.pageX, event.pageY);
+      //console.log("(in controls) intersected = " + intersected);
+      
+      if (intersected === false) {
 
         state = STATE.ROTATE;
 
