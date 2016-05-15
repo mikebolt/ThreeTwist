@@ -20,7 +20,7 @@ ThreeTwist is licensed under the MIT License included in the LICENSE.md file.
 
 Try out ThreeTwist in your browser using one of these links:
 
-[1x1x1](https://mikebolt.github.io/ThreeTwist/examples/example_1.html) [2x2x2](https://mikebolt.github.io/ThreeTwist/examples/example_2.html) [3x3x3](https://mikebolt.github.io/ThreeTwist/examples/example_3.html) [4x4x4](https://mikebolt.github.io/ThreeTwist/examples/example_4.html) [5x5x5](https://mikebolt.github.io/ThreeTwist/examples/example_4.html) [6x6x6](https://mikebolt.github.io/ThreeTwist/examples/example_6.html) [7x7x7](https://mikebolt.github.io/ThreeTwist/examples/example_7.html)
+[1x1x1](https://mikebolt.github.io/ThreeTwist/examples/example_1.html) [2x2x2](https://mikebolt.github.io/ThreeTwist/examples/example_2.html) [3x3x3](https://mikebolt.github.io/ThreeTwist/examples/example_3.html) [4x4x4](https://mikebolt.github.io/ThreeTwist/examples/example_4.html) [5x5x5](https://mikebolt.github.io/ThreeTwist/examples/example_5.html) [6x6x6](https://mikebolt.github.io/ThreeTwist/examples/example_6.html) [7x7x7](https://mikebolt.github.io/ThreeTwist/examples/example_7.html)
 
 There is a known bug in Firefox that causes inner "introvert" faces to show up due to bad depth ordering, and the result looks terrible. To fix this, you can just hide inner faces, using these steps:
 
