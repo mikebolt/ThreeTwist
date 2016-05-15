@@ -2,7 +2,7 @@
 
 ThreeTwist is a JavaScript library for simulating, visualizing, and interacting with 3D twisty puzzles.
 
-ThreeTwist is a continuation of the Cuber project created for Google's Chrome Cube Lab. If you're
+ThreeTwist is a fork of the Cuber project, which was created for Google's Chrome Cube Lab. If you're
 interested in the history of the Cuber project, check out [this link](http://stewd.io/w/rubikscube).
 
 The ThreeTwist project has the following goals:
@@ -15,6 +15,20 @@ The ThreeTwist project has the following goals:
 - Open, community-driven development process
 
 ThreeTwist is licensed under the MIT License included in the LICENSE.md file.
+
+## Demos
+
+Try out ThreeTwist in your browser using one of these links:
+
+[1x1x1](https://mikebolt.github.io/ThreeTwist/examples/example_1.html) [2x2x2](https://mikebolt.github.io/ThreeTwist/examples/example_2.html) [3x3x3](https://mikebolt.github.io/ThreeTwist/examples/example_3.html) [4x4x4](https://mikebolt.github.io/ThreeTwist/examples/example_4.html) [5x5x5](https://mikebolt.github.io/ThreeTwist/examples/example_4.html) [6x6x6](https://mikebolt.github.io/ThreeTwist/examples/example_6.html) [7x7x7](https://mikebolt.github.io/ThreeTwist/examples/example_7.html)
+
+There is a known bug in Firefox that causes inner "introvert" faces to show up due to bad depth ordering, and the result looks terrible. To fix this, you can just hide inner faces, using these steps:
+
+1. Press F12, or CTRL+SHIFT+K, or use the menu to select Tools > Web Developer > Web Console.
+
+2. In the console, enter the following line of JavaScript:
+
+    cube.cubelets.forEach(function(cubelet) { cubelet.hideIntroverts(); });
 
 ##Downloading
 
@@ -41,12 +55,6 @@ Then run the command `gulp`. This will run all the gulp tasks necessary to build
 You can run the individual gulp tasks by running the command `gulp task-name` in the project directory.
 
 - concat : This concatenates all the source files in the proper order to create ThreeTwist.js in the build directory.
-- copy-stylesheets : This just copies the stylesheets from src/styles into the build/styles directory.
-- minify : This concatenates the source files and minifies the result to create ThreeTwist.min.js in the build directory.
-- jsdoc-generate : This runs the jsdoc-to-markdown script on the source files in order to turn the jsdoc comments into a complete markdown-formatted documentation.
-- jshint : This runs jshint on each individual source file using the options found in the .jshintrc file, and prints out warnings to be heeded by all.
-- checkstyle: Runs a jscs style checking script, enforcing the rules in the [Style Guide](https://github.com/mikebolt/ThreeTwist/wiki/Style-Guide), and failing the build if any rules are violated.
-- test : This runs the tests in the tests directory using Mocha's 'spec' reporter, and fails the build if any tests fail. Tests are currently written using the Unit.js assertion library and Mocha's 'BDD' interface.
 
 ##Wiki Links
 
