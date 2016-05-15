@@ -62,6 +62,7 @@
 
 */
 
+// TODO: refactor by adding an 'allDirections' array.
 
 ThreeTwist.Direction = function( id, name, normal ){
 
@@ -81,17 +82,18 @@ ThreeTwist.Direction.prototype.setRelationships = function( up, right, down, lef
 
 };
 
+// Constants are Cool!
+ThreeTwist.Direction.numDirections = 6;
+
 ThreeTwist.Direction.getNameById = function( id ){
 
   return [
-
     'front',
     'up',
     'right',
     'down',
     'left',
     'back'
-
   ][ id ];
 
 };
@@ -99,14 +101,12 @@ ThreeTwist.Direction.getNameById = function( id ){
 ThreeTwist.Direction.getIdByName = function( name ){
 
   return {
-
     front: 0,
     up   : 1,
     right: 2,
     down : 3,
     left : 4,
     back : 5
-
   }[ name ];
 
 };
@@ -114,14 +114,12 @@ ThreeTwist.Direction.getIdByName = function( name ){
 ThreeTwist.Direction.getDirectionById = function( id ){
 
   return [
-
     ThreeTwist.Direction.FRONT,
     ThreeTwist.Direction.UP,
     ThreeTwist.Direction.RIGHT,
     ThreeTwist.Direction.DOWN,
     ThreeTwist.Direction.LEFT,
     ThreeTwist.Direction.BACK
-
   ][ id ];
 
 };
@@ -129,14 +127,12 @@ ThreeTwist.Direction.getDirectionById = function( id ){
 ThreeTwist.Direction.getDirectionByInitial = function( initial ){
 
   return {
-
     F: ThreeTwist.Direction.FRONT,
     U: ThreeTwist.Direction.UP,
     R: ThreeTwist.Direction.RIGHT,
     D: ThreeTwist.Direction.DOWN,
     L: ThreeTwist.Direction.LEFT,
     B: ThreeTwist.Direction.BACK
-
   }[ initial.toUpperCase() ];
 
 };
@@ -144,14 +140,12 @@ ThreeTwist.Direction.getDirectionByInitial = function( initial ){
 ThreeTwist.Direction.getDirectionByName = function( name ){
 
   return {
-
     front: ThreeTwist.Direction.FRONT,
     up   : ThreeTwist.Direction.UP,
     right: ThreeTwist.Direction.RIGHT,
     down : ThreeTwist.Direction.DOWN,
     left : ThreeTwist.Direction.LEFT,
     back : ThreeTwist.Direction.BACK
-
   }[ name.toLowerCase() ];
 
 };
@@ -168,12 +162,12 @@ ThreeTwist.Direction.getDirectionByNormal = function(){
     vector.z = Math.round( normal.z );
 
     return  vector.equals( ThreeTwist.Direction.FRONT.normal   ) ? ThreeTwist.Direction.FRONT :
-        vector.equals( ThreeTwist.Direction.BACK.normal    ) ? ThreeTwist.Direction.BACK  :
-        vector.equals( ThreeTwist.Direction.UP.normal   ) ? ThreeTwist.Direction.UP    :
-        vector.equals( ThreeTwist.Direction.DOWN.normal   ) ? ThreeTwist.Direction.DOWN  :
-        vector.equals( ThreeTwist.Direction.LEFT.normal   ) ? ThreeTwist.Direction.LEFT  :
-        vector.equals( ThreeTwist.Direction.RIGHT.normal   ) ? ThreeTwist.Direction.RIGHT :
-        null;
+            vector.equals( ThreeTwist.Direction.BACK.normal    ) ? ThreeTwist.Direction.BACK  :
+            vector.equals( ThreeTwist.Direction.UP.normal   ) ? ThreeTwist.Direction.UP    :
+            vector.equals( ThreeTwist.Direction.DOWN.normal   ) ? ThreeTwist.Direction.DOWN  :
+            vector.equals( ThreeTwist.Direction.LEFT.normal   ) ? ThreeTwist.Direction.LEFT  :
+            vector.equals( ThreeTwist.Direction.RIGHT.normal   ) ? ThreeTwist.Direction.RIGHT :
+            null;
 
   };
 

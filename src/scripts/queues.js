@@ -42,7 +42,7 @@ ThreeTwist.Queue.prototype.add = function(){
   var elements = Array.prototype.slice.call( arguments );
 
   if( this.validate !== undefined && this.validate instanceof Function ) {
-    elements = this.validate( elements );
+    elements = this.validate.apply(this, elements);
   }
 
   if( elements instanceof Array ){

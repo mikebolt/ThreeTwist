@@ -2,74 +2,13 @@
 
   CUBES
 
-  A Cube is composed of 27 Cubelets (3x3x3 grid) numbered 0 through 26.
-  Cubelets are numbered beginning from the top-left-forward corner of the
-  Cube and proceeding left to right, top to bottom, forward to back:
-
-             -----------------------
-           /   18      19      20  /|
-          /                       / |
-         /   9      10       11  / 20
-        /                       /   |
-       /   0       1       2   / 11 |
-       -----------------------     23
-      |                       |2    |
-      |   0       1       2   |  14 |
-      |                       |    26
-      |                       |5    |
-      |   3       4       5   |  17 /
-      |                       |    /
-      |                       |8  /
-      |   6       7       8   |  /
-      |                       | /
-       -----------------------
-
-  Portions of the Cube are grouped (Groups):
-
-    this.core
-    this.centers
-    this.edges
-    this.corners
-    this.crosses
-
-  Portions of the Cube are grouped and rotatable (Slices):
-
-  Rotatable around the Z axis:
-    this.front
-    this.standing
-    this.back
-
-  Rotatable around the X axis:
-    this.left
-    this.middle
-    this.right
-
-  Rotatable around the Y axis:
-    this.up
-    this.equator
-    this.down
-
-  A Cube may be inspected through its Faces (see Slices for more
-  information on Faces vs Slices). From the browser's JavaScript console:
-
-    this.inspect()
-
-  This will reveal each Face's Cubelet indexes and colors using the Face's
-  compact inspection mode. The non-compact mode may be accessed by passing
-  a non-false value as an argument:
-
-    this.inspect( true )
-
-  --
-
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
+  @author Michael Casebolt : retrofitted for bigcubes
 
 */
 
-ThreeTwist.Cube = function( parameters ){
-
-  ThreeTwist.Group.call( this );
+ThreeTwist.Cube = function(parameters) {
 
   // Constructor parameters
 
@@ -82,19 +21,23 @@ ThreeTwist.Cube = function( parameters ){
   this.mouseControlsEnabled = parameters.mouseControlsEnabled === undefined ? true :
     parameters.mouseControlsEnabled;
 
+  // The order must be a nonnegative integer.
+  this.order = typeof parameters.order === 'number' &&
+    parameters.order >= 0 ? parameters.order|0 : 3;
+  
+  // The colors parameter maps directions to colors.
+  // This is the WCA standard starting orientation for FMC.
+  //                                               F  U  R  D  L  B
+  this.colors = parameters.colors === undefined ? [G, W, R, Y, O, B] : parameters.colors;
+
   var renderFactory = parameters.renderer || ThreeTwist.renderers.CSS3D;
 
   //  Some important booleans.
 
-  //  The textureSize sets the physical size of the cublets in pixels.
-  //  This is useful for rendering purposes as browsers don't downsample textures very well,
-  //  nor is upsampling pretty either. In general, it's best to set the texture size to
-  //  roughly the same size they'll appear on screen.
-  parameters.textureSize = parameters.textureSize === undefined ? 120 : parameters.textureSize;
-
   this.isShuffling = false;
-  this.isReady = true;
   this.isSolving = false;
+  this.isTweening = false;
+  this.stable = true;
   this.undoing = false;
   this.render = true;
   this.finalShuffle = null;
@@ -118,700 +61,394 @@ ThreeTwist.Cube = function( parameters ){
 
   //  We need the ability to gang up twist commands.
   //  Every fire of this.loop() will attempt to empty it.
-  this.twistQueue = new ThreeTwist.Queue( ThreeTwist.Twist.validate );
+  this.twistQueue = new ThreeTwist.Queue();
 
   //  Although we have a queue containing all our twists
   //  we also need a way to collect any undo requests into a similar queue
-  this.historyQueue = new ThreeTwist.Queue( ThreeTwist.Twist.validate );
+  this.historyQueue = new ThreeTwist.Queue();
 
   //  How long should a Cube.twist() take?
   this.twistDuration = parameters.twistDuration !== undefined ? parameters.twistDuration : 500;
 
-  //  If we shuffle, how shall we do it?
-  this.shuffleMethod = this.PRESERVE_LOGO;
-
   //  Size matters? Cubelets will attempt to read these values.
-  this.size = parameters.textureSize * 3;
-  this.cubeletSize = this.size / 3;
+  this.size = 360;
+  this.cubeletSize = this.size / this.order;
 
   //  To display our cube, we'll need some 3D specific attributes, like a camera
-  var
-  FIELD_OF_VIEW = 35,
-  WIDTH         = window.innerWidth,
-  HEIGHT        = window.innerHeight,
-  ASPECT_RATIO  = WIDTH / HEIGHT,
-  NEAR          = 1,
-  FAR           = 6000;
+  var FIELD_OF_VIEW = 35;
+  var WIDTH         = window.innerWidth;
+  var HEIGHT        = window.innerHeight;
+  var ASPECT_RATIO  = WIDTH / HEIGHT;
+  var NEAR          = 1;
+  var FAR           = 6000;
 
-  this.camera = new THREE.PerspectiveCamera( FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR );
+  this.camera = new THREE.PerspectiveCamera(FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR);
   this.camera.position.z = this.size * 4;
 
-  //  To do all the things normally associated with a 3D object
-  //  we'll need to borrow a few properties from Three.js.
-  //  Things like position rotation and orientation.
+  // This is the scene hierarchy:
+  // Scene <- rotationTransformer <- scaleTransformer <- centerTransformer <- cube.object3D <- (cubelets)
+  
   this.object3D = new THREE.Object3D();
-  this.autoRotateObj3D = new THREE.Object3D();
-  this.rotation   = this.object3D.rotation;
-  this.quaternion = this.object3D.quaternion;
-  this.position   = this.object3D.position;
-  this.matrix   = this.object3D.matrix;
-  this.matrixWorld= this.object3D.matrixWorld;
+  this.centerTransformer = new THREE.Object3D();
+  this.scaleTransformer = new THREE.Object3D();
+  this.rotationTransformer = new THREE.Object3D();
 
-  this.rotation.set(
-
+  // Construct a matrix that translates the cube's center to (0, 0, 0):
+  this.centerTransformer.matrixAutoUpdate = false;
+  var halfCenter = (this.order - 1) / 2;
+  this.centerTransformer.matrix.makeTranslation(-halfCenter, -halfCenter, -halfCenter);
+  this.decenteringMatrix = new THREE.Matrix4().makeTranslation(halfCenter, halfCenter, halfCenter);
+  
+  // Save the cube's center as a vector.
+  var centerAmount = (this.order - 1) / 2;
+  this.center = new THREE.Vector3(centerAmount, centerAmount, centerAmount);
+  
+  // Construct a matrix that scales the cube to display-size and mirrors the z-axis:
+  this.scaleTransformer.matrixAutoUpdate = false;
+  this.scaleTransformer.matrix.makeScale(this.cubeletSize, this.cubeletSize, -1 * this.cubeletSize);
+  
+  this.rotationTransformer.rotation.set(
     25  * Math.PI / 180,
     -30 * Math.PI / 180,
     0
   );
+  
+  // Slap it all together
+  this.rotationTransformer.add(this.scaleTransformer);
+  this.scaleTransformer.add(this.centerTransformer);
+  this.centerTransformer.add(this.object3D);
 
   //  If we enable Auto-Rotate then the cube will spin (not twist!) in space
   //  by adding the following values to the Three object on each frame.
   this.rotationDelta = new THREE.Euler( 0.1 * Math.PI / 180, 0.15 * Math.PI / 180, 0 );
-
-  //  Here's the first big map we've come across in the program so far.
-  //  Imagine you're looking at the Cube straight on so you only see the front face.
-  //  We're going to map that front face from left to right (3), and top to bottom (3):
-  //  that's 3 x 3 = 9 Cubelets.
-  //  But then behind the Front slice we also have a Standing slice (9) and Back slice (9),
-  //  so that's going to be 27 Cubelets in total to create a Cube.
-  // TODO: This should be done programmatically.
+  
+  // Add all the cubelets
+  this.numCubelets = this.order * this.order * this.order;
   this.cubelets = [];
-
-  [
-    //  Front slice
-    [ W, O,  ,  , G    ],    [ W, O             ],    [ W, O, B          ],//   0,  1,  2
-    [ W,  ,  ,  , G    ],    [ W                ],    [ W,  , B          ],//   3,  4,  5
-    [ W,  ,  , R, G    ],    [ W,  ,  , R       ],    [ W,  , B, R       ],//   6,  7,  8
-
-    //  Standing slice
-    [  , O,  ,  , G    ],    [  , O             ],    [  , O, B          ],//   9, 10, 11
-    [  ,  ,  ,  , G    ],    [                  ],    [  ,  , B          ],//  12, XX, 14
-    [  ,  ,  , R, G    ],    [  ,  ,  , R       ],    [  ,  , B, R       ],//  15, 16, 17
-
-    //  Back slice
-    [  , O,  ,  , G, Y ],    [  , O,  ,  ,  , Y ],    [  , O, B,  ,  , Y ],//  18, 19, 20
-    [  ,  ,  ,  , G, Y ],    [  ,  ,  ,  ,  , Y ],    [  ,  , B,  ,  , Y ],//  21, 22, 23
-    [  ,  ,  , R, G, Y ],    [  ,  ,  , R,  , Y ],    [  ,  , B, R,  , Y ] //  24, 25, 26
-
-  ].forEach( function( cubeletColorMap, cubeletId ){
-
-    this.cubelets.push( new ThreeTwist.Cubelet( this, cubeletId, cubeletColorMap ));
-
-  }.bind( this ));
-
-  //  Mapping the Cube creates all the convenience shortcuts
-  //  that we will need later. (Demonstrated immediately below!)
-
-  //  A Rubik's Cube is composed of 27 cubelets arranged 3 x 3 x 3.
-  //  We need a map that relates these 27 locations to the 27 cubelets
-  //  such that we can ask questions like:
-  //  What colors are on the Front face of the cube? Etc.
-
-  //  Groups are simple collections of Cubelets.
-  //  Their position and rotation is irrelevant.
-
-  this.core    = new ThreeTwist.Group();
-  this.centers = new ThreeTwist.Group();
-  this.edges   = new ThreeTwist.Group();
-  this.corners = new ThreeTwist.Group();
-  this.crosses = new ThreeTwist.Group();
-  this.cubelets.forEach( function( cubelet ){
-
-    if( cubelet.type === 'core'   ) {
-      this.core.add( cubelet );
+  for (var i = 0; i < this.order; ++i) {
+    for (var j = 0; j < this.order; ++j) {
+      for (var k = 0; k < this.order; ++k) {
+        this.cubelets.push(new ThreeTwist.Cubelet(this, i, j, k));
+      }
     }
-    if( cubelet.type === 'center' ) {
-      this.centers.add( cubelet );
-    }
-    if( cubelet.type === 'edge'   ) {
-      this.edges.add( cubelet );
-    }
-    if( cubelet.type === 'corner' ) {
-      this.corners.add( cubelet );
-    }
-    if( cubelet.type === 'center' || cubelet.type === 'edge') {
-      this.crosses.add( cubelet );
-    }
-
-  }.bind( this ));
-
-  //  Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
-  //  Slices are Groups with purpose; they are rotate-able!
-
-  //  Slices that can rotate about the X-axis:
-
-  this.left = new ThreeTwist.Slice(
-
-    [ 24, 21, 18,
-      15, 12,  9,
-       6,  3,  0], this
-
-  );
-  this.left.name = 'left';
-  this.middle = new ThreeTwist.Slice(
-
-    [ 25, 22, 19,
-      16, 13, 10,
-       7,  4,  1], this
-
-  );
-  this.middle.name = 'middle';
-  this.right = new ThreeTwist.Slice(
-
-    [  2, 11, 20,
-       5, 14, 23,
-       8, 17, 26], this
-
-  );
-  this.right.name = 'right';
-  this.right.neighbour = this.middle;
-  this.left.neighbour = this.middle;
-
-  //  Slices that can rotate about the Y-axis:
-
-  this.up = new ThreeTwist.Slice(
-
-    [ 18, 19, 20,
-       9, 10, 11,
-       0,  1,  2], this
-
-  );
-  this.up.name = 'up';
-  this.equator = new ThreeTwist.Slice(
-
-    [ 21, 22, 23,
-      12, 13, 14,
-       3,  4,  5], this
-
-  );
-  this.equator.name = 'equator';
-  this.down = new ThreeTwist.Slice(
-
-    [ 8, 17, 26,
-      7, 16, 25,
-      6, 15, 24], this
-
-  );
-  this.down.name = 'down';
-  this.down.neighbour = this.equator;
-  this.up.neighbour = this.equator;
-
-  //  These are Slices that can rotate about the Z-axis:
-  this.front = new ThreeTwist.Slice(
-
-    [  0,  1,  2,
-       3,  4,  5,
-       6,  7,  8], this
-
-  );
-  this.front.name = 'front';
-  this.standing = new ThreeTwist.Slice(
-
-    [  9, 10, 11,
-      12, 13, 14,
-      15, 16, 17], this
-
-  );
-  this.standing.name = 'standing';
-  this.back = new ThreeTwist.Slice(
-
-    [ 26, 23, 20,
-      25, 22, 19,
-      24, 21, 18], this
-
-  );
-  this.back.name = 'back';
-  this.back.neighbour = this.standing;
-  this.front.neighbour = this.standing;
-
-  //  Faces .... special kind of Slice!
-
-  this.faces = [ this.front, this.up, this.right, this.down, this.left, this.back ];
-
-  this.slices = [ this.left, this.middle, this.right,
-                  this.down, this.equator, this.up,
-                  this.back, this.standing, this.front ];
-
-  //  We also probably want a handle on any update events that occur,
-  //  for example, when a slice is rotated.
-  var onSliceRotated = function( evt ){
-    this.dispatchEvent( new CustomEvent( 'onTwistComplete', {detail: { slice : evt.target }}));
-  }.bind( this );
-
-  this.slices.forEach( function( slice ){
-    slice.addEventListener( 'change', onSliceRotated );
-  });
-
-  // Dictionary to lookup slice
-  var allIndices = [  0,  1,  2,  3,  4,  5,  6,  7,  8,
-                      9, 10, 11, 12, 13, 14, 15, 16, 17,
-                     18, 19, 20, 21, 22, 23, 24, 25, 26 ];
-
-  this.slicesDictionary = {
-    'f': this.front,
-    's': this.standing,
-    'b': this.back,
-
-    'u': this.up,
-    'e': this.equator,
-    'd': this.down,
-
-    'r': this.right,
-    'm': this.middle,
-    'l': this.left,
-
-    //  Here we defined some arbitrary groups.
-    //  Technically they're not really slices in the usual sense,
-    //  there are however a few things about slices that we need,
-    //  like the ability to rotate about an axis, therefore for all
-    //  intents and purposes, we'll call them a slice.
-
-    'x': new ThreeTwist.Slice( allIndices, this ),
-    'y': new ThreeTwist.Slice( allIndices, this ),
-    'z': new ThreeTwist.Slice( allIndices, this )
-  };
-
-  // Internally we have the ability to hide any invisible faces,
-  // When a slice is rotated we determine what faces should be visible
-  // so the cube doesn't look broken. This happend every time a slice is rotated.
-  // Rotating Certain slices, such as the group slices never show internal faces.
-
-  this.slicesDictionary.x.ableToHideInternalFaces = false;
-  this.slicesDictionary.y.ableToHideInternalFaces = false;
-  this.slicesDictionary.z.ableToHideInternalFaces = false;
-
-  //  For the x,y and z groups we've defined above,
-  //  we'll need to manually set an axis since once can't be automatically computed.
-
-  this.slicesDictionary.x.axis.set( -1, 0, 0 );
-  this.slicesDictionary.y.axis.set( 0, -1, 0 );
-  this.slicesDictionary.z.axis.set( 0, 0, -1 );
-
-  //  Good to let each Cubelet know where it exists.
-
-  this.cubelets.forEach( function( cubelet, i ){
-    cubelet.setAddress( i );
-  });
-
+  }
+  
   //   RENDERER
   //  Create a renderer object from the renderer factory.
   //   The renderFactory is a function that creates a renderer object
-
-  this.renderer = renderFactory( this.cubelets, this );
+  this.renderer = renderFactory(this);
   this.domElement = this.renderer.domElement;
-  this.domElement.classList.add( 'cube' );
+  this.domElement.classList.add('cube');
   this.domElement.style.fontSize = this.cubeletSize + 'px';
 
-  this.autoRotateObj3D.add( this.object3D );
-
-  if( this.hideInvisibleFaces ) {
-    this.hideIntroverts( null, true );
+  if (this.hideInvisibleFaces) {
+    this.hideIntroverts(null, true);
   }
+  
+  // Set the size of the cube's display area.
+  this.setSize(400, 300);
 
   //  The Interaction class provides all the nifty mouse picking stuff.
   //  It's responsible for figuring out what cube slice is supposed to rotate
   //  and in what direction.
 
-  this.mouseInteraction = new ThreeTwist.Interaction( this, this.camera, this.domElement );
-
-  this.mouseInteraction.addEventListener( 'click', function( evt ){
-
-    this.dispatchEvent( new CustomEvent("click", { detail: evt.detail  }));
-
-  }.bind( this ));
+  // TODO: interaction.js will need work
+  this.mouseInteraction = new ThreeTwist.Interaction(this, this.camera, this.domElement);
 
   //  set up interactive controls
   //  The Controls class rotates the entire cube around using an arcball implementation.
   //  You could override this with a different style of control
   var controlsConstructor = parameters.controls || ThreeTwist.Controls;
-  this.controls = new controlsConstructor( this, this.camera, this.domElement );
-
-  //  We need to map our folds separately from Cube.map()
-  //  because we only want folds mapped at creation time.
-  //  Remapping folds with each Cube.twist() would get weird...
-  this.folds = [
-    new ThreeTwist.Fold( this.front, this.right ),
-    new ThreeTwist.Fold( this.left,  this.up    ),
-    new ThreeTwist.Fold( this.down,  this.back  )
-  ];
-
-  //   Define a default size for our cube, this will be resized to 100%
-  //  of it's containing dom element during the render.
-  this.setSize( 400, 200 );
+  this.controls = new controlsConstructor(this.rotationTransformer, this.camera, this.domElement, this);
 
   //  Get ready for major loop-age.
   //  Our Cube checks these booleans at 60fps.
-  this.loop = this.loop.bind( this );
-  this.animationID = requestAnimationFrame( this.loop );
-
-  //  The cube needs to respond to user interaction and react accordingly.
-  //  We'll set up a few event below to listen for specific commands,
-
-  //  Enable key commands for our Cube.
-  this.keypressListener = function(event) {
-    if( event.target.tagName.toLowerCase() !== 'input' &&
-        event.target.tagName.toLowerCase() !== 'textarea' &&
-        !this.mouseInteraction.active &&
-        this.keyboardControlsEnabled ){
-      var key = String.fromCharCode( event.which );
-      if( 'XxRrMmLlYyUuEeDdZzFfSsBb'.indexOf( key ) >= 0 ) {
-        this.twist( key );
-      }
-    }
-  }.bind( this );
-  document.addEventListener( 'keypress', this.keypressListener);
+  this.loop = this.loop.bind(this);
+  requestAnimationFrame(this.loop);
 };
 
-ThreeTwist.Cube.prototype = Object.create( ThreeTwist.Group.prototype );
+ThreeTwist.Cube.prototype = {};
 ThreeTwist.Cube.prototype.constructor = ThreeTwist.Cube;
-ThreeTwist.extend( ThreeTwist.Cube.prototype, {
-
-  shuffle: function( amount, sequence ){
-
-    //  How many times should we shuffle?
-    amount = amount || 30;
-
-    //  Optional sequence of moves to execute instead of picking
-    //  random moves from this.shuffleMethod.
-    sequence = sequence || '';
-
-    var moves = this.shuffleMethod.slice(),
-      move, inverseOfLastMove = new ThreeTwist.Twist(), allowedMoves,
-      sequenceLength = sequence.length, sequenceIndex = 0;
-
-    //  We're shuffling the cube so we should clear any history
-    this.twistQueue.empty( true );
-    this.historyQueue.empty( true );
-
-    //  Create some random rotations based on our shuffle method
-    while( amount-- > 0 ){
-      if (sequence){
-        move.set(sequence[sequenceIndex]);
-        sequenceIndex = (sequenceIndex + 1) % sequenceLength;
-      } else {
-
-        // Create a copy of all possible moves
-        allowedMoves = moves.split('');
-        move = new ThreeTwist.Twist().copy( inverseOfLastMove );
-
-        //  We don't want to chose a move that reverses the last shuffle, it just looks odd,
-        //  so we should only select a move if it's a new one.
-        while( move.equals( inverseOfLastMove )){
-
-          move.set( allowedMoves.splice( Math.floor( Math.random() *
-            allowedMoves.length  ), 1 )[0] );
-
-        }
-      }
-
-      //  If we flag this move as a shuffle, then we can remove it from the history
-      //  once we've executed it.
-      move.isShuffle = true;
-
-      //  execute the shuffle
-      this.twist( move );
-
-      //  Store a reference to the reverse of the move ( a twist that undoes the shuffle )
-      inverseOfLastMove = move.getInverse();
-
-    }
-
-    //  By stashing the last move in our shuffle sequence, we can
-    //   later check if the shuffling is complete
-    this.finalShuffle = move;
-
-  },
-
-  solve: function(){
-
-    this.isSolving = true;
-  },
-
-  isSolved: function(){
-
-    return this.front.isSolved( ThreeTwist.Direction.FRONT ) &&
-           this.up.isSolved(    ThreeTwist.Direction.UP    ) &&
-           this.right.isSolved( ThreeTwist.Direction.RIGHT ) &&
-           this.down.isSolved(  ThreeTwist.Direction.DOWN  ) &&
-           this.left.isSolved(  ThreeTwist.Direction.LEFT  ) &&
-           this.back.isSolved(  ThreeTwist.Direction.BACK  );
-
-  },
-
-  undo: function(){
-
-    if( this.twistQueue.history.length > 0 ){
-
-      this.historyQueue.add( this.twistQueue.undo().getInverse() );
+ThreeTwist.extend(ThreeTwist.Cube.prototype, {
+  
+  undo: function() {
+    if (this.twistQueue.history.length > 0) {
+      this.historyQueue.add(this.twistQueue.undo().getInverse());
       this.undoing = true;
-
     }
-
   },
 
-  redo: function(){
-
-    if( this.twistQueue.future.length > 0  ){
-
+  redo: function() {
+    if (this.twistQueue.future.length > 0) {
       this.undoing = true;
       this.historyQueue.empty();
-      this.historyQueue.add( this.twistQueue.redo() );
-
+      this.historyQueue.add(this.twistQueue.redo());
     }
-
+  },
+  
+  getCubeletClosestToPoint: function(point) {
+    var closestDistance = Infinity;
+    var closestCubelet = null;
+    
+    this.cubelets.forEach(function(cubelet) {
+      var cubeletDistance = cubelet.getDistanceTo(point);
+      if (cubeletDistance < closestDistance) {
+        closestDistance = cubeletDistance;
+        closestCubelet = cubelet;
+      }
+    });
+    
+    return closestCubelet;
+  },
+  
+  // Use alg.js to make a list of moves, then queue them to be performed in order.
+  performStringAlgorithm: function(algorithm) {
+    var algorithmMoves = alg.cube.fromString(algorithm);
+    
+    //console.log(algorithmMoves);
+    
+    var thisCube = this;
+    algorithmMoves.forEach(function(move) {
+      
+      if (move.startLayer === undefined && move.endLayer === undefined) {
+        if (move.layer === undefined) {
+          move.startLayer = 1;
+          move.endLayer = 1;
+        }
+        else {
+          move.startLayer = move.layer;
+          move.endLayer = move.layer;
+          delete move.layer;
+        }
+      }
+      
+      move.base = move.base.toLowerCase();
+      
+      thisCube.twist(move);
+    });
   },
 
-  twist: function( command ){
-
-    if( this.undoing ) {
+  twist: function(twist){
+    if (this.undoing) {
       this.twistQueue.empty();
     }
     this.historyQueue.empty();
     this.undoing = false;
-    this.twistQueue.add( command );
-
+    this.twistQueue.add(twist);
   },
+  
+  getAffectedPieces: function(twist) {
+    var affectedPieces = [];
+    this.cubelets.forEach(function(cubelet) {
+      var directionId = ThreeTwist.Direction.getDirectionByInitial(twist.base).id;
+      if (ThreeTwist.selectors.sliceSelector(cubelet, directionId, twist.startLayer, twist.endLayer)) {
+        affectedPieces.push(cubelet);
+      }
+    });
+    return affectedPieces;
+  },
+  
+  // Returns a list of "slices" containing the given cubelet.
+  // Each "slice" is an object containing the "base" and depth.
+  // By adding an "amount" to the "slice", a "twist" is created
+  // that may be used to perform a twist on the cube model.
+  getTwistsAffectingCubelet: function(cubelet) {
+    var cubeletPosition = new THREE.Vector3().setFromMatrixPosition(cubelet.matrix);
+    
+    // On a cubic puzzle each cubelet is contained by exactly three slices, one for each axis.
+    var slices = [];
+    
+    // 'base' is the negative-direction face.
+    // 'oppositeBase' is the positive-direction face.
+    axes = [{coordinate: 'x', base: 'l', oppositeBase: 'r'},
+            {coordinate: 'y', base: 'd', oppositeBase: 'u'},
+            {coordinate: 'z', base: 'f', oppositeBase: 'b'}];
+    
+    var thisCube = this;
+    axes.forEach(function(axis) {
+      var coordinateValue = cubeletPosition[axis.coordinate]|0;
+      var layer = coordinateValue + 1;
+      
+      //console.log("layer for " + axis.coordinate + " is " + layer);
+      
+      var base = axis.base;
+      if (layer > (thisCube.order + 1) / 2) {
+        base = axis.oppositeBase;
+        layer = thisCube.order - coordinateValue;
+      }
+      slices.push({
+        base: base,
+        startLayer: layer,
+        endLayer: layer
+      });
+    });
+    
+    //console.log("slices:", slices);
+    
+    return slices;
+  },
+  
+  resetToStableState: function(slice) {
+    slice.forEach(function(cubelet) {
+      cubelet.matrix.copy(cubelet.stableMatrix);
+    });
+  },
+  
+  isStable: function() {
+    return this.stable;
+  },
+  
+  stabilize: function(cubelets) {
+    cubelets.forEach(function(cubelet) {
+      // Round all the elements of the matrix to avoid cumulative inaccuracies.
+      // This only works properly because it's a cube.
+      for (var i = 0; i < cubelet.matrix.elements.length; ++i) {
+        cubelet.matrix.elements[i] = Math.round(cubelet.matrix.elements[i]);
+      }
+      
+      // Copy the current matrix into the 'stable' matrix.
+      cubelet.stableMatrix.copy(cubelet.matrix);
+    });
 
-  immediateTwist: function( twist ){
-
-    if( this.verbosity >= 0.8 ){
-
-      console.log(
-
-        'Executing a twist command to rotate the '+
-         twist.group +' '+ twist.wise +' by',
-         twist.degrees, 'degrees.'
-      );
+    this.stable = true; // not really
+  },
+  
+  // This function rotates a single cubelet about the cube's center, 
+  // using the given 4x4 rotation matrix.
+  rotateCubelet: function(cubelet, rotationMatrix) {
+    // Copy the cubelet's stable (pre-rotated) matrix.
+    var matrix = new THREE.Matrix4().copy(cubelet.stableMatrix);
+    
+    // Calculate the centered version of the cubelet's current matrix.
+    matrix.multiplyMatrices(this.centerTransformer.matrix, matrix);
+    
+    // Apply the rotation to the centered matrix.
+    matrix.multiplyMatrices(rotationMatrix, matrix);
+    
+    // Convert the cubelet's new matrix back to local cube coordinates.
+    cubelet.matrix.multiplyMatrices(this.decenteringMatrix, matrix);
+  },
+  
+  makeRotationMatrixForTwist: function(twist) {
+    // Figure out which function to use to create the rotation matrices.
+    var makeRotation;
+    if (twist.base === 'l' || twist.base === 'r') {
+      makeRotation = 'makeRotationX';
+    }
+    else if (twist.base === 'd' || twist.base === 'u') {
+      makeRotation = 'makeRotationY';
+    }
+    else if (twist.base === 'f' || twist.base === 'b') {
+      makeRotation = 'makeRotationZ';
+    }
+    
+    return new THREE.Matrix4()[makeRotation](twist.amount * Math.PI / 2);
+  },
+  
+  // "reset" the cube, then perform a partial twist without "saving" the state.
+  partialTwist: function(twist) {
+    var slice = this.getAffectedPieces(twist);
+    this.resetToStableState(slice);
+    var rotationMatrix = this.makeRotationMatrixForTwist(twist);
+    var thisCube = this;
+    slice.forEach(function(cubelet) {
+      thisCube.rotateCubelet(cubelet, rotationMatrix);
+    });
+  },
+  
+  // 'twist' should now be a "move" from alg.js
+  // format:
+  // twist = {
+  //   type: "move",
+  //   base: "l", // example
+  //   amount: 2, // 2 means 180 deg clockwise
+  //   startLayer: 1, // layer 1 is the outermost layer, increasing inwards
+  //   endLayer: 1 // 1 to 1 means just the outermost layer
+  // }
+  
+  // 'startAngle' is optional, and it is in degrees.
+  animateTwist: function(twist, startAngle) {
+    
+    //console.log("animateTwist called with twist: ", twist);
+    
+    var rotation = twist.amount * 90;
+    var duration = Math.abs(rotation - startAngle) / 90 * this.twistDuration;
+    
+    var dummy;
+    if (startAngle === undefined) {
+      dummy = {amount: 0};
+    }
+    else {
+      dummy = {amount: startAngle / 90};
+    }
+    
+    // Invert the rotation if necessary.
+    if (twist.base === 'l' || twist.base === 'd' || twist.base === 'b') {
+      rotation *= -1;
     }
 
-    //   We now need to find the slice to rotate and figure out how much we need to rotate it by.
-    var slice    = this.slicesDictionary[ twist.command.toLowerCase() ],
-      rotation = ( twist.degrees === undefined ? 90 : twist.degrees ) * twist.vector,
-      radians  = rotation.degreesToRadians(),
-      duration = this.twistDuration;
-
-    var l = slice.indices.length,
-      cubelet;
-    while( l-- > 0 ){
-
-      slice.getCubelet( l ).isTweening = true;
-
-    }
-
+    var targetAmount = Math.round(twist.amount); // The destination should be stable.
+    this.isTweening = true;
+    var thisCube = this;
+    
     //  Boom! Rotate a slice
-    var dummySlice = {
-      rotation: slice.getRotation()
-    };
-
-    new TWEEN.Tween( dummySlice )
-    .to({
-
-      rotation: radians
-
-    }, duration )
-    .easing( TWEEN.Easing.Quartic.Out )
-    .onUpdate( function(){
-      slice.setRotation( this.rotation );
+    new TWEEN.Tween(dummy)
+    .to({amount: targetAmount}, duration)
+    .easing(TWEEN.Easing.Quartic.Out)
+    .onUpdate(function() {
+      twist.amount = dummy.amount;
+      thisCube.partialTwist(twist);
     })
-    .onComplete( function(){
-
-      slice.setRotation( radians );
-      slice.axis.rotation = 0;
-
-      // Invalidate our cubelet tweens
-      l = slice.indices.length;
-      while( l-- > 0 ){
-
-        cubelet = slice.getCubelet( l );
-        cubelet.isTweening = false;
-        cubelet.updateMatrix();
-        cubelet.matrixSlice.copy( cubelet.matrix );
-
-      }
-
-      //  If the rotation changes the cube then we should update the cubelet mapping
-
-      if( rotation !== 0 ){
-
-        slice.rotateGroupMappingOnAxis( radians );
-
-        // Also, since everythings changed, we might aswell tell everyone
-        this.dispatchEvent( new CustomEvent( 'onTwistComplete', { detail: {
-
-          slice : slice,
-          twist : twist
-
-        }}));
-      }
-
-      //  If we're on the final twist of a shuffle
-      if( twist === this.finalShuffle ){
-
-        this.finalShuffle = null;
-
-        this.dispatchEvent( new CustomEvent( 'onShuffleComplete', { detail: {
-
-          slice : slice,
-          twist : twist
-
-        }}));
-
-      }
-
-    }.bind( this ))
-    .start( this.time );
-
+    .onComplete(function() {
+      twist.amount = targetAmount;
+      thisCube.partialTwist(twist);
+      var cubelets = thisCube.getAffectedPieces(twist);
+      thisCube.stabilize(cubelets);
+      thisCube.isTweening = false;
+    })
+    .start(this.time); // this.time is *now*.
   },
 
-  //  We can read and write text to the Cube.
-  //  This is handled by Folds which are composed of two Faces.
-  getText: function( fold ){
-
-    if( fold === undefined ){
-
-      return [
-
-        this.folds[ 0 ].getText(),
-        this.folds[ 1 ].getText(),
-        this.folds[ 2 ].getText()
-      ];
-    }
-    else if( _.isNumeric( fold ) && fold >= 0 && fold <= 2 ){
-
-      return this.folds[ fold ].getText();
-    }
-  },
-  setText: function( text, fold ){
-
-    if( fold === undefined ){
-
-      this.folds[ 0 ].setText( text );
-      this.folds[ 1 ].setText( text );
-      this.folds[ 2 ].setText( text );
-    }
-    else if( _.isNumeric( fold ) && fold >= 0 && fold <= 2 ){
-
-      this.folds[ fold ].setText( text );
-    }
-  },
-
-  setSize: function ( width, height ){
-
+  setSize: function (width, height) {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize( width, height );
-
+    this.renderer.setSize(width, height);
   },
 
-  //  Shuffle methods.
-
-  //  Preserve the logo position and rotation.
-  PRESERVE_LOGO: 'RrLlUuDdSsBb',
-
-  //  Allow all slices to rotate.
-  ALL_SLICES:    'RrMmLlUuEeDdFfSsBb',
-
-  //  Allow all slices, and also full cube X, Y, and Z rotations.
-  EVERYTHING:    'XxRrMmLlYyUuEeDdZzFfSsBb',
-
   //  The cube does its own loopage.
-  //  It attempts to execute twists in the twistQueue
-  //  and then tasks in the taskQueue.
-  //  This is how shuffling and solving are handled.
+  //  It attempts to execute twists in the twistQueue.
 
   loop: (function(){
 
     return function(){
 
-      this.animationID = requestAnimationFrame( this.loop );
-
       //  Kick off the next animation frame
-      
-      var localTime = ( typeof window !== 'undefined' && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now() );
-			var frameDelta = localTime - ( this.lastLoopTime || localTime );
-			this.lastLoopTime = localTime;
+      requestAnimationFrame( this.loop );
+
+      var localTime = ( typeof window !== 'undefined' && window.performance !== undefined &&
+        window.performance.now !== undefined ? window.performance.now() : Date.now() );
+
+      var frameDelta = localTime - (time || localTime);
+      time = localTime;
 
       if( !this.paused ){
-
         //  Update the internal animation frame
         this.time += frameDelta;
 
         TWEEN.update( this.time );
 
         if( this.autoRotate ){
-
-          this.rotation.x += this.rotationDelta.x;
-          this.rotation.y += this.rotationDelta.y;
-          this.rotation.z += this.rotationDelta.z;
-
+          this.rotation.add(this.rotationDelta);
         }
 
-        //  If the Cube is "ready"
-        //  and not a single cubelet is currently tweening
-        //  regardless of it's resting state (engagement;
-        //  meaning it could in theory not be tweening but
-        //  has come to rest at where rotation % 90 !== 0.
-
-        if( this.isReady && this.isTweening() === 0 ){
-
+        if (this.isTweening === false) {
           var queue = this.undoing ? this.historyQueue : this.twistQueue;
-
-          //  We have zero twists in the queue
-          //  so perhaps we'd like to add some?
-          if( queue.future.length === 0 ){
-
-            //  If the cube ought to be solving and a solver exists
-            //  and we're not shuffling, tweening, etc.
-
-            if( this.isSolving && window.solver ){
-
-              this.isSolving = window.solver.consider( this );
-
-            }
-
-            //  If we are doing absolutely nothing else
-            //  then we can can try executing a task.
-            else if( this.taskQueue.isReady === true ){
-
-              var task = this.taskQueue.dequeue();
-              if( task instanceof Function ) {
-
-                task();
-
-              }
-
-            }
-
-          }
-
-          //  Otherwise, we have some twists in the queue
-          //  and we should put everything else aside and tend to those.
-
-          else {
-
+          
+          if (queue.future.length > 0) {
             var twist = queue.dequeue();
-
-            if( twist.command.toLowerCase() !== 'x' &&
-                twist.command.toLowerCase() !== 'y' &&
-                twist.command.toLowerCase() !== 'z' &&
-                twist.degrees !== 0  ) {
-              this.moveCounter += this.undoing ? -1 : 1;
-            }
-
-            //  If the twist we're about to execute does not actually
-            //  change any slices, ie, we're rotating back to 0,
-            //  then we don't need to remember it.
-            if( twist.degrees === 0 || twist.isShuffle ) {
-
-              queue.purge( twist );
-
-            }
-
-            this.immediateTwist( twist );
-
+            this.animateTwist(twist, 0);
           }
-
         }
 
         // Our mouse controls should only be active if we are not rotating
@@ -820,7 +457,6 @@ ThreeTwist.extend( ThreeTwist.Cube.prototype, {
 
         this.controls.enabled = this.mouseControlsEnabled && !this.mouseInteraction.active;
         this.controls.update();
-
       }
     };
   }()),

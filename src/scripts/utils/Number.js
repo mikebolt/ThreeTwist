@@ -1,3 +1,5 @@
+// TODO: these should be static functions accepting the number as an argument.
+
 ThreeTwist.extend( Number.prototype, {
 
   absolute : function(){

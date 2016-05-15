@@ -3,371 +3,327 @@
   INTERACTION
 
   This module handles all the user interactions with the cube.
-  It figures out what slice to rotate and in what direction
+  It figures out what slice to rotate and in what direction.
 
   --
 
   @author Mark Lundin - http://www.mark-lundin.com
   @author Stewart Smith
+  @author Michael Casebolt : retrofitted for bigcubes
 
 */
 
-ThreeTwist.Interaction = (function(){
-
-  return function( cube, camera, domElement, dragSpeed, multiDrag ){
-
-    //  A utility class for calculating mouse intersection on a cubic surface
-    var projector = new ThreeTwist.Projector( cube, domElement );
-
-    var intersection = new THREE.Vector3(),
-      cubelet, possibleSlices,
-      slice, mouseX, mouseY,
-      pointOnPlane = new THREE.Vector3(),
-      axisDefined = false,
-      plane   = new THREE.Plane(),
-      direction = new THREE.Vector3(),
-      cross = new THREE.Vector3(),
-      current = new THREE.Vector2(),
-      axis  = new THREE.Vector3(),
-      angle = 0, time = 0;
-
-    current.x = undefined;
-    current.y = undefined;
-
-    // API
-    var api = {
-
-      //  A boolean indicating when the user is interacting
-      active: false,
-
-      //  A boolean that turns on/off the api
-      enabled: true,
-
-      //  A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
-      multiDrag : multiDrag || false,
-
-      //  A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
-      multiDragSnapArea: 100.0,
-
-      //  This sets the default drag speed.
-      dragSpeed : dragSpeed || 1.3
-
-    };
-
-    // Apply event skills to the api
-    THREE.EventDispatcher.prototype.apply( api );
-
-    api.getIntersectionAt = (function(){
-
-      var intersection3D = new THREE.Vector3(),
-        plane3D = new THREE.Plane();
-
-      return function( x, y ){
-
-        if( projector.getIntersection( camera, x, y, intersection3D, plane3D ) === null ) {
-          return null;
-        }
-
-        return {
-          cubelet: projector.getCubeletAtIntersection( intersection3D ),
-          face:   plane3D.normal.x ===  1 ? "RIGHT" :
-              plane3D.normal.x === -1 ? "LEFT"  :
-              plane3D.normal.y ===  1 ? "UP"   :
-              plane3D.normal.y === -1 ? "DOWN"  :
-              plane3D.normal.z ===  1 ? "FRONT" :
-              "BACK"
-        };
-
-      };
-
-    }());
-
-    var projectVector = function(){
-
-      var viewProjectionMatrix = new THREE.Matrix4();
-
-      return function( vector, camera ) {
-
-        camera.matrixWorldInverse.getInverse( camera.matrixWorld );
-
-        viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
-
-        return vector.applyProjection( viewProjectionMatrix );
-
-      };
-
-    };
-
-    //  This function provides a way to 'snap' a vector to its closest axis.
-    //  This is used to find a probable axis of rotation when a user performs a drag.
-
-    function snapVectorToBasis( vector ){
-
-      var max = Math.max( Math.abs( vector.x ), Math.abs( vector.y ), Math.abs( vector.z ));
-
-      vector.x = ( vector.x / max )|0;
-      vector.y = vector.x === 1 ? 0 : ( vector.y / max )|0;
-      vector.z = vector.x === 1 || vector.y === 1 ? 0 : ( vector.z / max )|0;
-
-      return vector;
-    }
-
-    api.update = function (){
-
-      var x = current.x,
-        y = current.y;
-
-      if( api.enabled && api.active &&
-          x !== undefined && y !== undefined &&
-          ( mouseX !== x || mouseY !== y )) {
-
-        //  As we already know what plane, or face, the interaction began on,
-        //  we can then find the point on the plane where the interaction continues.
-
-        projector.getIntersectionOnPlane( camera, x, y, plane, pointOnPlane );
-
-        direction.subVectors( pointOnPlane, intersection );
-
-        if( !axisDefined && direction.length() > 5 ){
-
-          //  If we've already been rotating a slice but we want to change direction,
-          //  for example if multiDrag is enabled, then we want to reset the original slice
-
-          if( slice ) {
-            slice.setRotation( 0 );
-          }
-
-          axisDefined = true;
-
-          //  Once we have a plane, we can figure out what direction the user dragged
-          //  and lock into an axis of rotation
-          axis.crossVectors( plane.normal, direction );
-
-          //  Of course, it's never a perfect gesture, so we should figure
-          //  out the intended direction by snapping to the nearest axis.
-          snapVectorToBasis( axis );
-
-          //  From the axis aligned vector, we can isolate the correct slice
-          //  to rotate, by determining the index from the possible slices.
-          slice = possibleSlices[ Math.abs( axis.z * 3 + axis.y * 2 + axis.x ) - 1 ];
-
-          // Determine the cross vector, or the direction relative to the axis we're rotating
-          cross.crossVectors( slice.axis, plane.normal ).normalize();
-
-        }
-
-        if( axisDefined ){
-
-          //  By now, we already know what axis to rotate on,
-          //  we just need to figure out by how much.
-          direction.subVectors( pointOnPlane, intersection );
-          var dot = cross.dot( direction );
-
-          angle = dot / cube.size * api.dragSpeed;
-
-        }
-
-        if( slice ) {
-          slice.setRotation( angle );
-        }
-
-      }
-
-    };
-
-    function onInteractStart( event ){
-
-      if( api.enabled && event.button !== 2 ){
-
-        mouseX = ( event.touches && event.touches[0] || event ).clientX;
-        mouseY = ( event.touches && event.touches[0] || event ).clientY;
-
-        //  Here we find out if the mouse is hovering over the cube,
-        //  If it is, then `intersection` is populated with the 3D local coordinates of where
-        //  the intersection occurred. `plane` is also configured to represent the face of the cube
-        //  where the intersection occurred. This is used later to determine the direction
-        //  of the drag.
-
-        //  ( Note: although a plane is conceptually similar to a cube's face,
-        //   the plane is a mathematical representation )
-
-        if( projector.getIntersection( camera, mouseX, mouseY, intersection, plane ) ){
-
-          //  If an interaction happens within the cube we should prevent the event bubbling.
-          if( event.touches !== null ) {
-            event.preventDefault();
-          }
-
-          if( cube.isTweening() === 0 ){
-
-            time = typeof window !== 'undefined' && window.performance !== undefined &&
-              window.performance.now !== undefined ? window.performance.now() : Date.now();
-
-            api.active = true;
-
-            //  Now we know the point of intersection,
-            //  we can figure out what the associated cubelet is ...
-            cubelet = projector.getCubeletAtIntersection( intersection );
-
-            //  ... and the possible slices that might be rotated.
-            //  Remember, we can only figure out the exact slice once a drag happens.
-            possibleSlices = [ cube.slices[ cubelet.addressX + 1 ],
-                               cube.slices[ cubelet.addressY + 4 ],
-                               cube.slices[ cubelet.addressZ + 7 ]];
-
-            //  Add a listener for interaction in the entire document.
-            domElement.addEventListener( 'mousemove', onInteractUpdate );
-            domElement.addEventListener( 'touchmove', onInteractUpdate );
-
-            //  Add a listener to detect the end of interaction.
-            //  Remember this could happen outside the domElement, but still within the document.
-            domElement.addEventListener( 'mouseup', onInteractEnd );
-            domElement.addEventListener( 'touchcancel', onInteractEnd );
-            domElement.addEventListener( 'touchend', onInteractEnd );
-
-            //  Whilst interacting we can temporarily remove the listeners
-            //  detecting the start of interaction.
-            domElement.removeEventListener( 'mousedown', onInteractStart );
-            domElement.removeEventListener( 'touchstart', onInteractStart );
-
-          }
-
-        }
-
-      }
-
-    }
-
-    function onInteractUpdate( event ){
-
-      if( api.active ){
-
-        current.x = ( event.touches && event.touches[0] || event ).clientX;
-        current.y = ( event.touches && event.touches[0] || event ).clientY;
-      }
-
-      // Prevent the default system dragging behaviour. ( Things like IOS move the viewport )
-      if( api.enabled ){
-
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-
-    }
-
-    function onInteractEnd( event ){
-
-      var x = ( event.touches && event.touches[0] || event ).clientX,
-        y = ( event.touches && event.touches[0] || event ).clientY;
-
-      api.active = false;
-
-      //  When a user has finished interacting, we need to finish off any rotation.
-      //  We basically snap to the nearest face and issue a rotation command
-
-      if( api.enabled && ( x !== mouseY || y !== mouseY ) && axisDefined ){
-
-        if( event.touches !== null ) {
-          event.preventDefault();
-        }
-
-        //  Now we can get the direction of rotation and the associated command.
-        var command =  slice.name[0].toUpperCase();
-
-        //  We then find the nearest rotation to snap to and calculate how long the rotation
-        //  should take based on the distance between our current rotation and the target rotation.
-        var targetAngle = Math.round( angle / Math.PI * 0.5 * 4.0 ) * Math.PI * 0.5;
-
-        var velocityOfInteraction = direction.length() /
-          ( ( typeof window !== 'undefined' && window.performance !== undefined &&
-          window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
-
-        //  If this is a partial rotation that results in the same configuration of cubelets,
-        //  then it doesn't really count as a move, and we don't need to add it to the history.
-
-        cube.twist( new ThreeTwist.Twist( command, targetAngle.radiansToDegrees() ));
-
-      }
-
-      time = 0;
-      current.x = undefined;
-      current.y = undefined;
-      axisDefined = false;
-      slice = null;
-
-      domElement.removeEventListener( 'mousemove', onInteractUpdate );
-      domElement.removeEventListener( 'touchmove', onInteractUpdate );
-
-      domElement.removeEventListener( 'mouseup', onInteractEnd );
-      domElement.removeEventListener( 'touchend', onInteractEnd );
-      domElement.removeEventListener( 'touchcancel', onInteractEnd );
-
-      domElement.addEventListener( 'mousedown', onInteractStart );
-      domElement.addEventListener( 'touchstart', onInteractStart );
-
-    }
-
-    domElement.addEventListener( 'mousedown', onInteractStart );
-    domElement.addEventListener( 'touchstart', onInteractStart );
-
-    // CLICK DETECTION
-    var detectInteraction = function ( x, y ){
-
-      var intersection = this.getIntersectionAt( x, y );
-      if( intersection ){
-        this.dispatchEvent( new CustomEvent("click", { detail: intersection }));
-        return true;
-      }
-      return false;
-    }.bind( api );
-
-    var ax, ay;
-    domElement.addEventListener( 'mousedown', function( event ){
-
-      ax = event.clientX;
-      ay = event.clientY;
-
-    });
-
-    domElement.addEventListener( 'mouseup', function( event ){
-
-      var bx = event.clientX,
-        by = event.clientY;
-
-      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) <
-          10 * ( window.devicePixelratio || 1 )){
-
-        detectInteraction( ax, ay );
-
-      }
-
-    });
-
-    domElement.addEventListener( 'touchstart', function( event ){
-
-      ax = event.touches[0].clientX;
-      ay = event.touches[0].clientY;
-
-    });
-
-    domElement.addEventListener( 'touchend', function( event ){
-
-      var bx = event.changedTouches[0].clientX,
-        by = event.changedTouches[0].clientY;
-
-      if( !axisDefined && Math.abs( Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay))) <
-          10 * ( window.devicePixelratio || 1 )){
-
-        if( detectInteraction( ax, ay )){
-          event.preventDefault();
-        }
-
-      }
-
-    });
-
-    return api;
+ThreeTwist.Interaction = function(cube, camera, domElement, dragSpeed, multiDrag) {
+
+  //  A utility class for calculating mouse intersection on a cubic surface
+  var projector = new ThreeTwist.Projector(cube, domElement);
+
+  var intersection = new THREE.Vector3(); // Stores the starting point of the interaction.
+  var cubelet;
+  var twist;
+  var mouseX, mouseY;
+  var pointOnPlane = new THREE.Vector3();
+  var axisDefined = false;
+  var plane = new THREE.Plane();
+  var direction = new THREE.Vector3();
+  var cross = new THREE.Vector3();
+  var current = new THREE.Vector2();
+  var axis = new THREE.Vector3();
+  var angle = 0;
+  var time = 0;
+
+  current.x = undefined;
+  current.y = undefined;
+
+  // API
+  var api = {
+
+    //  A boolean indicating when the user is interacting
+    active: false,
+
+    //  A boolean that turns on/off the api
+    enabled: true,
+
+    //  A boolean flag that, when enabled, allows the user to drag a slice on its other axis
+    multiDrag : false,
+
+    //  A boolean flag that, when enabled, allows the user to drag a slice on its other axis
+    multiDragSnapArea: 100.0,
+
+    //  This sets the default drag speed.
+    dragSpeed : 2.0 // not sure
 
   };
 
-}());
+  // Apply event skills to the api
+  THREE.EventDispatcher.prototype.apply(api);
+
+  //  This function provides a way to 'snap' a vector to its closest axis.
+  //  This is used to find a probable axis of rotation when a user performs a drag.
+  function snapVectorToBasis(vector) {
+    // Copied from a similar function in projector.js
+    // TODO: refactor into a common utility method.
+    
+    var closestSquareDistance = Infinity;
+    var closestNormal = null;
+  
+    for (var directionId = 0; directionId < 6; directionId++) {
+      var direction = ThreeTwist.Direction.getDirectionById(directionId);
+      var normal = direction.normal;
+      var squareDistance = vector.distanceToSquared(normal);
+      if (squareDistance < closestSquareDistance) {
+        closestSquareDistance = squareDistance;
+        closestNormal = normal;
+      }
+    }
+    
+    // Return a copy so that the caller can't mess up the normal vectors.
+    return new THREE.Vector3().copy(closestNormal);
+  }
+  
+  function determineTwist(cubelet, axis) {
+    //  From the axis aligned vector, we can isolate the correct slice to rotate.
+    var possibleTwists = cube.getTwistsAffectingCubelet(cubelet); // [x, y, z]
+    if (Math.abs(axis.x|0) === 1) {
+      return possibleTwists[0];
+    }
+    else if (Math.abs(axis.y|0) === 1) {
+      return possibleTwists[1];
+    }
+    else if (Math.abs(axis.z|0) === 1) {
+      return possibleTwists[2];
+    }
+  }
+
+  api.update = function() {
+
+    var x = current.x;
+    var y = current.y;
+
+    // mouse, finger, stylus, wii-mote, same thing.
+    var mouseMoved = (x !== undefined && mouseX !== x) || (y !== undefined && mouseY !== y);
+    
+    if (api.enabled && api.active && mouseMoved) {
+
+      //  As we already know what plane, or face, the interaction began on,
+      //  we can then find the point on the plane where the interaction continues.
+      projector.getIntersectionOnPlane(camera, x, y, plane, pointOnPlane);
+
+      direction.subVectors(pointOnPlane, intersection);
+
+      if (!axisDefined && direction.length() > 0.05) { // 0.01 is 1% of a cubelet.
+        //console.log("direction:", direction);
+        //  Once we have a plane, we can figure out what direction the user dragged
+        //  and lock into an axis of rotation
+        axis.crossVectors(plane.normal, direction);
+        axisDefined = true;
+        
+        //console.log("axis: ", axis);
+
+        //  Of course, it's never a perfect gesture, so we should figure
+        //  out the intended direction by snapping to the nearest axis.
+        axis = snapVectorToBasis(axis);
+        //console.log("axis (snapped):", axis);
+        
+        twist = determineTwist(cubelet, axis);
+        
+        //console.log("new interactive twist is: ", twist);
+
+        // Determine the cross vector, or the direction relative to the axis we're rotating
+        cross.crossVectors(axis, plane.normal).normalize();
+      }
+
+      if (axisDefined) {
+        //  By now, we already know what axis to rotate on,
+        //  we just need to figure out by how much.
+        // Basically, project the mouse delta onto the "sliding axis"
+        direction.subVectors(pointOnPlane, intersection);
+        var dot = cross.dot(direction);
+
+        angle = dot / cube.order * api.dragSpeed;
+        
+        // If the base's axis is opposite the calculated axis, then negate the angle.
+        // The problem is that 'angle' is always initially positive, because it uses the
+        // initial direction to figure out the axis. Sometimes the initial angle needs
+        // to be negative. This happens when the chosen axis is opposite the base's normal.
+        var twistBaseAxis = ThreeTwist.Direction.getDirectionByInitial(twist.base).normal;
+        if ((twistBaseAxis.x === -1 && axis.x === 1) ||
+            (twistBaseAxis.x === 1 && axis.x === -1) ||
+            (twistBaseAxis.y === -1 && axis.y === 1) ||
+            (twistBaseAxis.y === 1 && axis.y === -1) ||
+            (twistBaseAxis.z === -1 && axis.z === 1) ||
+            (twistBaseAxis.z === 1 && axis.z === -1)) {
+          angle *= -1;
+        }
+        
+        // Slices with bases on a negative axis also require angle inversion.
+        // Even with the above fix, a clockwise turn about +x still needs to result in a negative
+        // 'amount' for a twist with an 'l' base.
+        if (twist.base === 'l' || twist.base === 'd' || twist.base === 'b') {
+          angle *= -1;
+        }
+        
+        twist.amount = angle / (Math.PI / 2);
+        cube.partialTwist(twist);
+      }
+
+    }
+
+  };
+
+  function onInteractStart(event) {
+
+    var isMainMouseButton = event.button === 0;
+    if (api.enabled && isMainMouseButton) {
+
+      mouseX = (event.touches && event.touches[0] || event).clientX;
+      mouseY = (event.touches && event.touches[0] || event).clientY;
+
+      //  Here we find out if the mouse is hovering over the cube,
+      //  If it is, then `intersection` is populated with the 3D local coordinates of where
+      //  the intersection occurred. `plane` is also configured to represent the face of the cube
+      //  where the intersection occurred. This is used later to determine the direction
+      //  of the drag.
+
+      //  ( Note: although a plane is conceptually similar to a cube's face,
+      //   the plane is a mathematical representation )
+
+      intersected = projector.getIntersection(camera, mouseX, mouseY, intersection, plane);
+      //console.log("intersected = ", intersected); // TODO remove
+      //console.log("plane normal: ", plane.normal);
+      //console.log("intersection point: ", intersection);
+      
+      // The 'getIntersection' function will return true iff the pointer is "on top of" the cube.
+      if (intersected) {
+
+        //  If an interaction happens within the cube we should prevent the event bubbling.
+        // TODO: is if statement necessary?
+        if (event.touches !== null) {
+          event.preventDefault();
+        }
+
+        // If the cube is tweening, wait until it finishes before allowing furhter interaction.
+        if (!cube.isTweening) { // TODO: roll this into top level if statement
+
+          // Save the start time of this interaction.
+          // This is used later to calculate the "velocity" of the interaction.
+          time = typeof window !== 'undefined' && window.performance !== undefined &&
+            window.performance.now !== undefined ? window.performance.now() : Date.now();
+
+          api.active = true;
+
+          //  Now we know the point of intersection,
+          //  we can figure out what the associated cubelet is.
+          cubelet = cube.getCubeletClosestToPoint(intersection);
+          //console.log("closest cubelet: " + cubelet.id);
+
+          stopListeningForStartOfInteraction();
+          startListeningForMovement();
+          startListeningForEndOfInteraction();
+
+        }
+
+      }
+
+    }
+
+  }
+
+  function onInteractUpdate(event) {
+
+    if (api.active) {
+      current.x = (event.touches && event.touches[0] || event).clientX;
+      current.y = (event.touches && event.touches[0] || event).clientY;
+    }
+
+    // Prevent the default system dragging behaviour. ( Things like IOS move the viewport )
+    if (api.enabled) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+  }
+
+  function onInteractEnd(event) {
+
+    var x = (event.touches && event.touches[0] || event).clientX;
+    var y = (event.touches && event.touches[0] || event).clientY;
+
+    // The user is no longer interacting with the cube.
+    api.active = false;
+
+    //  When a user has finished interacting, we need to finish off any rotation.
+    //  We basically snap to the nearest face and issue a rotation command.
+
+    if (api.enabled && (x !== mouseY || y !== mouseY) && axisDefined) {
+
+      if (event.touches !== null) {
+        event.preventDefault();
+      }
+
+      //  We then find the nearest rotation to snap to and calculate how long the rotation
+      //  should take based on the distance between our current rotation and the target rotation.
+      var targetAngle = Math.round(angle / (Math.PI / 2.0)) * (Math.PI / 2.0);
+
+      var velocityOfInteraction = direction.length() /
+        ( ( typeof window !== 'undefined' && window.performance !== undefined &&
+        window.performance.now !== undefined ? window.performance.now() : Date.now() ) - time );
+
+      // Do a double twist if it's *extreme*.
+      if (velocityOfInteraction > 0.3) {
+        targetAngle += cross.dot(direction.normalize()) > 0 ? Math.PI * 0.5 : 0;
+      }
+      
+      twist.amount = Math.round(targetAngle / (Math.PI / 2));
+      cube.animateTwist(twist, angle / (Math.PI / 2) * 90);
+    }
+
+    time = 0;
+    current.x = undefined;
+    current.y = undefined;
+    axisDefined = false;
+    twist = undefined;
+    
+    stopListeningForMovement();
+    stopListeningForEndOfInteraction();
+    startListeningForStartOfInteraction();
+    
+  }
+  
+  function startListeningForMovement() {
+    domElement.addEventListener('mousemove', onInteractUpdate);
+    domElement.addEventListener('touchmove', onInteractUpdate);
+  }
+  
+  function stopListeningForMovement() {
+    domElement.removeEventListener('mousemove', onInteractUpdate);
+    domElement.removeEventListener('touchmove', onInteractUpdate);
+  }
+  
+  function startListeningForStartOfInteraction() {
+    domElement.addEventListener('mousedown', onInteractStart);
+    domElement.addEventListener('touchstart', onInteractStart);
+  }
+  
+  function stopListeningForStartOfInteraction() {
+    domElement.removeEventListener('mousedown', onInteractStart);
+    domElement.removeEventListener('touchstart', onInteractStart);
+  }
+  
+  function startListeningForEndOfInteraction() {
+    domElement.addEventListener('mouseup', onInteractEnd);
+    domElement.addEventListener('touchend', onInteractEnd);
+    domElement.addEventListener('touchcancel', onInteractEnd);
+  }
+  
+  function stopListeningForEndOfInteraction() {
+    domElement.removeEventListener('mouseup', onInteractEnd);
+    domElement.removeEventListener('touchend', onInteractEnd);
+    domElement.removeEventListener('touchcancel', onInteractEnd);
+  }
+
+  startListeningForStartOfInteraction();
+
+  return api;
+
+};

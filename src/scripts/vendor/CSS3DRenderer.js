@@ -43,11 +43,7 @@ THREE.CSS3DSprite = function ( element ) {
 
 THREE.CSS3DSprite.prototype = Object.create( THREE.CSS3DObject.prototype );
 
-//
-
 THREE.CSS3DRenderer = function () {
-
-	// console.log( 'THREE.CSS3DRenderer', THREE.REVISION );
 
 	var _width, _height;
 	var _widthHalf, _heightHalf;
@@ -152,23 +148,30 @@ THREE.CSS3DRenderer = function () {
 
 	var getObjectCSSTransform = function(){
 
-		var position = new THREE.Vector3(),
-			scale 	 = new THREE.Vector3(),
-			euler 	 = new THREE.Euler(),
-			quaternion = new THREE.Quaternion(),
-			style;
+		var position = new THREE.Vector3();
+		var scale = new THREE.Vector3();
+		var euler = new THREE.Euler();
+		var quaternion = new THREE.Quaternion();
+		var style;
 
 		euler._quaternion = quaternion;
 		quaternion._euler = euler;
 
 		return function ( matrix ) {
-
-			// position.copy( object.position )
-			// euler.copy( object.rotation )
-
+    
+      if (matrix.elements.some(function(element) {
+        return isNaN(element);
+      })) {
+        console.log("Some element of the matrix is NaN.");
+      }
+    
 			matrix.decompose( position, quaternion, scale );
-			// euler.copy( object.rotation )
 
+      //if (isNaN(position.x)) {
+      //  console.log('position.x is NaN');
+      //  console.log(matrix);
+      //}
+      
 			return 'translate3d(-50%,-50%,0) translate3d(' + epsilon(position.x) + 'px, ' + epsilon(position.y) + 'px, ' + epsilon(position.z) + 'px) '
 					+ 'rotateX(' + epsilon(euler.x) + 'rad) rotateY(' + epsilon(euler.y) + 'rad) rotateZ(' + epsilon(euler.z) + 'rad) '
 					+ 'scale3d(' + epsilon(scale.x) + ', ' + epsilon(-scale.y) + ', ' + epsilon(scale.z) + ')';
@@ -237,32 +240,43 @@ THREE.CSS3DRenderer = function () {
 
 
 	this.render = function ( scene, camera ) {
-		// if( !this.done ){
-		// 	this.done = true;
 
-			var fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+    var fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
 
-			domElement.style.WebkitPerspective = fov + "px";
-			domElement.style.MozPerspective = fov + "px";
-			domElement.style.oPerspective = fov + "px";
-			domElement.style.perspective = fov + "px";
+    domElement.style.WebkitPerspective = fov + "px";
+    domElement.style.MozPerspective = fov + "px";
+    domElement.style.oPerspective = fov + "px";
+    domElement.style.perspective = fov + "px";
 
-			scene.updateMatrixWorld();
+    scene.updateMatrixWorld();
+    
+    if (!camera) {
+      console.log('camera missing before');
+    }
+    else if (!camera.matrixWorld) {
+      console.log('camera.matrixWorld missing before');
+    }
+    
+    if ( camera.parent === undefined ) camera.updateMatrixWorld();
+    
+    if (!camera) {
+      console.log('camera missing after');
+    }
+    else if (!camera.matrixWorld) {
+      console.log('camera.matrixWorld missing after');
+    }
 
-			if ( camera.parent === undefined ) camera.updateMatrixWorld();
+    camera.matrixWorldInverse.getInverse( camera.matrixWorld );
 
-			camera.matrixWorldInverse.getInverse( camera.matrixWorld );
+    var style = "translate3d(0,0," + fov + "px)" + getCameraCSSMatrix( camera.matrixWorldInverse ) +
+      " translate3d(" + _widthHalf + "px," + _heightHalf + "px, 0)";
 
-			var style = "translate3d(0,0," + fov + "px)" + getCameraCSSMatrix( camera.matrixWorldInverse ) +
-				" translate3d(" + _widthHalf + "px," + _heightHalf + "px, 0)";
+    cameraElement.style.WebkitTransform = style;
+    cameraElement.style.MozTransform = style;
+    cameraElement.style.oTransform = style;
+    cameraElement.style.transform = style;
 
-			cameraElement.style.WebkitTransform = style;
-			cameraElement.style.MozTransform = style;
-			cameraElement.style.oTransform = style;
-			cameraElement.style.transform = style;
-
-			renderObject( scene, camera );
-		// }
+    renderObject( scene, camera );
 
 	};
 
