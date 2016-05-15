@@ -436,8 +436,8 @@ ThreeTwist.extend(ThreeTwist.Cube.prototype, {
       var localTime = ( typeof window !== 'undefined' && window.performance !== undefined &&
         window.performance.now !== undefined ? window.performance.now() : Date.now() );
 
-      var frameDelta = localTime - (time || localTime);
-      time = localTime;
+      var frameDelta = localTime - (this.time || localTime);
+      this.time = localTime;
 
       if( !this.paused ){
         //  Update the internal animation frame
