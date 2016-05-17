@@ -17,6 +17,7 @@ ThreeTwist.renderers = ThreeTwist.renderers || {};
 ThreeTwist.renderers.CSS3D = function( cube ){
 
   var cubelets = cube.cubelets; // This used to be passed in.
+  this.cube = cube;
   
   // SCENE + RENDERER
   var renderer = new THREE.CSS3DRenderer(),
@@ -118,62 +119,65 @@ ThreeTwist.renderers.CSS3DCubelet = (function(){
     //  CUBELET FACES
 
     //  We're about to loop through our 6 faces
-    //  and create visual dom elements for each
+    //  and create visual dom elements for each (maybe)
 
+    var thisCube = this.cube;
     cubelet.faces.forEach( function( face ) {
 
-      //  FACE CONTAINER.
-      //  This face of our Cubelet needs a DOM element for all the
-      //  related DOM elements to be attached to.
+      if (face.isIntrovert === false || thisCube.renderIntroverts === true) {
+        //  FACE CONTAINER.
+        //  This face of our Cubelet needs a DOM element for all the
+        //  related DOM elements to be attached to.
 
-      face.element = document.createElement( 'div' );
-      face.element.classList.add( 'face' );
-      face.element.classList.add( axisMap[ face.id ]);
-      face.element.classList.add( 'face' +
-        ThreeTwist.Direction.getNameById( face.id ).capitalize() );
-      cubelet.css3DObject.element.appendChild( face.element );
+        face.element = document.createElement( 'div' );
+        face.element.classList.add( 'face' );
+        face.element.classList.add( axisMap[ face.id ]);
+        face.element.classList.add( 'face' +
+          ThreeTwist.Direction.getNameById( face.id ).capitalize() );
+        cubelet.css3DObject.element.appendChild( face.element );
 
-      // Each face has a different orientation represented by a CSS 3D transform.
-      // Here we select and apply the correct one.
+        // Each face has a different orientation represented by a CSS 3D transform.
+        // Here we select and apply the correct one.
 
-      // TODO: let THREE.js handle this, as in, make each facelet an Object3D.
-      // That way the mirror scale will work correctly.
-      var cssTransform = transformMap[ face.id ],
-        style = face.element.style;
-      
-      // Get the right scale.
-      // We want the face elements to naturally be 1em x 1em, so that they render at
-      // a decent resolution, but they get scaled up by the scaleTransformer,
-      // so apply the inverse of that scale here.
-      var inverseScale = 1 / cubelet.cube.cubeletSize;
-      cssTransform += " scaleX(" + inverseScale + ") scaleY(" + inverseScale + 
-        ") scaleZ(" + inverseScale + ")";
-      
-      style.OTransform = cssTransform;
-      style.MozTransform = cssTransform;
-      style.WebkitTransform = cssTransform;
-      style.transform = cssTransform;
+        // TODO: let THREE.js handle this, as in, make each facelet an Object3D.
+        // That way the mirror scale will work correctly.
+        var cssTransform = transformMap[ face.id ],
+          style = face.element.style;
+        
+        // Get the right scale.
+        // We want the face elements to naturally be 1em x 1em, so that they render at
+        // a decent resolution, but they get scaled up by the scaleTransformer,
+        // so apply the inverse of that scale here.
+        var inverseScale = 1 / cubelet.cube.cubeletSize;
+        cssTransform += " scaleX(" + inverseScale + ") scaleY(" + inverseScale + 
+          ") scaleZ(" + inverseScale + ")";
+        
+        style.OTransform = cssTransform;
+        style.MozTransform = cssTransform;
+        style.WebkitTransform = cssTransform;
+        style.transform = cssTransform;
 
-      //  INTROVERTED FACES.
-      //  If this face has no color sticker then it must be interior to the Cube.
-      //  That means in a normal state (no twisting happening) it is entirely hidden.
-      if( face.isIntrovert ){
-        face.element.classList.add( 'faceIntroverted' );
-        //face.element.appendChild( document.createElement( 'div' ));
-      }
+        //  INTROVERTED FACES.
+        //  If this face has no color sticker then it must be interior to the Cube.
+        //  That means in a normal state (no twisting happening) it is entirely hidden.
+        if( face.isIntrovert ){
+          face.element.classList.add( 'faceIntroverted' );
+          //face.element.appendChild( document.createElement( 'div' ));
+        }
 
-      //  EXTROVERTED FACES.
-      //  But if this face does have a color then we need to
-      //  create a sticker with that color
-      //  and also allow text to be placed on it.
-      else {
-        face.element.classList.add( 'faceExtroverted' );
+        //  EXTROVERTED FACES.
+        //  But if this face does have a color then we need to
+        //  create a sticker with that color
+        //  and also allow text to be placed on it.
+        else {
+          face.element.classList.add( 'faceExtroverted' );
 
-        //  STICKER.
-        var stickerElement = document.createElement( 'div' );
-        stickerElement.classList.add( 'sticker' );
-        stickerElement.classList.add( face.color.name );
-        face.element.appendChild( stickerElement );
+          //  STICKER.
+          var stickerElement = document.createElement( 'div' );
+          stickerElement.classList.add( 'sticker' );
+          stickerElement.classList.add( face.color.name );
+          face.element.appendChild( stickerElement );
+        }
       }
     });
 

@@ -29,6 +29,13 @@ ThreeTwist.Cube = function(parameters) {
   // This is the WCA standard starting orientation for FMC.
   //                                               F  U  R  D  L  B
   this.colors = parameters.colors === undefined ? [G, W, R, Y, O, B] : parameters.colors;
+  
+  if (parameters.renderIntroverts === undefined) {
+    this.renderIntroverts = true;
+  }
+  else {
+    this.renderIntroverts = parameters.renderIntroverts;
+  }
 
   var renderFactory = parameters.renderer || ThreeTwist.renderers.CSS3D;
 
@@ -118,13 +125,23 @@ ThreeTwist.Cube = function(parameters) {
   //  by adding the following values to the Three object on each frame.
   this.rotationDelta = new THREE.Euler( 0.1 * Math.PI / 180, 0.15 * Math.PI / 180, 0 );
   
+  
+  this.isExternalCubeletIndex = function(i, j, k) {
+    return i === this.order - 1 || i === 0 ||
+           j === this.order - 1 || j === 0 ||
+           k === this.order - 1 || k === 0;
+  }
+  
+  
   // Add all the cubelets
   this.numCubelets = this.order * this.order * this.order;
   this.cubelets = [];
   for (var i = 0; i < this.order; ++i) {
     for (var j = 0; j < this.order; ++j) {
       for (var k = 0; k < this.order; ++k) {
-        this.cubelets.push(new ThreeTwist.Cubelet(this, i, j, k));
+        if (this.isExternalCubeletIndex(i, j, k)) { // Only make the external cubelets.
+          this.cubelets.push(new ThreeTwist.Cubelet(this, i, j, k));
+        }
       }
     }
   }
