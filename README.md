@@ -1,4 +1,4 @@
-#ThreeTwist
+# ThreeTwist
 
 ThreeTwist is a fork of the Cuber project, which was created for Google's Chrome Cube Lab. If you're
 interested in the history of the Cuber project, check out [this link](http://stewd.io/w/rubikscube).
@@ -19,7 +19,7 @@ There is a known bug in Firefox that causes inner "introvert" faces to show up d
 
     cube.cubelets.forEach(function(cubelet) { cubelet.hideIntroverts(); });
 
-##Downloading
+## Downloading
 
 If you have the git CLI installed, just open a terminal and change directories to a directory where you keep stuff like this and run the command
 
@@ -27,7 +27,7 @@ If you have the git CLI installed, just open a terminal and change directories t
 
 Otherwise, you can download the project as a zip file by [clicking this link or the "Download ZIP" button to the right](https://github.com/mikebolt/ThreeTwist/archive/master.zip).
 
-##Building
+## Building
 
 Before building the project, make sure that you have node.js and npm installed. npm usually comes installed with node.js. [Visit this page for instructions on how to install both](https://docs.npmjs.com/getting-started/installing-node).
 
@@ -39,12 +39,12 @@ This just downloads and saves some npm packages (including gulp) into the node_m
 
 Then run the command `gulp`. This will run all the gulp tasks necessary to build the merged ThreeTwist.js file, build the minified ThreeTwist.min.js file, run the linter, run the unit tests, and generate the documentation.
 
-##Gulp Tasks
+## Gulp Tasks
 
 You can run the individual gulp tasks by running the command `gulp task-name` in the project directory.
 
 - concat : This concatenates all the source files in the proper order to create ThreeTwist.js in the build directory.
 
-##Wiki Links
+## Wiki Links
 
 [Style Guide](https://github.com/mikebolt/ThreeTwist/wiki/Style-Guide)
